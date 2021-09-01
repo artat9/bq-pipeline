@@ -1,16 +1,13 @@
 package post
 
 import (
+	"aurora-backend/lib/functions/lib/klimg"
 	"context"
 	"net/http"
 )
 
 type (
-	// Image image
-	Image struct {
-		Data        []byte `json:"data"`
-		ContentType string `json:"content_type"`
-	}
+
 	// Input input for post
 	Input struct {
 		Content
@@ -31,6 +28,7 @@ type (
 		Height int    `json:"height"`
 		Link   string `json:"link"`
 	}
+
 	// Post post
 	Post struct {
 		Content
@@ -50,7 +48,7 @@ type (
 
 	// Uploader uploader
 	Uploader interface {
-		UploadImage(ctx context.Context, img Image) (string, error)
+		UploadImage(ctx context.Context, img klimg.Image) (string, error)
 		UploadPostMetadata(ctx context.Context, post Post) (string, error)
 		ToURL(tx string) string
 	}
@@ -63,13 +61,13 @@ func NewService(uploader Uploader) *Service {
 	}
 }
 
-func toImage(data []byte) (Image, error) {
+func toImage(data []byte) (klimg.Image, error) {
 	//	dec, err := base64.RawStdEncoding.DecodeString(data)
 	//	if err != nil {
 	//		log.Error("decode base64 failed", err)
 	//		return Image{}, err
 	//	}
-	return Image{
+	return klimg.Image{
 		Data:        data,
 		ContentType: http.DetectContentType(data),
 	}, nil

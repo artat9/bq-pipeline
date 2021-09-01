@@ -1,7 +1,9 @@
 package arweave
 
 import (
+	"aurora-backend/lib/functions/lib/ad"
 	"aurora-backend/lib/functions/lib/common/log"
+	"aurora-backend/lib/functions/lib/klimg"
 	"aurora-backend/lib/functions/lib/post"
 	"context"
 	"encoding/json"
@@ -59,7 +61,7 @@ func newWallet() (*wallet.Wallet, error) {
 func newClient() (*api.Client, error) {
 	return api.Dial(uri)
 }
-func (c *Client) uploadImage(ctx context.Context, img post.Image) (string, error) {
+func (c *Client) uploadImage(ctx context.Context, img klimg.Image) (string, error) {
 	return c.sendTransaction(ctx, img.Data, img.ContentType)
 }
 
@@ -68,7 +70,7 @@ func newTransact() (*transactor.Transactor, error) {
 }
 
 // UploadImage upload image
-func (c *Client) UploadImage(ctx context.Context, img post.Image) (string, error) {
+func (c *Client) UploadImage(ctx context.Context, img klimg.Image) (string, error) {
 	return c.sendTransaction(ctx, img.Data, img.ContentType)
 }
 
@@ -122,6 +124,11 @@ func (c *Client) downloadWithRetry(ctx context.Context, txID string, count int) 
 		return c.downloadWithRetry(ctx, txID, count+1)
 	}
 	return res, nil
+}
+
+// UploadAdvertisementMetadata upload metadata
+func (c *Client) UploadAdvertisementMetadata(ctx context.Context, advertisement ad.Advertisement) (string, error) {
+	return c.uploadJSON(ctx, advertisement)
 }
 
 // UploadPostMetadata upload metadata

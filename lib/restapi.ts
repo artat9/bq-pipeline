@@ -57,7 +57,7 @@ export class RestApiStack extends cdk.Stack {
     new CfnOutput(this, environment.withEnvPrefix(target, "RestAPIKey"), {
       value: apiKey.keyId,
     });
-    nftFunctions(this, ["post"], target, bucket, api);
+    nftFunctions(this, ["post", "ad"], target, bucket, api);
     const customDomain = withCustomDomain(this, api, target);
     aRecord(this, target, customDomain);
   }
