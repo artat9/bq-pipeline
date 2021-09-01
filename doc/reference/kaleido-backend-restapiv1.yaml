@@ -1,11 +1,11 @@
 openapi: 3.0.0
 info:
-  title: kaleido-backend-restapi
+  title: aurora-backend-restapi
   version: "1.0"
 servers:
-  - url: "https://api.kaleido-dev.tk"
+  - url: "https://api.auroradao-dev.tk"
     description: dev
-  - url: "https://api.kaleido.org"
+  - url: "https://api.auroradao.org"
     description: prod
 paths:
   /post:
@@ -65,11 +65,16 @@ components:
           type: string
         ad_specifications:
           $ref: "#/components/schemas/AdSpecifications"
+        images:
+          type: array
+          items:
+            type: string
       required:
         - name
         - description
         - key_visual
         - ad_specifications
+        - images
   securitySchemes:
     APIKey:
       name: API Key
