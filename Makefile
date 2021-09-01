@@ -11,7 +11,7 @@ abi:
 
 build: 
 	export GO111MODULE=on
-	for module_dir in $$(ls lib/functions | grep -v lib| grep -v voucher|grep -v assets); do\
+	for module_dir in $$(ls lib/functions | grep -v lib| grep -v assets); do\
 	  echo  "building start... $${module_dir}";\
 	  	cd lib/functions/$${module_dir};\
 			pwd;\
@@ -19,7 +19,7 @@ build:
 			env GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o bin/main main.go || exit 1;\
 			cp -R ../assets . ;\
 			rm bin/main.zip ;\
-			zip bin/main.zip bin/main assets/gltf/normal/* assets/gltf/ultrarare/* assets/arweave/arweave.json;\
+			zip bin/main.zip bin/main assets/arweave/arweave.json;\
 			cd ../../..;\
 			echo  "building finished. $${module_dir}";\
 	done

@@ -2,9 +2,7 @@ package arweave
 
 import (
 	"aurora-backend/lib/functions/lib/common/log"
-	"aurora-backend/lib/functions/lib/nft"
 	"aurora-backend/lib/functions/lib/post"
-	"aurora-backend/lib/functions/lib/receipt"
 	"context"
 	"encoding/json"
 	"errors"
@@ -74,36 +72,6 @@ func (c *Client) UploadImage(ctx context.Context, img post.Image) (string, error
 	return c.sendTransaction(ctx, img.Data, img.ContentType)
 }
 
-func (c *Client) Post(ctx context.Context, metadataURI string) (receipt.Post, error) {
-	md, err := c.downloadMetadata(ctx, urlToTxID(metadataURI))
-	if err != nil {
-		return receipt.Post{}, err
-	}
-	err = c.downloadImage(ctx, urlToTxID(md.Image))
-	if err != nil {
-		return receipt.Post{}, err
-	}
-	return receipt.Post{
-		ProjectName: md.Name,
-		Description: md.Description,
-	}, nil
-}
-
-func (c *Client) downloadMetadata(ctx context.Context, txID string) (nft.Metadata, error) {
-	data, err := c.dl(ctx, txID)
-	if err != nil {
-		log.Error("base64 decode failed", err)
-		return nft.Metadata{}, err
-	}
-
-	metadata := nft.Metadata{}
-	if err = json.Unmarshal([]byte(data), &metadata); err != nil {
-		log.Error("json unmarshal failed", err)
-		return nft.Metadata{}, err
-	}
-	return metadata, nil
-}
-
 func (c *Client) dl(ctx context.Context, txID string) ([]byte, error) {
 	url := uri + "/" + txID
 	res, err := http.Get(url)
@@ -157,16 +125,14 @@ func (c *Client) downloadWithRetry(ctx context.Context, txID string, count int) 
 }
 
 // UploadPostMetadata upload metadata
-func (c *Client) UploadPostMetadata(ctx context.Context, imageTx string, request post.Input) (string, error) {
-	m := nft.NewPostMetadata(request.Title, request.Description, toArweaveURL(imageTx))
-	return c.UploadNFTMetadata(ctx, imageTx, m)
+func (c *Client) UploadPostMetadata(ctx context.Context, post post.Post) (string, error) {
+	return c.uploadJSON(ctx, post)
 }
 
-// UploadNFTMetadata upload metadata of nft.
-func (c *Client) UploadNFTMetadata(ctx context.Context, imageTx string, request nft.Metadata) (string, error) {
-	b, err := json.Marshal(&request)
+func (c *Client) uploadJSON(ctx context.Context, js interface{}) (string, error) {
+	b, err := json.Marshal(&js)
 	if err != nil {
-		log.Error("nft metadata marshal failed", err)
+		log.Error("json marshal failed", err)
 		return "", err
 	}
 	return c.sendTransaction(ctx, b, "application/json")

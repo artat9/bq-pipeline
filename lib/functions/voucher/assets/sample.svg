@@ -1,4 +1,0 @@
-<svg width="300" height="200">
-    <circle cx="150" cy="100" r="80" fill="#F6675C" fill-opacity="0.6" />
-    <text x="25" y="100">${AMOUNT}</text>
-</svg>
