@@ -1,0 +1,33 @@
+*.js
+!jest.config.js
+*.d.ts
+node_modules
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+
+# go binaries
+lib/functions/**/bin
+vendor/*
+lib/functions/vendor*
+
+doc/.DS_Store
+
+.DS_Store
+
+lib/functions/**/**/arweave.json
+# assets
+*.json
+*.bin
+*.zip
+*.jpg
+*.png
+*.gltf
+*.glb
+!lib/functions/assets/gltf/
+
+
+# ext libraries
+aurora-core
