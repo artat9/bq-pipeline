@@ -1,11 +1,11 @@
 openapi: 3.0.0
 info:
-  title: aurora-backend-restapi
-  version: '1.0'
+  title: kaleido-backend-restapi
+  version: "1.0"
 servers:
-  - url: 'https://api.auroradao-dev.tk'
+  - url: "https://api.kaleido-dev.tk"
     description: dev
-  - url: 'https://api.auroradao.org'
+  - url: "https://api.kaleido.org"
     description: prod
 paths:
   /post:
@@ -13,156 +13,63 @@ paths:
       summary: Upload Post
       operationId: post-post
       responses:
-        '200':
+        "200":
           description: Post Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PostResponse'
-        '400':
+                $ref: "#/components/schemas/Metadata"
+        "400":
           description: Missing Required Information
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                description:
-                  type: string
-                  description: ''
-                image:
-                  $ref: '#/components/schemas/Image'
-                titleImage:
-                  type: string
-                descriptionImage:
-                  type: string
-              required:
-                - title
-                - description
-                - image
-                - titleImage
-                - descriptionImage
+              $ref: "#/components/schemas/PostInput"
             examples: {}
-      parameters: []
-    parameters: []
-  /refund:
-    post:
-      summary: Upload refund request
-      operationId: post-refund
-      responses:
-        '200':
-          description: Refund Request Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Metadata'
-              examples:
-                example-1:
-                  value:
-                    metadata: unyIhiKh3399qUszWer0fjy38ppVlujh35SRBAT7DL0
-        '400':
-          description: Missing Required Information
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                postId:
-                  type: string
-                  description: ''
-              required:
-                - postId
-            examples:
-              example-1:
-                value:
-                  postId: '0xe6a8b2b83a40'
-      parameters: []
-    parameters: []
-  /receipt:
-    post:
-      summary: Upload receipt
-      operationId: post-receipt
-      responses:
-        '200':
-          description: Receipt Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Metadata'
-              examples:
-                example-1:
-                  value:
-                    metadata: unyIhiKh3399qUszWer0fjy38ppVlujh35SRBAT7DL0
-        '400':
-          description: Missing Required Information
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                amount:
-                  type: string
-                postId:
-                  type: string
-                  description: ''
-                address:
-                  type: string
-                  description: address of a wallet
-              required:
-                - amount
-                - postId
-                - address
-            examples:
-              example-1:
-                value:
-                  amount: '10000000000'
-                  postId: '0xe6a8b2b83a40'
       parameters: []
     parameters: []
 components:
   schemas:
-    Image:
-      title: Image
-      type: object
-      properties:
-        data:
-          description: ''
-          type: string
-        contentType:
-          type: string
-          description: ''
-      required:
-        - data
-        - contentType
-    PostResponse:
-      description: ''
-      type: object
-      properties:
-        imageUrl:
-          type: string
-          minLength: 1
-        metadataUrl:
-          type: string
-          minLength: 1
-      required:
-        - imageUrl
-        - metadataUrl
     Metadata:
-      description: ''
+      description: ""
       type: object
       properties:
         metadata:
           type: string
           minLength: 1
-        imageUrl:
-          type: string
       required:
         - metadata
-        - imageUrl
+    AdSpecifications:
+      title: AdSpecifications
+      type: object
+      properties:
+        width:
+          type: integer
+        height:
+          type: integer
+        link:
+          type: string
+      required:
+        - width
+        - height
+    PostInput:
+      title: PostInput
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        key_visual:
+          type: string
+        ad_specifications:
+          $ref: "#/components/schemas/AdSpecifications"
+      required:
+        - name
+        - description
+        - key_visual
+        - ad_specifications
   securitySchemes:
     APIKey:
       name: API Key
