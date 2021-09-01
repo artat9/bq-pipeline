@@ -14,24 +14,24 @@ import (
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	req, err := toInput(request)
 	if err != nil {
-		return unexpectedError(), err
+		return unexpectedError(request), err
 	}
 	app, err := newApp(ctx)
 	if err != nil {
-		return unexpectedError(), err
+		return unexpectedError(request), err
 	}
 	res, err := app.Upload(ctx, req)
 	if err != nil {
 		return events.APIGatewayProxyResponse{
 			StatusCode: 500,
-			Headers:    lib.Headers(),
+			Headers:    lib.Headers(request),
 			Body:       "unknown error",
 		}, err
 	}
 	resJSON, _ := json.Marshal(&res)
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Headers:    lib.Headers(),
+		Headers:    lib.Headers(request),
 		Body:       string(resJSON),
 	}, nil
 }
@@ -56,10 +56,10 @@ func newApp(ctx context.Context) (*post.Service, error) {
 	return post.NewService(cli), nil
 }
 
-func unexpectedError() events.APIGatewayProxyResponse {
+func unexpectedError(request events.APIGatewayProxyRequest) events.APIGatewayProxyResponse {
 	return events.APIGatewayProxyResponse{
 		StatusCode: 500,
-		Headers:    lib.Headers(),
+		Headers:    lib.Headers(request),
 		Body:       "unknown error",
 	}
 }

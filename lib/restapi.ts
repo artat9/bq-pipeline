@@ -4,8 +4,6 @@ import {
   EndpointType,
   IResource,
   LambdaIntegration,
-  MockIntegration,
-  PassthroughBehavior,
   RestApi,
   SecurityPolicy,
 } from "@aws-cdk/aws-apigateway";
@@ -71,6 +69,19 @@ const nftFunctions = (
   api: RestApi
 ) => {
   const { allowedOrigin } = environment.valueOf(target);
+  const corsFunc = new Function(scope, "corsFunc", {
+    functionName: environment.withEnvPrefix(target, "cors"),
+    code: code("cors"),
+    handler: "bin/main",
+    timeout: Duration.minutes(1),
+    runtime: Runtime.GO_1_X,
+    tracing: Tracing.ACTIVE,
+    environment: {
+      EnvironmentId: target.toString(),
+      AllowedOrigin: environment.valueOf(target).allowedOrigin,
+      AssetBucketName: assetBucket.bucketName,
+    },
+  });
   return resources.map((r) => {
     const resource = api.root.addResource(r);
     const func = new Function(scope, r, {
@@ -101,7 +112,7 @@ const nftFunctions = (
       })
     );
     resource.addMethod("POST", new LambdaIntegration(func));
-    addCorsOptions(resource, allowedOrigin);
+    addCorsOptions(resource, corsFunc);
     return resource;
   });
 };
@@ -152,44 +163,10 @@ const customDomainProps = (
   };
 };
 
-export function addCorsOptions(apiResource: IResource, allowedOrigin: string) {
-  apiResource.addMethod(
-    "OPTIONS",
-    new MockIntegration({
-      integrationResponses: [
-        {
-          statusCode: "200",
-          responseParameters: {
-            "method.response.header.Access-Control-Allow-Headers":
-              "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-            "method.response.header.Access-Control-Allow-Origin": `'${allowedOrigin}'`,
-            "method.response.header.Access-Control-Allow-Credentials":
-              "'false'",
-            "method.response.header.Access-Control-Allow-Methods":
-              "'OPTIONS,GET,PUT,POST,DELETE'",
-          },
-        },
-      ],
-      passthroughBehavior: PassthroughBehavior.NEVER,
-      requestTemplates: {
-        "application/json": '{"statusCode": 200}',
-      },
-    }),
-    {
-      methodResponses: [
-        {
-          statusCode: "200",
-          responseParameters: {
-            "method.response.header.Access-Control-Allow-Headers": true,
-            "method.response.header.Access-Control-Allow-Methods": true,
-            "method.response.header.Access-Control-Allow-Credentials": true,
-            "method.response.header.Access-Control-Allow-Origin": true,
-          },
-        },
-      ],
-    }
-  );
-}
+const addCorsOptions = (apiResource: IResource, corsFunction: Function) => {
+  apiResource.addMethod("OPTIONS", new LambdaIntegration(corsFunction));
+};
+
 const code = (dirname: string) => {
   return Code.fromAsset(
     resolve(`${__dirname}/../`, "lib", "functions", dirname, "bin", "main.zip")
