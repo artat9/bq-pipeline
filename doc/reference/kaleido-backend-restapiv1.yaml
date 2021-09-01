@@ -8,6 +8,27 @@ servers:
   - url: "https://api.auroradao.org"
     description: prod
 paths:
+  /ad:
+    post:
+      summary: Upload Ad
+      operationId: post-ad
+      responses:
+        "200":
+          description: Ad Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Metadata"
+        "400":
+          description: Missing Required Information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdInput"
+            examples: {}
+      parameters: []
+    parameters: []
   /post:
     post:
       summary: Upload Post
@@ -75,6 +96,20 @@ components:
         - key_visual
         - ad_specifications
         - images
+    AdInput:
+      title: AdInput
+      type: object
+      properties:
+        iamge:
+          type: string
+        link:
+          type: string
+        alt:
+          type: string
+      required:
+        - image
+        - link
+        - alt
   securitySchemes:
     APIKey:
       name: API Key
