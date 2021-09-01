@@ -63,11 +63,16 @@ func NewService(uploader Uploader) *Service {
 	}
 }
 
-func toImage(data []byte) Image {
+func toImage(data []byte) (Image, error) {
+	//	dec, err := base64.RawStdEncoding.DecodeString(data)
+	//	if err != nil {
+	//		log.Error("decode base64 failed", err)
+	//		return Image{}, err
+	//	}
 	return Image{
 		Data:        data,
 		ContentType: http.DetectContentType(data),
-	}
+	}, nil
 }
 
 func (s *Service) toPost(input Input, keyVisualHash string, imageHashes []string) Post {
@@ -88,7 +93,11 @@ func (s *Service) toURLs(hashes []string) []string {
 
 // Upload puload post
 func (s *Service) Upload(ctx context.Context, input Input) (Output, error) {
-	kv, err := s.uploader.UploadImage(ctx, toImage(input.KeyVisual))
+	img, err := toImage(input.KeyVisual)
+	if err != nil {
+		return Output{}, err
+	}
+	kv, err := s.uploader.UploadImage(ctx, img)
 	if err != nil {
 		return Output{}, err
 	}
@@ -118,6 +127,9 @@ func (s *Service) uploadImages(ctx context.Context, imgs [][]byte) ([]string, er
 }
 
 func (s *Service) uploadImage(ctx context.Context, img []byte) (string, error) {
-	image := toImage(img)
+	image, err := toImage(img)
+	if err != nil {
+		return "", err
+	}
 	return s.uploader.UploadImage(ctx, image)
 }

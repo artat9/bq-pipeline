@@ -12,7 +12,7 @@ func Headers(request events.APIGatewayProxyRequest) map[string]string {
 		"Access-Control-Allow-Headers":     "*",
 		"Access-Control-Allow-Methods":     "GET,POST,PUT,DELETE",
 		"Access-Control-Allow-Credentials": "true",
-		"Access-Control-Allow-Origin":      withoutProtocol(request.Headers["origin"]),
+		"Access-Control-Allow-Origin":      "*",
 	}
 }
 
