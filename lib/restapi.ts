@@ -61,7 +61,7 @@ export class RestApiStack extends cdk.Stack {
     const customDomain = withCustomDomain(this, api, target);
     const getad = api.root
       .resourceForPath("ad")
-      .addResource("{address}")
+      .addResource("{account}")
       .addResource("{index}");
     getad.addMethod(
       "GET",

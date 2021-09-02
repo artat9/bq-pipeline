@@ -18,6 +18,15 @@ func TestNewProvider(t *testing.T) {
 func TestDisplayByIndex(t *testing.T) {
 	t.Run("display enabled", func(t *testing.T) {
 		p, _ := NewProvider()
-		p.DisplayByIndex(context.Background(), ad.GetInput{})
+		meta, err := p.DisplayByIndex(context.Background(), ad.GetInput{
+			Account: "0xf9B2aAeaFaEE2BfB816B43123962A2fe05Ab1206",
+			Index:   1,
+		})
+		if err != nil {
+			t.Error(err)
+		}
+		if meta == "" {
+			t.Error("metadata is empty string")
+		}
 	})
 }

@@ -4,6 +4,7 @@ import (
 	"aurora-backend/lib/functions/lib"
 	"aurora-backend/lib/functions/lib/ad"
 	"aurora-backend/lib/functions/lib/infrastructure/arweave"
+	"aurora-backend/lib/functions/lib/infrastructure/eth/admanager"
 	"context"
 	"encoding/json"
 	"errors"
@@ -11,16 +12,17 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/ethereum/go-ethereum/common"
 )
 
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	req, err := toInput(request)
 	if err != nil {
-		return unexpectedError(request, err), err
+		return unexpectedErrorAsNotFound(request, err), err
 	}
 	app, err := newApp(ctx)
 	if err != nil {
-		return unexpectedError(request, err), err
+		return unexpectedErrorAsNotFound(request, err), err
 	}
 	res, err := app.Get(ctx, req)
 	if err != nil {
@@ -53,6 +55,9 @@ func toInput(request events.APIGatewayProxyRequest) (ad.GetInput, error) {
 		return req, errors.New("index required")
 	}
 	i, err := strconv.Atoi(idx)
+	if !common.IsHexAddress(account) {
+		return req, errors.New("account should be hex address")
+	}
 	if err != nil {
 		return req, err
 	}
@@ -67,11 +72,15 @@ func newApp(ctx context.Context) (*ad.Service, error) {
 	if err != nil {
 		return &ad.Service{}, err
 	}
-	return ad.NewService(cli), nil
+	contract, err := admanager.NewProvider()
+	if err != nil {
+		return &ad.Service{}, err
+	}
+	return ad.NewWithContract(cli, contract), nil
 }
 
-func unexpectedError(request events.APIGatewayProxyRequest, err error) events.APIGatewayProxyResponse {
-	return anyError(request, 500, err)
+func unexpectedErrorAsNotFound(request events.APIGatewayProxyRequest, err error) events.APIGatewayProxyResponse {
+	return anyError(request, 404, err)
 }
 
 func anyError(request events.APIGatewayProxyRequest, code int, err error) events.APIGatewayProxyResponse {
