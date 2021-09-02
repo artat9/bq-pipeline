@@ -28,6 +28,13 @@ type (
 	// Service post service
 	Service struct {
 		uploader Uploader
+		contract SmartContract
+	}
+
+	// GetInput get input
+	GetInput struct {
+		Account string
+		Index   int
 	}
 
 	// Uploader uploader
@@ -36,6 +43,11 @@ type (
 		UploadAdvertisementMetadata(ctx context.Context, advertisement Advertisement) (string, error)
 		ToURL(tx string) string
 	}
+
+	// SmartContract smart contract
+	SmartContract interface {
+		DisplayByIndex(ctx context.Context, input GetInput) (string, error)
+	}
 )
 
 // NewService new service
@@ -43,6 +55,22 @@ func NewService(uploader Uploader) *Service {
 	return &Service{
 		uploader: uploader,
 	}
+}
+
+// NewWithContract new with contract
+func NewWithContract(uploader Uploader, contract SmartContract) *Service {
+	return &Service{
+		uploader: uploader,
+		contract: contract,
+	}
+}
+
+// Get Get metadata
+func (s *Service) Get(ctx context.Context, input GetInput) (Output, error) {
+	meta, err := s.contract.DisplayByIndex(ctx, input)
+	return Output{
+		Metadata: meta,
+	}, err
 }
 
 // Upload puload post

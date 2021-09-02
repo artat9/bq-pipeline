@@ -59,9 +59,45 @@ export class RestApiStack extends cdk.Stack {
     });
     nftFunctions(this, ["post", "ad"], target, bucket, api);
     const customDomain = withCustomDomain(this, api, target);
+    const getad = api.root
+      .resourceForPath("ad")
+      .addResource("{address}")
+      .addResource("{index}");
+    getad.addMethod(
+      "GET",
+      new LambdaIntegration(lambdaFunction(this, "getad", target))
+    );
+    addCorsOptions(getad);
     aRecord(this, target, customDomain);
   }
 }
+
+const lambdaFunction = (
+  scope: Construct,
+  id: string,
+  target: environment.Environments
+) => {
+  const func = new Function(scope, id, {
+    functionName: environment.withEnvPrefix(target, id),
+    code: code(id),
+    handler: "bin/main",
+    timeout: Duration.minutes(1),
+    runtime: Runtime.GO_1_X,
+    tracing: Tracing.ACTIVE,
+    environment: {
+      EnvironmentId: target.toString(),
+      AllowedOrigin: environment.valueOf(target).allowedOrigin,
+    },
+  });
+  func.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["lambda:*"],
+      resources: ["*"],
+    })
+  );
+  return func;
+};
 
 const nftFunctions = (
   scope: Construct,
@@ -70,36 +106,9 @@ const nftFunctions = (
   assetBucket: IBucket,
   api: RestApi
 ) => {
-  const { allowedOrigin } = environment.valueOf(target);
   return resources.map((r) => {
     const resource = api.root.addResource(r);
-    const func = new Function(scope, r, {
-      functionName: environment.withEnvPrefix(target, r),
-      code: code(r),
-      handler: "bin/main",
-      timeout: Duration.minutes(1),
-      runtime: Runtime.GO_1_X,
-      tracing: Tracing.ACTIVE,
-      environment: {
-        EnvironmentId: target.toString(),
-        AllowedOrigin: environment.valueOf(target).allowedOrigin,
-        AssetBucketName: assetBucket.bucketName,
-      },
-    });
-    func.addToRolePolicy(
-      new PolicyStatement({
-        effect: Effect.ALLOW,
-        actions: ["s3:*"],
-        resources: [assetBucket.bucketArn, `${assetBucket.bucketArn}/*`],
-      })
-    );
-    func.addToRolePolicy(
-      new PolicyStatement({
-        effect: Effect.ALLOW,
-        actions: ["lambda:*"],
-        resources: ["*"],
-      })
-    );
+    const func = lambdaFunction(scope, r, target);
     resource.addMethod("POST", new LambdaIntegration(func));
     addCorsOptions(resource);
     return resource;

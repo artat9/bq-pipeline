@@ -5,9 +5,11 @@ setup:
 	export GO111MODULE=on
 	go mod vendor
 	go get github.com/aws/aws-lambda-go/cmd/build-lambda-zip
+  git clone https://github.com/bridges-inc/kaleido-core.git
+	cd kaleido-core && yarn && npx hardhat compile
 
 abi:
-	abigen --abi aurora-core/abi/contracts/PostManager.sol/PostManager.json --pkg contracts --out lib/functions/lib/contracts/postmanager.go	
+	abigen --abi kaleido-core/abi/contracts/AdManager.sol/AdManager.json --pkg contracts --out lib/functions/lib/contracts/admanager.go	--alias bid=bid1, _bid=bid2
 
 build: 
 	export GO111MODULE=on
