@@ -28,7 +28,29 @@ paths:
               $ref: "#/components/schemas/AdInput"
             examples: {}
       parameters: []
-    parameters: []
+  /ad/{account}/{index}:
+    get:
+      responses:
+        "200":
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Metadata"
+    parameters:
+      - schema:
+          type: string
+        name: account
+        in: path
+        required: true
+        description: account address hex string
+      - schema:
+          type: string
+        name: index
+        in: path
+        required: true
+        description: bid index(should be number)
   /post:
     post:
       summary: Upload Post
@@ -100,7 +122,7 @@ components:
       title: AdInput
       type: object
       properties:
-        image:
+        iamge:
           type: string
         link:
           type: string
@@ -110,6 +132,7 @@ components:
         - image
         - link
         - alt
+        - images
   securitySchemes:
     APIKey:
       name: API Key
