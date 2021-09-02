@@ -100,7 +100,7 @@ components:
       title: AdInput
       type: object
       properties:
-        iamge:
+        image:
           type: string
         link:
           type: string
