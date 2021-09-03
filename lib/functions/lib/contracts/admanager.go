@@ -30,7 +30,7 @@ var (
 
 // ContractsMetaData contains all meta data concerning the Contracts contract.
 var ContractsMetaData = &bind.MetaData{
-	ABI: "[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"nameRegistry\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"Accept\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"originalLink\",\"type\":\"string\"}],\"name\":\"Bid\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"Call\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bitId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"successfulBidder\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"Close\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"Deny\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint8\",\"name\":\"metadataIndex\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fromTimestamp\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"toTimestamp\",\"type\":\"uint256\"}],\"name\":\"NewPost\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"originalLink\",\"type\":\"string\"}],\"name\":\"Propose\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bitId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"Refund\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"UpdateMetadata\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"originalLink\",\"type\":\"string\"}],\"name\":\"_bid\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"accept\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"adPoolAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"allPosts\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"uint8\",\"name\":\"metadataIndex\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"fromTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"toTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"successfulBidId\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"originalLink\",\"type\":\"string\"}],\"name\":\"bid\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bidderInfo\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"originalLink\",\"type\":\"string\"},{\"internalType\":\"enumAdManager.DraftStatus\",\"name\":\"status\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"bidderList\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bidders\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"book\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bookedBidIds\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"call\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"close\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"deny\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"display\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"metadataIndex\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"fromPostIdIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"toPostIdIndex\",\"type\":\"uint256\"}],\"name\":\"displayBetween\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"metadataIndex\",\"type\":\"uint8\"}],\"name\":\"displayByIndex\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"distributionRightAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"mediaMetadata\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nameRegistryAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"fromTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"toTimestamp\",\"type\":\"uint256\"}],\"name\":\"newPost\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nextBidId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nextPostId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"originalLink\",\"type\":\"string\"}],\"name\":\"propose\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"refund\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"registered\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"reservedRightAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"vaultAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}]",
+	ABI: "[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"nameRegistry\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"Accept\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"Bid\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"Book\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"Call\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bitId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"successfulBidder\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"Close\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"Deny\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint8\",\"name\":\"metadataIndex\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fromTimestamp\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"toTimestamp\",\"type\":\"uint256\"}],\"name\":\"NewPost\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"Propose\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bitId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"Refund\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"accept\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"adPoolAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"allPosts\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"uint8\",\"name\":\"metadataIndex\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"fromTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"toTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"successfulBidId\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"bid\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bidderInfo\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"enumAdManager.DraftStatus\",\"name\":\"status\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"bidderList\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bidders\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"book\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bookedBidIds\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"call\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"close\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"deny\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"display\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"metadataIndex\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"fromPostIdIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"toPostIdIndex\",\"type\":\"uint256\"}],\"name\":\"displayBetween\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"metadataIndex\",\"type\":\"uint8\"}],\"name\":\"displayByIndex\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"distributionRightAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"mediaMetadata\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nameRegistryAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"fromTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"toTimestamp\",\"type\":\"uint256\"}],\"name\":\"newPost\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nextBidId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nextPostId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"propose\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"refund\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"registered\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"reservedRightAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"vaultAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}]",
 }
 
 // ContractsABI is the input ABI used to generate the binding from.
@@ -282,27 +282,25 @@ func (_Contracts *ContractsCallerSession) AllPosts(arg0 *big.Int) (struct {
 
 // BidderInfo is a free data retrieval call binding the contract method 0x0d5daf3b.
 //
-// Solidity: function bidderInfo(uint256 ) view returns(uint256 bidId, uint256 postId, address sender, uint256 price, string metadata, string originalLink, uint8 status)
+// Solidity: function bidderInfo(uint256 ) view returns(uint256 bidId, uint256 postId, address sender, uint256 price, string metadata, uint8 status)
 func (_Contracts *ContractsCaller) BidderInfo(opts *bind.CallOpts, arg0 *big.Int) (struct {
-	BidId        *big.Int
-	PostId       *big.Int
-	Sender       common.Address
-	Price        *big.Int
-	Metadata     string
-	OriginalLink string
-	Status       uint8
+	BidId    *big.Int
+	PostId   *big.Int
+	Sender   common.Address
+	Price    *big.Int
+	Metadata string
+	Status   uint8
 }, error) {
 	var out []interface{}
 	err := _Contracts.contract.Call(opts, &out, "bidderInfo", arg0)
 
 	outstruct := new(struct {
-		BidId        *big.Int
-		PostId       *big.Int
-		Sender       common.Address
-		Price        *big.Int
-		Metadata     string
-		OriginalLink string
-		Status       uint8
+		BidId    *big.Int
+		PostId   *big.Int
+		Sender   common.Address
+		Price    *big.Int
+		Metadata string
+		Status   uint8
 	})
 	if err != nil {
 		return *outstruct, err
@@ -313,8 +311,7 @@ func (_Contracts *ContractsCaller) BidderInfo(opts *bind.CallOpts, arg0 *big.Int
 	outstruct.Sender = *abi.ConvertType(out[2], new(common.Address)).(*common.Address)
 	outstruct.Price = *abi.ConvertType(out[3], new(*big.Int)).(**big.Int)
 	outstruct.Metadata = *abi.ConvertType(out[4], new(string)).(*string)
-	outstruct.OriginalLink = *abi.ConvertType(out[5], new(string)).(*string)
-	outstruct.Status = *abi.ConvertType(out[6], new(uint8)).(*uint8)
+	outstruct.Status = *abi.ConvertType(out[5], new(uint8)).(*uint8)
 
 	return *outstruct, err
 
@@ -322,30 +319,28 @@ func (_Contracts *ContractsCaller) BidderInfo(opts *bind.CallOpts, arg0 *big.Int
 
 // BidderInfo is a free data retrieval call binding the contract method 0x0d5daf3b.
 //
-// Solidity: function bidderInfo(uint256 ) view returns(uint256 bidId, uint256 postId, address sender, uint256 price, string metadata, string originalLink, uint8 status)
+// Solidity: function bidderInfo(uint256 ) view returns(uint256 bidId, uint256 postId, address sender, uint256 price, string metadata, uint8 status)
 func (_Contracts *ContractsSession) BidderInfo(arg0 *big.Int) (struct {
-	BidId        *big.Int
-	PostId       *big.Int
-	Sender       common.Address
-	Price        *big.Int
-	Metadata     string
-	OriginalLink string
-	Status       uint8
+	BidId    *big.Int
+	PostId   *big.Int
+	Sender   common.Address
+	Price    *big.Int
+	Metadata string
+	Status   uint8
 }, error) {
 	return _Contracts.Contract.BidderInfo(&_Contracts.CallOpts, arg0)
 }
 
 // BidderInfo is a free data retrieval call binding the contract method 0x0d5daf3b.
 //
-// Solidity: function bidderInfo(uint256 ) view returns(uint256 bidId, uint256 postId, address sender, uint256 price, string metadata, string originalLink, uint8 status)
+// Solidity: function bidderInfo(uint256 ) view returns(uint256 bidId, uint256 postId, address sender, uint256 price, string metadata, uint8 status)
 func (_Contracts *ContractsCallerSession) BidderInfo(arg0 *big.Int) (struct {
-	BidId        *big.Int
-	PostId       *big.Int
-	Sender       common.Address
-	Price        *big.Int
-	Metadata     string
-	OriginalLink string
-	Status       uint8
+	BidId    *big.Int
+	PostId   *big.Int
+	Sender   common.Address
+	Price    *big.Int
+	Metadata string
+	Status   uint8
 }, error) {
 	return _Contracts.Contract.BidderInfo(&_Contracts.CallOpts, arg0)
 }
@@ -815,27 +810,6 @@ func (_Contracts *ContractsCallerSession) VaultAddress() (common.Address, error)
 	return _Contracts.Contract.VaultAddress(&_Contracts.CallOpts)
 }
 
-// Bid is a paid mutator transaction binding the contract method 0xde55cd15.
-//
-// Solidity: function _bid(uint256 postId, string metadata, string originalLink) payable returns()
-func (_Contracts *ContractsTransactor) Bid(opts *bind.TransactOpts, postId *big.Int, metadata string, originalLink string) (*types.Transaction, error) {
-	return _Contracts.contract.Transact(opts, "_bid", postId, metadata, originalLink)
-}
-
-// Bid is a paid mutator transaction binding the contract method 0xde55cd15.
-//
-// Solidity: function _bid(uint256 postId, string metadata, string originalLink) payable returns()
-func (_Contracts *ContractsSession) Bid(postId *big.Int, metadata string, originalLink string) (*types.Transaction, error) {
-	return _Contracts.Contract.Bid(&_Contracts.TransactOpts, postId, metadata, originalLink)
-}
-
-// Bid is a paid mutator transaction binding the contract method 0xde55cd15.
-//
-// Solidity: function _bid(uint256 postId, string metadata, string originalLink) payable returns()
-func (_Contracts *ContractsTransactorSession) Bid(postId *big.Int, metadata string, originalLink string) (*types.Transaction, error) {
-	return _Contracts.Contract.Bid(&_Contracts.TransactOpts, postId, metadata, originalLink)
-}
-
 // Accept is a paid mutator transaction binding the contract method 0x19b05f49.
 //
 // Solidity: function accept(uint256 postId) returns()
@@ -857,25 +831,25 @@ func (_Contracts *ContractsTransactorSession) Accept(postId *big.Int) (*types.Tr
 	return _Contracts.Contract.Accept(&_Contracts.TransactOpts, postId)
 }
 
-// Bid1 is a paid mutator transaction binding the contract method 0xcd959624.
+// Bid1 is a paid mutator transaction binding the contract method 0x0fc55fd1.
 //
-// Solidity: function bid(uint256 postId, string metadata, string originalLink) payable returns()
-func (_Contracts *ContractsTransactor) Bid1(opts *bind.TransactOpts, postId *big.Int, metadata string, originalLink string) (*types.Transaction, error) {
-	return _Contracts.contract.Transact(opts, "bid", postId, metadata, originalLink)
+// Solidity: function bid(uint256 postId, string metadata) payable returns()
+func (_Contracts *ContractsTransactor) Bid1(opts *bind.TransactOpts, postId *big.Int, metadata string) (*types.Transaction, error) {
+	return _Contracts.contract.Transact(opts, "bid", postId, metadata)
 }
 
-// Bid1 is a paid mutator transaction binding the contract method 0xcd959624.
+// Bid1 is a paid mutator transaction binding the contract method 0x0fc55fd1.
 //
-// Solidity: function bid(uint256 postId, string metadata, string originalLink) payable returns()
-func (_Contracts *ContractsSession) Bid1(postId *big.Int, metadata string, originalLink string) (*types.Transaction, error) {
-	return _Contracts.Contract.Bid1(&_Contracts.TransactOpts, postId, metadata, originalLink)
+// Solidity: function bid(uint256 postId, string metadata) payable returns()
+func (_Contracts *ContractsSession) Bid1(postId *big.Int, metadata string) (*types.Transaction, error) {
+	return _Contracts.Contract.Bid1(&_Contracts.TransactOpts, postId, metadata)
 }
 
-// Bid1 is a paid mutator transaction binding the contract method 0xcd959624.
+// Bid1 is a paid mutator transaction binding the contract method 0x0fc55fd1.
 //
-// Solidity: function bid(uint256 postId, string metadata, string originalLink) payable returns()
-func (_Contracts *ContractsTransactorSession) Bid1(postId *big.Int, metadata string, originalLink string) (*types.Transaction, error) {
-	return _Contracts.Contract.Bid1(&_Contracts.TransactOpts, postId, metadata, originalLink)
+// Solidity: function bid(uint256 postId, string metadata) payable returns()
+func (_Contracts *ContractsTransactorSession) Bid1(postId *big.Int, metadata string) (*types.Transaction, error) {
+	return _Contracts.Contract.Bid1(&_Contracts.TransactOpts, postId, metadata)
 }
 
 // Book is a paid mutator transaction binding the contract method 0x1116fd04.
@@ -983,25 +957,25 @@ func (_Contracts *ContractsTransactorSession) NewPost(metadata string, fromTimes
 	return _Contracts.Contract.NewPost(&_Contracts.TransactOpts, metadata, fromTimestamp, toTimestamp)
 }
 
-// Propose is a paid mutator transaction binding the contract method 0x7eaf8578.
+// Propose is a paid mutator transaction binding the contract method 0xd4f6b5ec.
 //
-// Solidity: function propose(uint256 postId, string metadata, string originalLink) returns()
-func (_Contracts *ContractsTransactor) Propose(opts *bind.TransactOpts, postId *big.Int, metadata string, originalLink string) (*types.Transaction, error) {
-	return _Contracts.contract.Transact(opts, "propose", postId, metadata, originalLink)
+// Solidity: function propose(uint256 postId, string metadata) returns()
+func (_Contracts *ContractsTransactor) Propose(opts *bind.TransactOpts, postId *big.Int, metadata string) (*types.Transaction, error) {
+	return _Contracts.contract.Transact(opts, "propose", postId, metadata)
 }
 
-// Propose is a paid mutator transaction binding the contract method 0x7eaf8578.
+// Propose is a paid mutator transaction binding the contract method 0xd4f6b5ec.
 //
-// Solidity: function propose(uint256 postId, string metadata, string originalLink) returns()
-func (_Contracts *ContractsSession) Propose(postId *big.Int, metadata string, originalLink string) (*types.Transaction, error) {
-	return _Contracts.Contract.Propose(&_Contracts.TransactOpts, postId, metadata, originalLink)
+// Solidity: function propose(uint256 postId, string metadata) returns()
+func (_Contracts *ContractsSession) Propose(postId *big.Int, metadata string) (*types.Transaction, error) {
+	return _Contracts.Contract.Propose(&_Contracts.TransactOpts, postId, metadata)
 }
 
-// Propose is a paid mutator transaction binding the contract method 0x7eaf8578.
+// Propose is a paid mutator transaction binding the contract method 0xd4f6b5ec.
 //
-// Solidity: function propose(uint256 postId, string metadata, string originalLink) returns()
-func (_Contracts *ContractsTransactorSession) Propose(postId *big.Int, metadata string, originalLink string) (*types.Transaction, error) {
-	return _Contracts.Contract.Propose(&_Contracts.TransactOpts, postId, metadata, originalLink)
+// Solidity: function propose(uint256 postId, string metadata) returns()
+func (_Contracts *ContractsTransactorSession) Propose(postId *big.Int, metadata string) (*types.Transaction, error) {
+	return _Contracts.Contract.Propose(&_Contracts.TransactOpts, postId, metadata)
 }
 
 // Refund is a paid mutator transaction binding the contract method 0x278ecde1.
@@ -1229,18 +1203,17 @@ func (it *ContractsBidIterator) Close() error {
 
 // ContractsBid represents a Bid event raised by the Contracts contract.
 type ContractsBid struct {
-	BidId        *big.Int
-	PostId       *big.Int
-	Sender       common.Address
-	Price        *big.Int
-	Metadata     string
-	OriginalLink string
-	Raw          types.Log // Blockchain specific contextual infos
+	BidId    *big.Int
+	PostId   *big.Int
+	Sender   common.Address
+	Price    *big.Int
+	Metadata string
+	Raw      types.Log // Blockchain specific contextual infos
 }
 
-// FilterBid is a free log retrieval operation binding the contract event 0x3e7f9a65d541ccee63177d29635cbb0ffec0bf032e171ee86ab9037c7e5c2d04.
+// FilterBid is a free log retrieval operation binding the contract event 0x01662ff7392d9961759cf40cab7a64e5ad660ba64a9df944343ce23b2b94c447.
 //
-// Solidity: event Bid(uint256 bidId, uint256 postId, address sender, uint256 price, string metadata, string originalLink)
+// Solidity: event Bid(uint256 bidId, uint256 postId, address sender, uint256 price, string metadata)
 func (_Contracts *ContractsFilterer) FilterBid(opts *bind.FilterOpts) (*ContractsBidIterator, error) {
 
 	logs, sub, err := _Contracts.contract.FilterLogs(opts, "Bid")
@@ -1250,9 +1223,9 @@ func (_Contracts *ContractsFilterer) FilterBid(opts *bind.FilterOpts) (*Contract
 	return &ContractsBidIterator{contract: _Contracts.contract, event: "Bid", logs: logs, sub: sub}, nil
 }
 
-// WatchBid is a free log subscription operation binding the contract event 0x3e7f9a65d541ccee63177d29635cbb0ffec0bf032e171ee86ab9037c7e5c2d04.
+// WatchBid is a free log subscription operation binding the contract event 0x01662ff7392d9961759cf40cab7a64e5ad660ba64a9df944343ce23b2b94c447.
 //
-// Solidity: event Bid(uint256 bidId, uint256 postId, address sender, uint256 price, string metadata, string originalLink)
+// Solidity: event Bid(uint256 bidId, uint256 postId, address sender, uint256 price, string metadata)
 func (_Contracts *ContractsFilterer) WatchBid(opts *bind.WatchOpts, sink chan<- *ContractsBid) (event.Subscription, error) {
 
 	logs, sub, err := _Contracts.contract.WatchLogs(opts, "Bid")
@@ -1287,12 +1260,149 @@ func (_Contracts *ContractsFilterer) WatchBid(opts *bind.WatchOpts, sink chan<- 
 	}), nil
 }
 
-// ParseBid is a log parse operation binding the contract event 0x3e7f9a65d541ccee63177d29635cbb0ffec0bf032e171ee86ab9037c7e5c2d04.
+// ParseBid is a log parse operation binding the contract event 0x01662ff7392d9961759cf40cab7a64e5ad660ba64a9df944343ce23b2b94c447.
 //
-// Solidity: event Bid(uint256 bidId, uint256 postId, address sender, uint256 price, string metadata, string originalLink)
+// Solidity: event Bid(uint256 bidId, uint256 postId, address sender, uint256 price, string metadata)
 func (_Contracts *ContractsFilterer) ParseBid(log types.Log) (*ContractsBid, error) {
 	event := new(ContractsBid)
 	if err := _Contracts.contract.UnpackLog(event, "Bid", log); err != nil {
+		return nil, err
+	}
+	event.Raw = log
+	return event, nil
+}
+
+// ContractsBookIterator is returned from FilterBook and is used to iterate over the raw logs and unpacked data for Book events raised by the Contracts contract.
+type ContractsBookIterator struct {
+	Event *ContractsBook // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *ContractsBookIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(ContractsBook)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(ContractsBook)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *ContractsBookIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *ContractsBookIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// ContractsBook represents a Book event raised by the Contracts contract.
+type ContractsBook struct {
+	BidId  *big.Int
+	PostId *big.Int
+	Sender common.Address
+	Price  *big.Int
+	Raw    types.Log // Blockchain specific contextual infos
+}
+
+// FilterBook is a free log retrieval operation binding the contract event 0xa9dfceace4f13fa67be6499ce107d4e132c418d2cdeb93219a08c7f9c7fa634a.
+//
+// Solidity: event Book(uint256 bidId, uint256 postId, address sender, uint256 price)
+func (_Contracts *ContractsFilterer) FilterBook(opts *bind.FilterOpts) (*ContractsBookIterator, error) {
+
+	logs, sub, err := _Contracts.contract.FilterLogs(opts, "Book")
+	if err != nil {
+		return nil, err
+	}
+	return &ContractsBookIterator{contract: _Contracts.contract, event: "Book", logs: logs, sub: sub}, nil
+}
+
+// WatchBook is a free log subscription operation binding the contract event 0xa9dfceace4f13fa67be6499ce107d4e132c418d2cdeb93219a08c7f9c7fa634a.
+//
+// Solidity: event Book(uint256 bidId, uint256 postId, address sender, uint256 price)
+func (_Contracts *ContractsFilterer) WatchBook(opts *bind.WatchOpts, sink chan<- *ContractsBook) (event.Subscription, error) {
+
+	logs, sub, err := _Contracts.contract.WatchLogs(opts, "Book")
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(ContractsBook)
+				if err := _Contracts.contract.UnpackLog(event, "Book", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// ParseBook is a log parse operation binding the contract event 0xa9dfceace4f13fa67be6499ce107d4e132c418d2cdeb93219a08c7f9c7fa634a.
+//
+// Solidity: event Book(uint256 bidId, uint256 postId, address sender, uint256 price)
+func (_Contracts *ContractsFilterer) ParseBook(log types.Log) (*ContractsBook, error) {
+	event := new(ContractsBook)
+	if err := _Contracts.contract.UnpackLog(event, "Book", log); err != nil {
 		return nil, err
 	}
 	event.Raw = log
@@ -1917,16 +2027,15 @@ func (it *ContractsProposeIterator) Close() error {
 
 // ContractsPropose represents a Propose event raised by the Contracts contract.
 type ContractsPropose struct {
-	BidId        *big.Int
-	PostId       *big.Int
-	Metadata     string
-	OriginalLink string
-	Raw          types.Log // Blockchain specific contextual infos
+	BidId    *big.Int
+	PostId   *big.Int
+	Metadata string
+	Raw      types.Log // Blockchain specific contextual infos
 }
 
-// FilterPropose is a free log retrieval operation binding the contract event 0xacf1a4a97394444387f3458d02bd2e5c6e9486d300f4f7c14ac402e2a116c083.
+// FilterPropose is a free log retrieval operation binding the contract event 0x3210cee2deb4838dde3ae606fd6b2e36543e05f2629f4d6fe336fc572c06a335.
 //
-// Solidity: event Propose(uint256 bidId, uint256 postId, string metadata, string originalLink)
+// Solidity: event Propose(uint256 bidId, uint256 postId, string metadata)
 func (_Contracts *ContractsFilterer) FilterPropose(opts *bind.FilterOpts) (*ContractsProposeIterator, error) {
 
 	logs, sub, err := _Contracts.contract.FilterLogs(opts, "Propose")
@@ -1936,9 +2045,9 @@ func (_Contracts *ContractsFilterer) FilterPropose(opts *bind.FilterOpts) (*Cont
 	return &ContractsProposeIterator{contract: _Contracts.contract, event: "Propose", logs: logs, sub: sub}, nil
 }
 
-// WatchPropose is a free log subscription operation binding the contract event 0xacf1a4a97394444387f3458d02bd2e5c6e9486d300f4f7c14ac402e2a116c083.
+// WatchPropose is a free log subscription operation binding the contract event 0x3210cee2deb4838dde3ae606fd6b2e36543e05f2629f4d6fe336fc572c06a335.
 //
-// Solidity: event Propose(uint256 bidId, uint256 postId, string metadata, string originalLink)
+// Solidity: event Propose(uint256 bidId, uint256 postId, string metadata)
 func (_Contracts *ContractsFilterer) WatchPropose(opts *bind.WatchOpts, sink chan<- *ContractsPropose) (event.Subscription, error) {
 
 	logs, sub, err := _Contracts.contract.WatchLogs(opts, "Propose")
@@ -1973,9 +2082,9 @@ func (_Contracts *ContractsFilterer) WatchPropose(opts *bind.WatchOpts, sink cha
 	}), nil
 }
 
-// ParsePropose is a log parse operation binding the contract event 0xacf1a4a97394444387f3458d02bd2e5c6e9486d300f4f7c14ac402e2a116c083.
+// ParsePropose is a log parse operation binding the contract event 0x3210cee2deb4838dde3ae606fd6b2e36543e05f2629f4d6fe336fc572c06a335.
 //
-// Solidity: event Propose(uint256 bidId, uint256 postId, string metadata, string originalLink)
+// Solidity: event Propose(uint256 bidId, uint256 postId, string metadata)
 func (_Contracts *ContractsFilterer) ParsePropose(log types.Log) (*ContractsPropose, error) {
 	event := new(ContractsPropose)
 	if err := _Contracts.contract.UnpackLog(event, "Propose", log); err != nil {
@@ -2116,141 +2225,6 @@ func (_Contracts *ContractsFilterer) WatchRefund(opts *bind.WatchOpts, sink chan
 func (_Contracts *ContractsFilterer) ParseRefund(log types.Log) (*ContractsRefund, error) {
 	event := new(ContractsRefund)
 	if err := _Contracts.contract.UnpackLog(event, "Refund", log); err != nil {
-		return nil, err
-	}
-	event.Raw = log
-	return event, nil
-}
-
-// ContractsUpdateMetadataIterator is returned from FilterUpdateMetadata and is used to iterate over the raw logs and unpacked data for UpdateMetadata events raised by the Contracts contract.
-type ContractsUpdateMetadataIterator struct {
-	Event *ContractsUpdateMetadata // Event containing the contract specifics and raw log
-
-	contract *bind.BoundContract // Generic contract to use for unpacking event data
-	event    string              // Event name to use for unpacking event data
-
-	logs chan types.Log        // Log channel receiving the found contract events
-	sub  ethereum.Subscription // Subscription for errors, completion and termination
-	done bool                  // Whether the subscription completed delivering logs
-	fail error                 // Occurred error to stop iteration
-}
-
-// Next advances the iterator to the subsequent event, returning whether there
-// are any more events found. In case of a retrieval or parsing error, false is
-// returned and Error() can be queried for the exact failure.
-func (it *ContractsUpdateMetadataIterator) Next() bool {
-	// If the iterator failed, stop iterating
-	if it.fail != nil {
-		return false
-	}
-	// If the iterator completed, deliver directly whatever's available
-	if it.done {
-		select {
-		case log := <-it.logs:
-			it.Event = new(ContractsUpdateMetadata)
-			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
-				it.fail = err
-				return false
-			}
-			it.Event.Raw = log
-			return true
-
-		default:
-			return false
-		}
-	}
-	// Iterator still in progress, wait for either a data or an error event
-	select {
-	case log := <-it.logs:
-		it.Event = new(ContractsUpdateMetadata)
-		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
-			it.fail = err
-			return false
-		}
-		it.Event.Raw = log
-		return true
-
-	case err := <-it.sub.Err():
-		it.done = true
-		it.fail = err
-		return it.Next()
-	}
-}
-
-// Error returns any retrieval or parsing error occurred during filtering.
-func (it *ContractsUpdateMetadataIterator) Error() error {
-	return it.fail
-}
-
-// Close terminates the iteration process, releasing any pending underlying
-// resources.
-func (it *ContractsUpdateMetadataIterator) Close() error {
-	it.sub.Unsubscribe()
-	return nil
-}
-
-// ContractsUpdateMetadata represents a UpdateMetadata event raised by the Contracts contract.
-type ContractsUpdateMetadata struct {
-	PostId   *big.Int
-	Metadata string
-	Raw      types.Log // Blockchain specific contextual infos
-}
-
-// FilterUpdateMetadata is a free log retrieval operation binding the contract event 0x5c7d06d982dcbaecddafd940a137b8df6bf74088dc42b086479917a34988bde2.
-//
-// Solidity: event UpdateMetadata(uint256 postId, string metadata)
-func (_Contracts *ContractsFilterer) FilterUpdateMetadata(opts *bind.FilterOpts) (*ContractsUpdateMetadataIterator, error) {
-
-	logs, sub, err := _Contracts.contract.FilterLogs(opts, "UpdateMetadata")
-	if err != nil {
-		return nil, err
-	}
-	return &ContractsUpdateMetadataIterator{contract: _Contracts.contract, event: "UpdateMetadata", logs: logs, sub: sub}, nil
-}
-
-// WatchUpdateMetadata is a free log subscription operation binding the contract event 0x5c7d06d982dcbaecddafd940a137b8df6bf74088dc42b086479917a34988bde2.
-//
-// Solidity: event UpdateMetadata(uint256 postId, string metadata)
-func (_Contracts *ContractsFilterer) WatchUpdateMetadata(opts *bind.WatchOpts, sink chan<- *ContractsUpdateMetadata) (event.Subscription, error) {
-
-	logs, sub, err := _Contracts.contract.WatchLogs(opts, "UpdateMetadata")
-	if err != nil {
-		return nil, err
-	}
-	return event.NewSubscription(func(quit <-chan struct{}) error {
-		defer sub.Unsubscribe()
-		for {
-			select {
-			case log := <-logs:
-				// New log arrived, parse the event and forward to the user
-				event := new(ContractsUpdateMetadata)
-				if err := _Contracts.contract.UnpackLog(event, "UpdateMetadata", log); err != nil {
-					return err
-				}
-				event.Raw = log
-
-				select {
-				case sink <- event:
-				case err := <-sub.Err():
-					return err
-				case <-quit:
-					return nil
-				}
-			case err := <-sub.Err():
-				return err
-			case <-quit:
-				return nil
-			}
-		}
-	}), nil
-}
-
-// ParseUpdateMetadata is a log parse operation binding the contract event 0x5c7d06d982dcbaecddafd940a137b8df6bf74088dc42b086479917a34988bde2.
-//
-// Solidity: event UpdateMetadata(uint256 postId, string metadata)
-func (_Contracts *ContractsFilterer) ParseUpdateMetadata(log types.Log) (*ContractsUpdateMetadata, error) {
-	event := new(ContractsUpdateMetadata)
-	if err := _Contracts.contract.UnpackLog(event, "UpdateMetadata", log); err != nil {
 		return nil, err
 	}
 	event.Raw = log
