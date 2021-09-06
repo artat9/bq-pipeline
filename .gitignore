@@ -20,6 +20,7 @@ doc/.DS_Store
 lib/functions/**/**/arweave.json
 # assets
 *.json
+!package.json
 *.bin
 *.zip
 *.jpg
