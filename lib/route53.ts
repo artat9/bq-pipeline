@@ -40,6 +40,12 @@ export class Route53Stack extends Stack {
       recordName: `about.${rootDomain}`,
       domainName: "cname.vercel-dns.com",
     });
+    // Demo env Domain Verification
+    new CnameRecord(this, "AnotionLpCNAMERecord", {
+      zone: this.hostedZone,
+      recordName: `demo.${rootDomain}`,
+      domainName: "cname.vercel-dns.com",
+    });
   }
 }
 
