@@ -1,11 +1,11 @@
 openapi: 3.0.0
 info:
   title: aurora-backend-restapi
-  version: "1.0"
+  version: '1.0'
 servers:
-  - url: "https://api.auroradao-dev.tk"
+  - url: 'https://api.auroradao-dev.tk'
     description: dev
-  - url: "https://api.auroradao.org"
+  - url: 'https://api.auroradao.org'
     description: prod
 paths:
   /ad:
@@ -13,31 +13,31 @@ paths:
       summary: Upload Ad
       operationId: post-ad
       responses:
-        "200":
+        '200':
           description: Ad Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Metadata"
-        "400":
+                $ref: '#/components/schemas/Metadata'
+        '400':
           description: Missing Required Information
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AdInput"
+              $ref: '#/components/schemas/AdInput'
             examples: {}
       parameters: []
-  /ad/{account}/{index}:
+  '/ad/{account}/{metadata}':
     get:
       responses:
-        "200":
+        '200':
           description: OK
           headers: {}
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Metadata"
+                $ref: '#/components/schemas/Metadata'
     parameters:
       - schema:
           type: string
@@ -47,35 +47,34 @@ paths:
         description: account address hex string
       - schema:
           type: string
-        name: index
+        name: metadata
         in: path
         required: true
-        description: bid index(should be number)
   /post:
     post:
       summary: Upload Post
       operationId: post-post
       responses:
-        "200":
+        '200':
           description: Post Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Metadata"
-        "400":
+                $ref: '#/components/schemas/Metadata'
+        '400':
           description: Missing Required Information
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PostInput"
+              $ref: '#/components/schemas/PostInput'
             examples: {}
       parameters: []
     parameters: []
 components:
   schemas:
     Metadata:
-      description: ""
+      description: ''
       type: object
       properties:
         metadata:
@@ -107,7 +106,7 @@ components:
         key_visual:
           type: string
         ad_specifications:
-          $ref: "#/components/schemas/AdSpecifications"
+          $ref: '#/components/schemas/AdSpecifications'
         images:
           type: array
           items:

@@ -32,14 +32,14 @@ func NewProvider() (Provider, error) {
 	}, nil
 }
 
-// DisplayByIndex get a metadata from a bid
-func (p Provider) DisplayByIndex(ctx context.Context, input ad.GetInput) (string, error) {
+// DisplayByMetadata get a metadata from a postmetadata
+func (p Provider) DisplayByMetadata(ctx context.Context, input ad.GetInput) (string, error) {
 	ad, err := p.newAdManager()
 	if err != nil {
 		log.Error("build admanager failed", err)
 		return "", err
 	}
-	metadata, err := ad.DisplayByIndex(callOpts(ctx), common.HexToAddress(input.Account), uint8(input.Index))
+	metadata, err := ad.DisplayByMetadata(callOpts(ctx), common.HexToAddress(input.Account), input.Metadata)
 	if err != nil {
 		log.Error("display by index failed", err)
 		return "", err

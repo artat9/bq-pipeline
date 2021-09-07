@@ -19,9 +19,9 @@ const EnvironmentVariablesSetting: {
 } = {
   [Environments.PROD]: {
     certificateArn:
-      "arn:aws:acm:us-east-1:495476032358:certificate/a6a27504-fa0e-4659-bf75-337de0cc657e",
+      "arn:aws:acm:us-east-1:495476032358:certificate/98c65aba-1677-404e-9bac-1b2142602ad2",
     rootDomain: "kaleidodao.org",
-    hostedZoneId: "Z0669606182HVQKKSIY97",
+    hostedZoneId: "Z07302833NYNT52C5SA30",
     allowedOrigin: "https://kaleidodao.org",
     deployBranchName: "main",
   },

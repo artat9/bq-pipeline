@@ -18,9 +18,9 @@ func TestNewProvider(t *testing.T) {
 func TestDisplayByIndex(t *testing.T) {
 	t.Run("display enabled", func(t *testing.T) {
 		p, _ := NewProvider()
-		meta, err := p.DisplayByIndex(context.Background(), ad.GetInput{
-			Account: "0xf9B2aAeaFaEE2BfB816B43123962A2fe05Ab1206",
-			Index:   1,
+		meta, err := p.DisplayByMetadata(context.Background(), ad.GetInput{
+			Account:  "0xb5bE22F33D8f0b1Cc131674C562069D1B5912147",
+			Metadata: "",
 		})
 		if err != nil {
 			t.Error(err)

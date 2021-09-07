@@ -30,7 +30,7 @@ var (
 
 // ContractsMetaData contains all meta data concerning the Contracts contract.
 var ContractsMetaData = &bind.MetaData{
-	ABI: "[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"nameRegistry\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"Accept\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"Bid\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"Book\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"Call\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bitId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"successfulBidder\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"Close\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"Deny\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint8\",\"name\":\"metadataIndex\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fromTimestamp\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"toTimestamp\",\"type\":\"uint256\"}],\"name\":\"NewPost\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"Propose\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bitId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"Refund\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"accept\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"adPoolAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"allPosts\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"uint8\",\"name\":\"metadataIndex\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"fromTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"toTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"successfulBidId\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"bid\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bidderInfo\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"enumAdManager.DraftStatus\",\"name\":\"status\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"bidderList\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bidders\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"book\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bookedBidIds\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"call\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"close\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"deny\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"display\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"metadataIndex\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"fromPostIdIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"toPostIdIndex\",\"type\":\"uint256\"}],\"name\":\"displayBetween\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"uint8\",\"name\":\"metadataIndex\",\"type\":\"uint8\"}],\"name\":\"displayByIndex\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"distributionRightAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"mediaMetadata\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nameRegistryAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"fromTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"toTimestamp\",\"type\":\"uint256\"}],\"name\":\"newPost\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nextBidId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nextPostId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"propose\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"refund\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"registered\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"reservedRightAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"vaultAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}]",
+	ABI: "[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"nameRegistry\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"Accept\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"Bid\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"Book\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"Call\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bitId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"successfulBidder\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"Close\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"Deny\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fromTimestamp\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"toTimestamp\",\"type\":\"uint256\"}],\"name\":\"NewPost\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"Propose\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"bitId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"Refund\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"accept\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"allPosts\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"fromTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"toTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"successfulBidId\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"bid\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bidderInfo\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"enumAdManager.DraftStatus\",\"name\":\"status\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"bidderList\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bidders\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"book\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bookedBidIds\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"call\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"close\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"}],\"name\":\"deny\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"displayByMetadata\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"distributionRightAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"inventories\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"mediaMetadata\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"metadataList\",\"outputs\":[{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nameRegistryAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"fromTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"toTimestamp\",\"type\":\"uint256\"}],\"name\":\"newPost\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nextBidId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nextPostId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"postId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"metadata\",\"type\":\"string\"}],\"name\":\"propose\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"bidId\",\"type\":\"uint256\"}],\"name\":\"refund\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"reservedRightAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"vaultAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}]",
 }
 
 // ContractsABI is the input ABI used to generate the binding from.
@@ -179,45 +179,13 @@ func (_Contracts *ContractsTransactorRaw) Transact(opts *bind.TransactOpts, meth
 	return _Contracts.Contract.contract.Transact(opts, method, params...)
 }
 
-// AdPoolAddress is a free data retrieval call binding the contract method 0xc9cd71b5.
-//
-// Solidity: function adPoolAddress() view returns(address)
-func (_Contracts *ContractsCaller) AdPoolAddress(opts *bind.CallOpts) (common.Address, error) {
-	var out []interface{}
-	err := _Contracts.contract.Call(opts, &out, "adPoolAddress")
-
-	if err != nil {
-		return *new(common.Address), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
-
-	return out0, err
-
-}
-
-// AdPoolAddress is a free data retrieval call binding the contract method 0xc9cd71b5.
-//
-// Solidity: function adPoolAddress() view returns(address)
-func (_Contracts *ContractsSession) AdPoolAddress() (common.Address, error) {
-	return _Contracts.Contract.AdPoolAddress(&_Contracts.CallOpts)
-}
-
-// AdPoolAddress is a free data retrieval call binding the contract method 0xc9cd71b5.
-//
-// Solidity: function adPoolAddress() view returns(address)
-func (_Contracts *ContractsCallerSession) AdPoolAddress() (common.Address, error) {
-	return _Contracts.Contract.AdPoolAddress(&_Contracts.CallOpts)
-}
-
 // AllPosts is a free data retrieval call binding the contract method 0x718ce2bc.
 //
-// Solidity: function allPosts(uint256 ) view returns(uint256 postId, address owner, string metadata, uint8 metadataIndex, uint256 fromTimestamp, uint256 toTimestamp, uint256 successfulBidId)
+// Solidity: function allPosts(uint256 ) view returns(uint256 postId, address owner, string metadata, uint256 fromTimestamp, uint256 toTimestamp, uint256 successfulBidId)
 func (_Contracts *ContractsCaller) AllPosts(opts *bind.CallOpts, arg0 *big.Int) (struct {
 	PostId          *big.Int
 	Owner           common.Address
 	Metadata        string
-	MetadataIndex   uint8
 	FromTimestamp   *big.Int
 	ToTimestamp     *big.Int
 	SuccessfulBidId *big.Int
@@ -229,7 +197,6 @@ func (_Contracts *ContractsCaller) AllPosts(opts *bind.CallOpts, arg0 *big.Int) 
 		PostId          *big.Int
 		Owner           common.Address
 		Metadata        string
-		MetadataIndex   uint8
 		FromTimestamp   *big.Int
 		ToTimestamp     *big.Int
 		SuccessfulBidId *big.Int
@@ -241,10 +208,9 @@ func (_Contracts *ContractsCaller) AllPosts(opts *bind.CallOpts, arg0 *big.Int) 
 	outstruct.PostId = *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
 	outstruct.Owner = *abi.ConvertType(out[1], new(common.Address)).(*common.Address)
 	outstruct.Metadata = *abi.ConvertType(out[2], new(string)).(*string)
-	outstruct.MetadataIndex = *abi.ConvertType(out[3], new(uint8)).(*uint8)
-	outstruct.FromTimestamp = *abi.ConvertType(out[4], new(*big.Int)).(**big.Int)
-	outstruct.ToTimestamp = *abi.ConvertType(out[5], new(*big.Int)).(**big.Int)
-	outstruct.SuccessfulBidId = *abi.ConvertType(out[6], new(*big.Int)).(**big.Int)
+	outstruct.FromTimestamp = *abi.ConvertType(out[3], new(*big.Int)).(**big.Int)
+	outstruct.ToTimestamp = *abi.ConvertType(out[4], new(*big.Int)).(**big.Int)
+	outstruct.SuccessfulBidId = *abi.ConvertType(out[5], new(*big.Int)).(**big.Int)
 
 	return *outstruct, err
 
@@ -252,12 +218,11 @@ func (_Contracts *ContractsCaller) AllPosts(opts *bind.CallOpts, arg0 *big.Int) 
 
 // AllPosts is a free data retrieval call binding the contract method 0x718ce2bc.
 //
-// Solidity: function allPosts(uint256 ) view returns(uint256 postId, address owner, string metadata, uint8 metadataIndex, uint256 fromTimestamp, uint256 toTimestamp, uint256 successfulBidId)
+// Solidity: function allPosts(uint256 ) view returns(uint256 postId, address owner, string metadata, uint256 fromTimestamp, uint256 toTimestamp, uint256 successfulBidId)
 func (_Contracts *ContractsSession) AllPosts(arg0 *big.Int) (struct {
 	PostId          *big.Int
 	Owner           common.Address
 	Metadata        string
-	MetadataIndex   uint8
 	FromTimestamp   *big.Int
 	ToTimestamp     *big.Int
 	SuccessfulBidId *big.Int
@@ -267,12 +232,11 @@ func (_Contracts *ContractsSession) AllPosts(arg0 *big.Int) (struct {
 
 // AllPosts is a free data retrieval call binding the contract method 0x718ce2bc.
 //
-// Solidity: function allPosts(uint256 ) view returns(uint256 postId, address owner, string metadata, uint8 metadataIndex, uint256 fromTimestamp, uint256 toTimestamp, uint256 successfulBidId)
+// Solidity: function allPosts(uint256 ) view returns(uint256 postId, address owner, string metadata, uint256 fromTimestamp, uint256 toTimestamp, uint256 successfulBidId)
 func (_Contracts *ContractsCallerSession) AllPosts(arg0 *big.Int) (struct {
 	PostId          *big.Int
 	Owner           common.Address
 	Metadata        string
-	MetadataIndex   uint8
 	FromTimestamp   *big.Int
 	ToTimestamp     *big.Int
 	SuccessfulBidId *big.Int
@@ -438,12 +402,12 @@ func (_Contracts *ContractsCallerSession) BookedBidIds(arg0 *big.Int) (*big.Int,
 	return _Contracts.Contract.BookedBidIds(&_Contracts.CallOpts, arg0)
 }
 
-// Display is a free data retrieval call binding the contract method 0xeb39113f.
+// DisplayByMetadata is a free data retrieval call binding the contract method 0x938baab8.
 //
-// Solidity: function display(address account) view returns(string)
-func (_Contracts *ContractsCaller) Display(opts *bind.CallOpts, account common.Address) (string, error) {
+// Solidity: function displayByMetadata(address account, string metadata) view returns(string)
+func (_Contracts *ContractsCaller) DisplayByMetadata(opts *bind.CallOpts, account common.Address, metadata string) (string, error) {
 	var out []interface{}
-	err := _Contracts.contract.Call(opts, &out, "display", account)
+	err := _Contracts.contract.Call(opts, &out, "displayByMetadata", account, metadata)
 
 	if err != nil {
 		return *new(string), err
@@ -455,80 +419,18 @@ func (_Contracts *ContractsCaller) Display(opts *bind.CallOpts, account common.A
 
 }
 
-// Display is a free data retrieval call binding the contract method 0xeb39113f.
+// DisplayByMetadata is a free data retrieval call binding the contract method 0x938baab8.
 //
-// Solidity: function display(address account) view returns(string)
-func (_Contracts *ContractsSession) Display(account common.Address) (string, error) {
-	return _Contracts.Contract.Display(&_Contracts.CallOpts, account)
+// Solidity: function displayByMetadata(address account, string metadata) view returns(string)
+func (_Contracts *ContractsSession) DisplayByMetadata(account common.Address, metadata string) (string, error) {
+	return _Contracts.Contract.DisplayByMetadata(&_Contracts.CallOpts, account, metadata)
 }
 
-// Display is a free data retrieval call binding the contract method 0xeb39113f.
+// DisplayByMetadata is a free data retrieval call binding the contract method 0x938baab8.
 //
-// Solidity: function display(address account) view returns(string)
-func (_Contracts *ContractsCallerSession) Display(account common.Address) (string, error) {
-	return _Contracts.Contract.Display(&_Contracts.CallOpts, account)
-}
-
-// DisplayBetween is a free data retrieval call binding the contract method 0xc79e9cbb.
-//
-// Solidity: function displayBetween(address account, uint8 metadataIndex, uint256 fromPostIdIndex, uint256 toPostIdIndex) view returns(string)
-func (_Contracts *ContractsCaller) DisplayBetween(opts *bind.CallOpts, account common.Address, metadataIndex uint8, fromPostIdIndex *big.Int, toPostIdIndex *big.Int) (string, error) {
-	var out []interface{}
-	err := _Contracts.contract.Call(opts, &out, "displayBetween", account, metadataIndex, fromPostIdIndex, toPostIdIndex)
-
-	if err != nil {
-		return *new(string), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(string)).(*string)
-
-	return out0, err
-
-}
-
-// DisplayBetween is a free data retrieval call binding the contract method 0xc79e9cbb.
-//
-// Solidity: function displayBetween(address account, uint8 metadataIndex, uint256 fromPostIdIndex, uint256 toPostIdIndex) view returns(string)
-func (_Contracts *ContractsSession) DisplayBetween(account common.Address, metadataIndex uint8, fromPostIdIndex *big.Int, toPostIdIndex *big.Int) (string, error) {
-	return _Contracts.Contract.DisplayBetween(&_Contracts.CallOpts, account, metadataIndex, fromPostIdIndex, toPostIdIndex)
-}
-
-// DisplayBetween is a free data retrieval call binding the contract method 0xc79e9cbb.
-//
-// Solidity: function displayBetween(address account, uint8 metadataIndex, uint256 fromPostIdIndex, uint256 toPostIdIndex) view returns(string)
-func (_Contracts *ContractsCallerSession) DisplayBetween(account common.Address, metadataIndex uint8, fromPostIdIndex *big.Int, toPostIdIndex *big.Int) (string, error) {
-	return _Contracts.Contract.DisplayBetween(&_Contracts.CallOpts, account, metadataIndex, fromPostIdIndex, toPostIdIndex)
-}
-
-// DisplayByIndex is a free data retrieval call binding the contract method 0xd70fa5e4.
-//
-// Solidity: function displayByIndex(address account, uint8 metadataIndex) view returns(string)
-func (_Contracts *ContractsCaller) DisplayByIndex(opts *bind.CallOpts, account common.Address, metadataIndex uint8) (string, error) {
-	var out []interface{}
-	err := _Contracts.contract.Call(opts, &out, "displayByIndex", account, metadataIndex)
-
-	if err != nil {
-		return *new(string), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(string)).(*string)
-
-	return out0, err
-
-}
-
-// DisplayByIndex is a free data retrieval call binding the contract method 0xd70fa5e4.
-//
-// Solidity: function displayByIndex(address account, uint8 metadataIndex) view returns(string)
-func (_Contracts *ContractsSession) DisplayByIndex(account common.Address, metadataIndex uint8) (string, error) {
-	return _Contracts.Contract.DisplayByIndex(&_Contracts.CallOpts, account, metadataIndex)
-}
-
-// DisplayByIndex is a free data retrieval call binding the contract method 0xd70fa5e4.
-//
-// Solidity: function displayByIndex(address account, uint8 metadataIndex) view returns(string)
-func (_Contracts *ContractsCallerSession) DisplayByIndex(account common.Address, metadataIndex uint8) (string, error) {
-	return _Contracts.Contract.DisplayByIndex(&_Contracts.CallOpts, account, metadataIndex)
+// Solidity: function displayByMetadata(address account, string metadata) view returns(string)
+func (_Contracts *ContractsCallerSession) DisplayByMetadata(account common.Address, metadata string) (string, error) {
+	return _Contracts.Contract.DisplayByMetadata(&_Contracts.CallOpts, account, metadata)
 }
 
 // DistributionRightAddress is a free data retrieval call binding the contract method 0xac6919a5.
@@ -562,6 +464,37 @@ func (_Contracts *ContractsCallerSession) DistributionRightAddress() (common.Add
 	return _Contracts.Contract.DistributionRightAddress(&_Contracts.CallOpts)
 }
 
+// Inventories is a free data retrieval call binding the contract method 0x971e178d.
+//
+// Solidity: function inventories(address , string , uint256 ) view returns(uint256)
+func (_Contracts *ContractsCaller) Inventories(opts *bind.CallOpts, arg0 common.Address, arg1 string, arg2 *big.Int) (*big.Int, error) {
+	var out []interface{}
+	err := _Contracts.contract.Call(opts, &out, "inventories", arg0, arg1, arg2)
+
+	if err != nil {
+		return *new(*big.Int), err
+	}
+
+	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
+
+	return out0, err
+
+}
+
+// Inventories is a free data retrieval call binding the contract method 0x971e178d.
+//
+// Solidity: function inventories(address , string , uint256 ) view returns(uint256)
+func (_Contracts *ContractsSession) Inventories(arg0 common.Address, arg1 string, arg2 *big.Int) (*big.Int, error) {
+	return _Contracts.Contract.Inventories(&_Contracts.CallOpts, arg0, arg1, arg2)
+}
+
+// Inventories is a free data retrieval call binding the contract method 0x971e178d.
+//
+// Solidity: function inventories(address , string , uint256 ) view returns(uint256)
+func (_Contracts *ContractsCallerSession) Inventories(arg0 common.Address, arg1 string, arg2 *big.Int) (*big.Int, error) {
+	return _Contracts.Contract.Inventories(&_Contracts.CallOpts, arg0, arg1, arg2)
+}
+
 // MediaMetadata is a free data retrieval call binding the contract method 0x04caebc0.
 //
 // Solidity: function mediaMetadata(address , uint256 ) view returns(string)
@@ -591,6 +524,37 @@ func (_Contracts *ContractsSession) MediaMetadata(arg0 common.Address, arg1 *big
 // Solidity: function mediaMetadata(address , uint256 ) view returns(string)
 func (_Contracts *ContractsCallerSession) MediaMetadata(arg0 common.Address, arg1 *big.Int) (string, error) {
 	return _Contracts.Contract.MediaMetadata(&_Contracts.CallOpts, arg0, arg1)
+}
+
+// MetadataList is a free data retrieval call binding the contract method 0x7859427a.
+//
+// Solidity: function metadataList() view returns(string[])
+func (_Contracts *ContractsCaller) MetadataList(opts *bind.CallOpts) ([]string, error) {
+	var out []interface{}
+	err := _Contracts.contract.Call(opts, &out, "metadataList")
+
+	if err != nil {
+		return *new([]string), err
+	}
+
+	out0 := *abi.ConvertType(out[0], new([]string)).(*[]string)
+
+	return out0, err
+
+}
+
+// MetadataList is a free data retrieval call binding the contract method 0x7859427a.
+//
+// Solidity: function metadataList() view returns(string[])
+func (_Contracts *ContractsSession) MetadataList() ([]string, error) {
+	return _Contracts.Contract.MetadataList(&_Contracts.CallOpts)
+}
+
+// MetadataList is a free data retrieval call binding the contract method 0x7859427a.
+//
+// Solidity: function metadataList() view returns(string[])
+func (_Contracts *ContractsCallerSession) MetadataList() ([]string, error) {
+	return _Contracts.Contract.MetadataList(&_Contracts.CallOpts)
 }
 
 // NameRegistryAddress is a free data retrieval call binding the contract method 0x27b7a2f5.
@@ -715,37 +679,6 @@ func (_Contracts *ContractsSession) Owner() (common.Address, error) {
 // Solidity: function owner() view returns(address)
 func (_Contracts *ContractsCallerSession) Owner() (common.Address, error) {
 	return _Contracts.Contract.Owner(&_Contracts.CallOpts)
-}
-
-// Registered is a free data retrieval call binding the contract method 0x7aec57f3.
-//
-// Solidity: function registered(address , string ) view returns(bool)
-func (_Contracts *ContractsCaller) Registered(opts *bind.CallOpts, arg0 common.Address, arg1 string) (bool, error) {
-	var out []interface{}
-	err := _Contracts.contract.Call(opts, &out, "registered", arg0, arg1)
-
-	if err != nil {
-		return *new(bool), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(bool)).(*bool)
-
-	return out0, err
-
-}
-
-// Registered is a free data retrieval call binding the contract method 0x7aec57f3.
-//
-// Solidity: function registered(address , string ) view returns(bool)
-func (_Contracts *ContractsSession) Registered(arg0 common.Address, arg1 string) (bool, error) {
-	return _Contracts.Contract.Registered(&_Contracts.CallOpts, arg0, arg1)
-}
-
-// Registered is a free data retrieval call binding the contract method 0x7aec57f3.
-//
-// Solidity: function registered(address , string ) view returns(bool)
-func (_Contracts *ContractsCallerSession) Registered(arg0 common.Address, arg1 string) (bool, error) {
-	return _Contracts.Contract.Registered(&_Contracts.CallOpts, arg0, arg1)
 }
 
 // ReservedRightAddress is a free data retrieval call binding the contract method 0x29a594b5.
@@ -1891,15 +1824,14 @@ type ContractsNewPost struct {
 	PostId        *big.Int
 	Owner         common.Address
 	Metadata      string
-	MetadataIndex uint8
 	FromTimestamp *big.Int
 	ToTimestamp   *big.Int
 	Raw           types.Log // Blockchain specific contextual infos
 }
 
-// FilterNewPost is a free log retrieval operation binding the contract event 0xc98049608c45ad7f176282c68bffce5456433c3107d732377291e6758e79dec6.
+// FilterNewPost is a free log retrieval operation binding the contract event 0xe535a02a01920b38061e7785d5f3d4688d895a51cc21bb9e09b59a11d3befcfb.
 //
-// Solidity: event NewPost(uint256 postId, address owner, string metadata, uint8 metadataIndex, uint256 fromTimestamp, uint256 toTimestamp)
+// Solidity: event NewPost(uint256 postId, address owner, string metadata, uint256 fromTimestamp, uint256 toTimestamp)
 func (_Contracts *ContractsFilterer) FilterNewPost(opts *bind.FilterOpts) (*ContractsNewPostIterator, error) {
 
 	logs, sub, err := _Contracts.contract.FilterLogs(opts, "NewPost")
@@ -1909,9 +1841,9 @@ func (_Contracts *ContractsFilterer) FilterNewPost(opts *bind.FilterOpts) (*Cont
 	return &ContractsNewPostIterator{contract: _Contracts.contract, event: "NewPost", logs: logs, sub: sub}, nil
 }
 
-// WatchNewPost is a free log subscription operation binding the contract event 0xc98049608c45ad7f176282c68bffce5456433c3107d732377291e6758e79dec6.
+// WatchNewPost is a free log subscription operation binding the contract event 0xe535a02a01920b38061e7785d5f3d4688d895a51cc21bb9e09b59a11d3befcfb.
 //
-// Solidity: event NewPost(uint256 postId, address owner, string metadata, uint8 metadataIndex, uint256 fromTimestamp, uint256 toTimestamp)
+// Solidity: event NewPost(uint256 postId, address owner, string metadata, uint256 fromTimestamp, uint256 toTimestamp)
 func (_Contracts *ContractsFilterer) WatchNewPost(opts *bind.WatchOpts, sink chan<- *ContractsNewPost) (event.Subscription, error) {
 
 	logs, sub, err := _Contracts.contract.WatchLogs(opts, "NewPost")
@@ -1946,9 +1878,9 @@ func (_Contracts *ContractsFilterer) WatchNewPost(opts *bind.WatchOpts, sink cha
 	}), nil
 }
 
-// ParseNewPost is a log parse operation binding the contract event 0xc98049608c45ad7f176282c68bffce5456433c3107d732377291e6758e79dec6.
+// ParseNewPost is a log parse operation binding the contract event 0xe535a02a01920b38061e7785d5f3d4688d895a51cc21bb9e09b59a11d3befcfb.
 //
-// Solidity: event NewPost(uint256 postId, address owner, string metadata, uint8 metadataIndex, uint256 fromTimestamp, uint256 toTimestamp)
+// Solidity: event NewPost(uint256 postId, address owner, string metadata, uint256 fromTimestamp, uint256 toTimestamp)
 func (_Contracts *ContractsFilterer) ParseNewPost(log types.Log) (*ContractsNewPost, error) {
 	event := new(ContractsNewPost)
 	if err := _Contracts.contract.UnpackLog(event, "NewPost", log); err != nil {

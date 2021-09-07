@@ -8,7 +8,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -47,23 +46,19 @@ func main() {
 func toInput(request events.APIGatewayProxyRequest) (ad.GetInput, error) {
 	req := ad.GetInput{}
 	account := request.PathParameters["account"]
-	idx := request.PathParameters["index"]
+	metadata := request.PathParameters["metadata"]
 	if account == "" {
 		return req, errors.New("account required")
 	}
-	if idx == "" {
+	if metadata == "" {
 		return req, errors.New("index required")
 	}
-	i, err := strconv.Atoi(idx)
 	if !common.IsHexAddress(account) {
 		return req, errors.New("account should be hex address")
 	}
-	if err != nil {
-		return req, err
-	}
 	return ad.GetInput{
-		Account: account,
-		Index:   i,
+		Account:  account,
+		Metadata: metadata,
 	}, nil
 }
 

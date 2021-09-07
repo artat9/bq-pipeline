@@ -33,8 +33,8 @@ type (
 
 	// GetInput get input
 	GetInput struct {
-		Account string
-		Index   int
+		Account  string
+		Metadata string
 	}
 
 	// Uploader uploader
@@ -46,7 +46,7 @@ type (
 
 	// SmartContract smart contract
 	SmartContract interface {
-		DisplayByIndex(ctx context.Context, input GetInput) (string, error)
+		DisplayByMetadata(ctx context.Context, input GetInput) (string, error)
 	}
 )
 
@@ -67,7 +67,7 @@ func NewWithContract(uploader Uploader, contract SmartContract) *Service {
 
 // Get Get metadata
 func (s *Service) Get(ctx context.Context, input GetInput) (Output, error) {
-	meta, err := s.contract.DisplayByIndex(ctx, input)
+	meta, err := s.contract.DisplayByMetadata(ctx, input)
 	return Output{
 		Metadata: meta,
 	}, err
