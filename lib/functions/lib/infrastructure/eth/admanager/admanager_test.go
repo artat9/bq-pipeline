@@ -20,7 +20,7 @@ func TestDisplayByIndex(t *testing.T) {
 		p, _ := NewProvider()
 		meta, err := p.DisplayByMetadata(context.Background(), ad.GetInput{
 			Account:  "0xb5bE22F33D8f0b1Cc131674C562069D1B5912147",
-			Metadata: "",
+			Metadata: "Qqyqz2cbONJhsFWU_0bTH2x0b1Hsyl2oD_rMVRyREt8",
 		})
 		if err != nil {
 			t.Error(err)

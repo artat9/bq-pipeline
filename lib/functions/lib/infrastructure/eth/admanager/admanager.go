@@ -3,7 +3,7 @@ package admanager
 import (
 	"aurora-backend/lib/functions/lib/ad"
 	"aurora-backend/lib/functions/lib/common/log"
-	"aurora-backend/lib/functions/lib/contracts"
+	contracts "aurora-backend/lib/functions/lib/contracts/adm"
 	"context"
 	"os"
 
@@ -40,6 +40,7 @@ func (p Provider) DisplayByMetadata(ctx context.Context, input ad.GetInput) (str
 		return "", err
 	}
 	metadata, err := ad.DisplayByMetadata(callOpts(ctx), common.HexToAddress(input.Account), input.Metadata)
+
 	if err != nil {
 		log.Error("display by index failed", err)
 		return "", err

@@ -51,7 +51,7 @@ func toInput(request events.APIGatewayProxyRequest) (ad.GetInput, error) {
 		return req, errors.New("account required")
 	}
 	if metadata == "" {
-		return req, errors.New("index required")
+		return req, errors.New("metadata required")
 	}
 	if !common.IsHexAddress(account) {
 		return req, errors.New("account should be hex address")

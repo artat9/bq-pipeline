@@ -62,7 +62,7 @@ export class RestApiStack extends cdk.Stack {
     const getad = api.root
       .resourceForPath("ad")
       .addResource("{account}")
-      .addResource("{index}");
+      .addResource("{metadata}");
     getad.addMethod(
       "GET",
       new LambdaIntegration(lambdaFunction(this, "getad", target))
