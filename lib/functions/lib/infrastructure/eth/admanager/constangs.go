@@ -1,3 +1,3 @@
 package admanager
 
-const admanagerAddress = "0x7bddCc0Bc81d2D37819301C79165EB39f46c95e3"
+const admanagerAddress = "0xa17C1648E57Bd14aB2259828BbCC6Faa12673740"

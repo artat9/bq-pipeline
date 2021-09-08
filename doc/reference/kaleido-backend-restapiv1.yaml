@@ -71,6 +71,23 @@ paths:
             examples: {}
       parameters: []
     parameters: []
+  "/right/{postId}":
+    get:
+      responses:
+        "200":
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Owner"
+    parameters:
+      - schema:
+          type: string
+        name: postId
+        in: path
+        required: true
+        description: postId
 components:
   schemas:
     Metadata:
@@ -82,6 +99,14 @@ components:
           minLength: 1
       required:
         - metadata
+    Owner:
+      description: ""
+      type: object
+      properties:
+        owner:
+          type: string
+          minLength: 0
+          description: Owner of DistributionRight
     AdSpecifications:
       title: AdSpecifications
       type: object
