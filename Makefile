@@ -9,7 +9,8 @@ setup:
 	cd kaleido-core && yarn && npx hardhat compile
 
 abi:
-	abigen --abi kaleido-core/abi/contracts/AdManager.sol/AdManager.json --pkg contracts --out lib/functions/lib/contracts/admanager.go	--alias bid=bid1, _bid=bid2
+	abigen --abi kaleido-core/abi/contracts/AdManager.sol/AdManager.json --pkg contracts --out lib/functions/lib/contracts/adm/admanager.go	--alias bid=bid1, _bid=bid2
+	abigen --abi kaleido-core/abi/contracts/token/DistributionRight.sol/DistributionRight.json --pkg contracts --out lib/functions/lib/contracts/right/right.go
 
 build: 
 	export GO111MODULE=on
