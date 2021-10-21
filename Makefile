@@ -1,5 +1,5 @@
 .PHONY: setup build deploy
-TARGET = dev
+TARGET = v1dev
 
 setup:
 	export GO111MODULE=on
@@ -27,7 +27,7 @@ build:
 			echo  "building finished. $${module_dir}";\
 	done
 deploy: 
-	cdk deploy -c target=dev --all --require-approval never
+	cdk deploy -c target=v1dev --all --require-approval never
 
 deploy_env: 
 	cdk deploy -c target=$${TARGET} --all --require-approval never

@@ -4,6 +4,7 @@ export enum Environments {
   PROD = "prod",
   DEV = "dev",
   TEST = "test",
+  V1DEV = "v1dev",
 }
 export interface EnvironmentVariables {
   rootDomain: string;
@@ -30,6 +31,14 @@ const EnvironmentVariablesSetting: {
       "arn:aws:acm:us-east-1:495476032358:certificate/c635e3e6-7cc5-4777-b0a9-57317a70e9c2",
     rootDomain: "kaleido-dev.tk",
     hostedZoneId: "Z04820191RSTGGR5Z7MK0",
+    allowedOrigin: "https://kaleido-webfront-git-dev-squard.vercel.app",
+    deployBranchName: "dev",
+  },
+  [Environments.V1DEV]: {
+    certificateArn:
+      " arn:aws:acm:us-east-1:495476032358:certificate/8fa91de5-4a8f-49f7-805c-00115331cb11",
+    rootDomain: "kaleido-v1dev.tk",
+    hostedZoneId: "Z091214115E67KFJTODY4",
     allowedOrigin: "https://kaleido-webfront-git-dev-squard.vercel.app",
     deployBranchName: "dev",
   },
