@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`resource created 1`] = `
+Object {
+  "Resources": Object {
+    "GraphqlApi1B6CF24C": Object {
+      "Properties": Object {
+        "AuthenticationType": "API_KEY",
+        "LogConfig": Object {
+          "CloudWatchLogsRoleArn": Object {
+            "Fn::GetAtt": Array [
+              "GraphqlApiApiLogsRoleBB9E6BAD",
+              "Arn",
+            ],
+          },
+          "ExcludeVerboseContent": false,
+          "FieldLogLevel": "ALL",
+        },
+        "Name": "kaleido-backend-GraphqlApi-test",
+        "XrayEnabled": true,
+      },
+      "Type": "AWS::AppSync::GraphQLApi",
+    },
+    "GraphqlApiApiLogsRoleBB9E6BAD": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "appsync.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSAppSyncPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "GraphqlApiDefaultApiKey47EE7128": Object {
+      "DependsOn": Array [
+        "GraphqlApiSchema1B71CE4F",
+      ],
+      "Properties": Object {
+        "ApiId": Object {
+          "Fn::GetAtt": Array [
+            "GraphqlApi1B6CF24C",
+            "ApiId",
+          ],
+        },
+        "Description": "default",
+        "Expires": 1666322861,
+      },
+      "Type": "AWS::AppSync::ApiKey",
+    },
+    "GraphqlApiSchema1B71CE4F": Object {
+      "Properties": Object {
+        "ApiId": Object {
+          "Fn::GetAtt": Array [
+            "GraphqlApi1B6CF24C",
+            "ApiId",
+          ],
+        },
+        "Definition": "type Query {
+}
+
+",
+      },
+      "Type": "AWS::AppSync::GraphQLSchema",
+    },
+  },
+}
+`;
