@@ -29,10 +29,11 @@ export class ApiStack extends cdk.Stack {
     scope: cdk.Construct,
     id: string,
     target: environment.Environments,
-    props?: cdk.StackProps
+    props: ApiProps
   ) {
     super(scope, id, props);
     const api = new GraphqlApi(this, "GraphqlApi", apiProps(target));
+    withDDBResolvers(api, dDBDataSource(api, target, props));
   }
 }
 
@@ -42,7 +43,7 @@ const withDDBResolvers = (
 ) => {
   api.createResolver({
     typeName: "Query",
-    fieldName: "getProperty",
+    fieldName: "getUser",
     dataSource: ddbDataSource,
     requestMappingTemplate: MappingTemplate.fromFile(
       join(
@@ -50,7 +51,7 @@ const withDDBResolvers = (
         "schema",
         "resolvers",
         "public",
-        "getProperty" + ".request.vtl"
+        "getUser" + ".request.vtl"
       )
     ),
     responseMappingTemplate: MappingTemplate.fromFile(
@@ -59,76 +60,7 @@ const withDDBResolvers = (
         "schema",
         "resolvers",
         "public",
-        "getProperty" + ".response.vtl"
-      )
-    ),
-  });
-  api.createResolver({
-    typeName: "Query",
-    fieldName: "listArticleCreators",
-    dataSource: ddbDataSource,
-    requestMappingTemplate: MappingTemplate.fromFile(
-      join(
-        __dirname,
-        "schema",
-        "resolvers",
-        "public",
-        "listArticleCreators" + ".request.vtl"
-      )
-    ),
-    responseMappingTemplate: MappingTemplate.fromFile(
-      join(
-        __dirname,
-        "schema",
-        "resolvers",
-        "public",
-        "listArticleCreators" + ".response.vtl"
-      )
-    ),
-  });
-  api.createResolver({
-    typeName: "Query",
-    fieldName: "listLocations",
-    dataSource: ddbDataSource,
-    requestMappingTemplate: MappingTemplate.fromFile(
-      join(
-        __dirname,
-        "schema",
-        "resolvers",
-        "public",
-        "listLocations" + ".request.vtl"
-      )
-    ),
-    responseMappingTemplate: MappingTemplate.fromFile(
-      join(
-        __dirname,
-        "schema",
-        "resolvers",
-        "public",
-        "listLocations" + ".response.vtl"
-      )
-    ),
-  });
-  api.createResolver({
-    typeName: "Query",
-    fieldName: "listTags",
-    dataSource: ddbDataSource,
-    requestMappingTemplate: MappingTemplate.fromFile(
-      join(
-        __dirname,
-        "schema",
-        "resolvers",
-        "public",
-        "listTags" + ".request.vtl"
-      )
-    ),
-    responseMappingTemplate: MappingTemplate.fromFile(
-      join(
-        __dirname,
-        "schema",
-        "resolvers",
-        "public",
-        "listTags" + ".response.vtl"
+        "getUser" + ".response.vtl"
       )
     ),
   });

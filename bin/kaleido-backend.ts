@@ -20,9 +20,11 @@ new CertificateStack(
   target
 );
 new RestApiStack(app, environment.withEnvPrefix(target, "restapi"), target);
-new DataSourceStack(
+const ds = new DataSourceStack(
   app,
   environment.withEnvPrefix(target, "datasource"),
   target
 );
-new ApiStack(app, environment.withEnvPrefix(target, "graphqlapi"), target);
+new ApiStack(app, environment.withEnvPrefix(target, "graphqlapi"), target, {
+  ddb: ds.ddb,
+});

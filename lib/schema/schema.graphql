@@ -1,3 +1,9 @@
 type Query {
+  getUser(address: String!): User
+}
+
+type User {
+  address: String!
+  nonce: String!
 }
 

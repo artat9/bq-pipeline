@@ -64,7 +64,7 @@ Object {
           ],
         },
         "Description": "default",
-        "Expires": 1666322861,
+        "Expires": 1666324008,
       },
       "Type": "AWS::AppSync::ApiKey",
     },

@@ -1,0 +1,14 @@
+
+#set($address = "")
+#set($nonce="")
+#if ($ctx.result.items.size() == 0)
+    #return
+#end
+#foreach($item in $ctx.result.items)
+    #set($address =  $util.str.toReplace($item.PK, "User:", ""))
+    #set($nonce =  $item.Nonce)
+#end
+{
+  "address": $util.toJson($address),
+  "nonce": $util.toJson($nonce)
+}
