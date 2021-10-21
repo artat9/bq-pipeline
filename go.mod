@@ -12,6 +12,7 @@ require (
 	github.com/aws/constructs-go/constructs/v3 v3.3.119
 	github.com/aws/jsii-runtime-go v1.32.0
 	github.com/ethereum/go-ethereum v1.10.8
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/machinebox/graphql v0.2.2 // indirect
 	github.com/matryer/is v1.4.0 // indirect

@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/golang-jwt/jwt"
 )
 
 func TestNew(t *testing.T) {
@@ -16,8 +17,13 @@ func TestNew(t *testing.T) {
 		}
 	})
 	t.Run("nonce should be a random value", func(t *testing.T) {
-		if u1.Nonce.Cmp(&u2.Nonce) == 0 {
+		if u1.Nonce.Cmp(u2.Nonce) == 0 {
 			t.Error("got:", u1.Nonce)
 		}
 	})
+	jwt.NewWithClaims(&jwt.SigningMethodEd25519{}, jwt.MapClaims{})
+}
+
+func TestNewService(t *testing.T) {
+
 }
