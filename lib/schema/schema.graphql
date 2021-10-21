@@ -1,8 +1,8 @@
 type Query {
-  getUser(address: String!): User
+  getAccount(address: String!): Account
 }
 
-type User {
+type Account {
   address: String!
   nonce: String!
 }

@@ -64,9 +64,55 @@ Object {
           ],
         },
         "Description": "default",
-        "Expires": 1666324008,
+        "Expires": 1666338132,
       },
       "Type": "AWS::AppSync::ApiKey",
+    },
+    "GraphqlApiQuerygetAccountResolver244E426B": Object {
+      "DependsOn": Array [
+        "GraphqlApimain6079C13B",
+        "GraphqlApiSchema1B71CE4F",
+      ],
+      "Properties": Object {
+        "ApiId": Object {
+          "Fn::GetAtt": Array [
+            "GraphqlApi1B6CF24C",
+            "ApiId",
+          ],
+        },
+        "DataSourceName": "ddb",
+        "FieldName": "getAccount",
+        "Kind": "UNIT",
+        "RequestMappingTemplate": "{
+    "version" : "2017-02-28",
+    "operation" : "Query",
+    "query" : {
+        ## Provide a query expression. **
+        "expression": "PK = :PK",
+        "expressionValues" : {
+            ":PK" : $util.dynamodb.toDynamoDBJson("User:\${context.arguments.address}")
+        }
+    },
+}
+",
+        "ResponseMappingTemplate": "
+#set($address = "")
+#set($nonce="")
+#if ($ctx.result.items.size() == 0)
+    #return
+#end
+#foreach($item in $ctx.result.items)
+    #set($address =  $util.str.toReplace($item.PK, "User:", ""))
+    #set($nonce =  $item.Nonce)
+#end
+{
+  "address": $util.toJson($address),
+  "nonce": $util.toJson($nonce)
+}
+",
+        "TypeName": "Query",
+      },
+      "Type": "AWS::AppSync::Resolver",
     },
     "GraphqlApiSchema1B71CE4F": Object {
       "Properties": Object {
@@ -77,11 +123,105 @@ Object {
           ],
         },
         "Definition": "type Query {
+  getAccount(address: String!): Account
+}
+
+type Account {
+  address: String!
+  nonce: String!
 }
 
 ",
       },
       "Type": "AWS::AppSync::GraphQLSchema",
+    },
+    "GraphqlApimain6079C13B": Object {
+      "Properties": Object {
+        "ApiId": Object {
+          "Fn::GetAtt": Array [
+            "GraphqlApi1B6CF24C",
+            "ApiId",
+          ],
+        },
+        "DynamoDBConfig": Object {
+          "AwsRegion": Object {
+            "Ref": "AWS::Region",
+          },
+          "TableName": Object {
+            "Fn::ImportValue": "ds:ExportsOutputRefkaleidobackendmaintest9352CC46D953DB2A",
+          },
+        },
+        "Name": "ddb",
+        "ServiceRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "GraphqlApimainServiceRole47381CDD",
+            "Arn",
+          ],
+        },
+        "Type": "AMAZON_DYNAMODB",
+      },
+      "Type": "AWS::AppSync::DataSource",
+    },
+    "GraphqlApimainServiceRole47381CDD": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "appsync.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "GraphqlApimainServiceRoleDefaultPolicy24D667BC": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::ImportValue": "ds:ExportsOutputFnGetAttkaleidobackendmaintest9352CC46Arn7DF614B1",
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::ImportValue": "ds:ExportsOutputFnGetAttkaleidobackendmaintest9352CC46Arn7DF614B1",
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "GraphqlApimainServiceRoleDefaultPolicy24D667BC",
+        "Roles": Array [
+          Object {
+            "Ref": "GraphqlApimainServiceRole47381CDD",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
   },
 }

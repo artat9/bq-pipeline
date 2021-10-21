@@ -43,7 +43,7 @@ const withDDBResolvers = (
 ) => {
   api.createResolver({
     typeName: "Query",
-    fieldName: "getUser",
+    fieldName: "getAccount",
     dataSource: ddbDataSource,
     requestMappingTemplate: MappingTemplate.fromFile(
       join(
@@ -51,7 +51,7 @@ const withDDBResolvers = (
         "schema",
         "resolvers",
         "public",
-        "getUser" + ".request.vtl"
+        "getAccount" + ".request.vtl"
       )
     ),
     responseMappingTemplate: MappingTemplate.fromFile(
@@ -60,7 +60,7 @@ const withDDBResolvers = (
         "schema",
         "resolvers",
         "public",
-        "getUser" + ".response.vtl"
+        "getAccount" + ".response.vtl"
       )
     ),
   });
