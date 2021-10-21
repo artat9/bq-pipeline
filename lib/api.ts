@@ -1,7 +1,5 @@
 import {
   AuthorizationType,
-  CfnDataSource,
-  CfnResolver,
   DynamoDbDataSource,
   FieldLogLevel,
   GraphqlApi,
@@ -22,8 +20,6 @@ import { join, resolve } from "path";
 import * as environment from "./env";
 import IAM = require("@aws-cdk/aws-iam");
 interface ApiProps extends cdk.StackProps {
-  esArn: string;
-  esEndPoint: string;
   ddb: dynamodb.Table;
 }
 
@@ -174,65 +170,12 @@ const apiDefaultRole = (
   target: environment.Environments,
   props: ApiProps
 ) => {
-  const polStatement = defaultApiStatement(props);
-  const policy = new IAM.Policy(
-    api,
-    environment.withEnvPrefix(target, "pol-appsync-default"),
-    {
-      policyName: environment.withEnvPrefix(target, "appsync-default"),
-      statements: [polStatement],
-    }
-  );
   const serviceRole = new IAM.Role(api, "appsyncServiceRole", {
     assumedBy: new IAM.ServicePrincipal("appsync.amazonaws.com"),
     path: "/service-role/",
     roleName: environment.withEnvPrefix(target, "appsyncDefaultRole"),
   });
-  serviceRole.attachInlinePolicy(policy);
   return serviceRole;
-};
-
-const withEsQueryResolvers = (
-  api: GraphqlApi,
-  names: string[],
-  target: environment.Environments,
-  props: ApiProps
-) => {
-  const es = esDataSource(api, target, props);
-  names.forEach((e) => {
-    const res = new CfnResolver(api, e + "Resolver", {
-      apiId: api.apiId,
-      fieldName: e,
-      typeName: "Query",
-      dataSourceName: es.name,
-      kind: "UNIT",
-      requestMappingTemplate: MappingTemplate.fromFile(
-        join(__dirname, "schema", "resolvers", "public", e + ".request.vtl")
-      ).renderTemplate(),
-      responseMappingTemplate: MappingTemplate.fromFile(
-        join(__dirname, "schema", "resolvers", "public", e + ".response.vtl")
-      ).renderTemplate(),
-    });
-    res.addDependsOn(es);
-  });
-};
-
-const esDataSource = (
-  api: GraphqlApi,
-  target: environment.Environments,
-  props: ApiProps
-) => {
-  const role = apiDefaultRole(api, target, props);
-  return new CfnDataSource(api, "datasource-es", {
-    apiId: api.apiId,
-    name: "es",
-    type: "AMAZON_ELASTICSEARCH",
-    elasticsearchConfig: {
-      awsRegion: "ap-northeast-1",
-      endpoint: "https://" + props.esEndPoint,
-    },
-    serviceRoleArn: role.roleArn,
-  });
 };
 
 const withLambdaQueryResolvers = (
@@ -243,14 +186,6 @@ const withLambdaQueryResolvers = (
     const f = new Function(input.stack, n, funcProps(n, n, input.target));
     f.addToRolePolicy(input.functionRole);
     api.addLambdaDataSource(n, f).createResolver(queryResolver(n));
-  });
-};
-
-const defaultApiStatement = (props: ApiProps) => {
-  return new IAM.PolicyStatement({
-    effect: IAM.Effect.ALLOW,
-    actions: ["es:*"],
-    resources: [props.esArn + "/*"],
   });
 };
 
