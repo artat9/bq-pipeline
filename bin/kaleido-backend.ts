@@ -4,6 +4,7 @@ import * as environment from "../lib/env";
 import { RestApiStack } from "../lib/restapi";
 import { Route53Stack } from "../lib/route53";
 import { ApiStack } from "./../lib/api";
+import { DataSourceStack } from "./../lib/datasource";
 
 const app = new cdk.App();
 const target: environment.Environments = app.node.tryGetContext(
@@ -19,4 +20,9 @@ new CertificateStack(
   target
 );
 new RestApiStack(app, environment.withEnvPrefix(target, "restapi"), target);
+new DataSourceStack(
+  app,
+  environment.withEnvPrefix(target, "datasource"),
+  target
+);
 new ApiStack(app, environment.withEnvPrefix(target, "graphqlapi"), target);
