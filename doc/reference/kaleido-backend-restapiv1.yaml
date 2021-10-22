@@ -10,7 +10,7 @@ servers:
   - url: 'https://api.kaleido.org'
     description: prod
 paths:
-  /sign:
+  /account/sign:
     post:
       summary: Sign in/Sign up
       operationId: post-sign
@@ -30,6 +30,28 @@ paths:
               $ref: '#/components/schemas/SignInput'
             examples: {}
       parameters: []
+    parameters: []
+  /account/reflesh:
+    post:
+      summary: Reflesh token
+      operationId: post-reflesh
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefleshOutput'
+        '401':
+          description: UnAuthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefleshInput'
+            examples: {}
+      parameters: []
+    parameters: []
   /ad:
     post:
       summary: Upload Ad
@@ -138,6 +160,15 @@ components:
         - accessToekn
         - refleshToken
         - address
+    RefleshOutput:
+      description: ''
+      type: object
+      properties:
+        accessToken:
+          type: string
+          minLength: 1
+      required:
+        - accessToekn
     Owner:
       description: ''
       type: object
@@ -170,6 +201,14 @@ components:
       required:
         - msg
         - sig
+    RefleshInput:
+      title: RefleshInput
+      type: object
+      properties:
+        refleshToken:
+          type: string
+      required:
+        - refleshToken
     PostInput:
       title: PostInput
       type: object
