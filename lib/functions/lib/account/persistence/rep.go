@@ -6,6 +6,7 @@ import (
 	"kaleido-backend/lib/functions/lib/common/log"
 	"kaleido-backend/lib/functions/lib/infrastructure/ddb"
 
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/guregu/dynamo"
 )
 
@@ -47,4 +48,8 @@ func fromAccount(ac account.Account) DDBAccount {
 	return DDBAccount{
 		SimpleEntry: ddb.NewSimpleEntry(pkPrefix+ac.Address.Hex(), sk, ac.Nonce.String()),
 	}
+}
+
+func (r Repository) FromAddress(ctx context.Context, eoa common.Address) (ac account.Account, err error) {
+	return account.Account{}, nil
 }

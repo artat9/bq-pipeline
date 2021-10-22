@@ -3,33 +3,32 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"kaleido-backend/lib/functions/lib"
-	"kaleido-backend/lib/functions/lib/ad"
-	"kaleido-backend/lib/functions/lib/infrastructure/arweave"
-	"kaleido-backend/lib/functions/lib/infrastructure/eth/admanager"
+	"kaleido-backend/lib/functions/lib/account"
+	accountrep "kaleido-backend/lib/functions/lib/account/persistence"
+	"kaleido-backend/lib/functions/lib/common/log"
+	"kaleido-backend/lib/functions/lib/infrastructure/auth"
+	"kaleido-backend/lib/functions/lib/infrastructure/ddb"
+	"kaleido-backend/lib/functions/lib/infrastructure/signature"
+	"kaleido-backend/lib/functions/lib/infrastructure/ssm"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/ethereum/go-ethereum/common"
 )
 
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	req, err := toInput(request)
 	if err != nil {
-		return unexpectedErrorAsNotFound(request, err), err
+		return unauthorized(request, err), nil
 	}
 	app, err := newApp(ctx)
 	if err != nil {
-		return unexpectedErrorAsNotFound(request, err), err
+		log.Error("initialization failed", err)
+		return unauthorized(request, err), err
 	}
-	res, err := app.Get(ctx, req)
+	res, err := app.Sign(ctx, req)
 	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: 500,
-			Headers:    lib.Headers(request),
-			Body:       "unknown error",
-		}, err
+		return unauthorized(request, err), nil
 	}
 	resJSON, _ := json.Marshal(&res)
 	return events.APIGatewayProxyResponse{
@@ -43,39 +42,25 @@ func main() {
 	lambda.Start(handler)
 }
 
-func toInput(request events.APIGatewayProxyRequest) (ad.GetInput, error) {
-	req := ad.GetInput{}
-	account := request.PathParameters["account"]
-	metadata := request.PathParameters["metadata"]
-	if account == "" {
-		return req, errors.New("account required")
+func toInput(request events.APIGatewayProxyRequest) (account.SignInInput, error) {
+	req := account.SignInInput{}
+	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
+		log.Error("json unmarshal faile", err)
+		return account.SignInInput{}, err
 	}
-	if metadata == "" {
-		return req, errors.New("index required")
-	}
-	if !common.IsHexAddress(account) {
-		return req, errors.New("account should be hex address")
-	}
-	return ad.GetInput{
-		Account:  account,
-		Metadata: metadata,
-	}, nil
+	return req, nil
 }
 
-func newApp(ctx context.Context) (*ad.Service, error) {
-	cli, err := arweave.NewClient()
+func newApp(ctx context.Context) (account.SignService, error) {
+	sig, err := auth.NewSigner(ctx, ssm.New())
 	if err != nil {
-		return &ad.Service{}, err
+		return account.SignService{}, err
 	}
-	contract, err := admanager.NewProvider()
-	if err != nil {
-		return &ad.Service{}, err
-	}
-	return ad.NewWithContract(cli, contract), nil
+	return account.NewSignService(signature.SignedMessage{}, accountrep.New(ddb.New()), sig), nil
 }
 
-func unexpectedErrorAsNotFound(request events.APIGatewayProxyRequest, err error) events.APIGatewayProxyResponse {
-	return anyError(request, 404, err)
+func unauthorized(request events.APIGatewayProxyRequest, err error) events.APIGatewayProxyResponse {
+	return anyError(request, 401, err)
 }
 
 func anyError(request events.APIGatewayProxyRequest, code int, err error) events.APIGatewayProxyResponse {
@@ -84,8 +69,4 @@ func anyError(request events.APIGatewayProxyRequest, code int, err error) events
 		Headers:    lib.Headers(request),
 		Body:       err.Error(),
 	}
-}
-
-func clientError(request events.APIGatewayProxyRequest, err error) events.APIGatewayProxyResponse {
-	return anyError(request, 400, err)
 }

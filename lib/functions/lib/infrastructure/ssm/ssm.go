@@ -32,8 +32,8 @@ func New() Client {
 	}
 }
 
-// Secret signing secret
-func (c Client) Secret(ctx context.Context) ([]byte, error) {
+// SigningSecret signing secret
+func (c Client) SigningSecret(ctx context.Context) ([]byte, error) {
 	k, err := c.get(ctx, withEnvSuffix(signingSecret))
 	if err != nil {
 		log.Error("get value failed", err)

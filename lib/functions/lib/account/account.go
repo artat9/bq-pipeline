@@ -56,10 +56,11 @@ type (
 )
 
 // NewSignService new servcice
-func NewSignService(v AddressVerifier, r Repository) SignService {
+func NewSignService(v AddressVerifier, r Repository, s Signer) SignService {
 	return SignService{
 		verifier: v,
 		rep:      r,
+		signer:   s,
 	}
 }
 
