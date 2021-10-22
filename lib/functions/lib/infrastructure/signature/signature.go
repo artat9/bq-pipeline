@@ -16,8 +16,8 @@ type (
 	SignedMessage struct{}
 )
 
-// Recover recover EOA And Claim information from input
-func (s SignedMessage) Recover(msg, sig string) (common.Address, error) {
+// RecoverAddress recover EOA And Claim information from input
+func (s SignedMessage) RecoverAddress(msg, sig string) (common.Address, error) {
 	return recoverFrom(msg, sig)
 }
 

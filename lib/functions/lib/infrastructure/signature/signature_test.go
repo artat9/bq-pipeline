@@ -12,7 +12,7 @@ const (
 
 func TestRecover(t *testing.T) {
 	t.Run("recover address", func(t *testing.T) {
-		addr, err := SignedMessage{}.Recover(message, messageSignature)
+		addr, err := SignedMessage{}.RecoverAddress(message, messageSignature)
 		if err != nil {
 			t.Error(err)
 		}
