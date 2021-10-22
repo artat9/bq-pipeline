@@ -19,7 +19,7 @@ type (
 
 // NewVerifier new verifier
 func NewVerifier(ctx context.Context, sec SecretResolver) (Verifier, error) {
-	secret, err := sec.Secret(ctx)
+	secret, err := sec.SigningSecret(ctx)
 	if err != nil {
 		return Verifier{}, err
 	}

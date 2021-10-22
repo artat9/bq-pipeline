@@ -44,7 +44,7 @@ func TestNewVerifier(t *testing.T) {
 }
 
 func TestVerifier_Verify(t *testing.T) {
-	secret, _ := fixedFakeSecretResolver().Secret(context.TODO())
+	secret, _ := fixedFakeSecretResolver().SigningSecret(context.TODO())
 	type fields struct {
 		secret []byte
 		cl     Clock

@@ -32,7 +32,7 @@ func (fr fakeResolver) RecoverAddress(msg, sig string) (common.Address, error) {
 	return fr.recoverAddressFunc(msg, sig)
 }
 
-func (fs fakeSecretResolver) Secret(ctx context.Context) ([]byte, error) {
+func (fs fakeSecretResolver) SigningSecret(ctx context.Context) ([]byte, error) {
 	return fs.resolveFunc(ctx)
 }
 

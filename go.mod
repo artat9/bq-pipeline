@@ -7,12 +7,14 @@ require (
 	github.com/aws/aws-cdk-go/awscdk v1.118.0-devpreview
 	github.com/aws/aws-cdk-go/awscdk/v2 v2.0.0-rc.16
 	github.com/aws/aws-lambda-go v1.26.0
+	github.com/aws/aws-sdk-go v1.41.8
 	github.com/aws/constructs-go/constructs/v10 v10.0.5
 	github.com/aws/constructs-go/constructs/v3 v3.3.119
 	github.com/aws/jsii-runtime-go v1.32.0
-	github.com/ethereum/go-ethereum v1.10.8
+	github.com/ethereum/go-ethereum v1.10.11
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang-jwt/jwt/v4 v4.1.0
+	github.com/pkg/errors v0.9.1
 	github.com/qmuntal/gltf v0.20.2
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.7.0
@@ -29,6 +31,7 @@ require (
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/mendsley/gojwk v0.0.0-20141217222730-4d5ec6e58103 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rjeczalik/notify v0.9.1 // indirect
@@ -39,7 +42,7 @@ require (
 	github.com/tklauser/numcpus v0.2.2 // indirect
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
 	golang.org/x/sys v0.0.0-20210823070655-63515b42dcdf // indirect
-	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
+	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 )

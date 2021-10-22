@@ -31,7 +31,7 @@ type (
 	}
 	// SecretResolver resolver for secret
 	SecretResolver interface {
-		Secret(ctx context.Context) ([]byte, error)
+		SigningSecret(ctx context.Context) ([]byte, error)
 	}
 	realClock struct{}
 )
@@ -40,7 +40,7 @@ func (r realClock) Now() time.Time { return time.Now() }
 
 // NewSigner new signer
 func NewSigner(ctx context.Context, re Resolver, sec SecretResolver) (Signer, error) {
-	secret, err := sec.Secret(ctx)
+	secret, err := sec.SigningSecret(ctx)
 	if err != nil {
 		return Signer{}, err
 	}
