@@ -1,14 +1,14 @@
 package arweave
 
 import (
-	"aurora-backend/lib/functions/lib/ad"
-	"aurora-backend/lib/functions/lib/common/log"
-	"aurora-backend/lib/functions/lib/klimg"
-	"aurora-backend/lib/functions/lib/post"
 	"context"
 	"encoding/json"
 	"errors"
 	"io/ioutil"
+	"kaleido-backend/lib/functions/lib/ad"
+	"kaleido-backend/lib/functions/lib/common/log"
+	"kaleido-backend/lib/functions/lib/klimg"
+	"kaleido-backend/lib/functions/lib/post"
 	"net/http"
 	"strings"
 

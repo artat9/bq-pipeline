@@ -1,8 +1,8 @@
 package right
 
 import (
-	"aurora-backend/lib/functions/lib/common/log"
 	"context"
+	"kaleido-backend/lib/functions/lib/common/log"
 )
 
 type (

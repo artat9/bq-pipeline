@@ -1,8 +1,8 @@
 package main
 
 import (
-	"aurora-backend/lib/functions/lib"
 	"context"
+	"kaleido-backend/lib/functions/lib"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"

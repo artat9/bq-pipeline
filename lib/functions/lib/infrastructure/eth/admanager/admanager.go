@@ -1,10 +1,10 @@
 package admanager
 
 import (
-	"aurora-backend/lib/functions/lib/ad"
-	"aurora-backend/lib/functions/lib/common/log"
-	contracts "aurora-backend/lib/functions/lib/contracts/adm"
 	"context"
+	"kaleido-backend/lib/functions/lib/ad"
+	"kaleido-backend/lib/functions/lib/common/log"
+	contracts "kaleido-backend/lib/functions/lib/contracts/adm"
 	"os"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"

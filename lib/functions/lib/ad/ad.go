@@ -1,8 +1,8 @@
 package ad
 
 import (
-	"aurora-backend/lib/functions/lib/klimg"
 	"context"
+	"kaleido-backend/lib/functions/lib/klimg"
 )
 
 type (

@@ -1,13 +1,13 @@
 package main
 
 import (
-	"aurora-backend/lib/functions/lib"
-	"aurora-backend/lib/functions/lib/ad"
-	"aurora-backend/lib/functions/lib/infrastructure/arweave"
-	"aurora-backend/lib/functions/lib/infrastructure/eth/admanager"
 	"context"
 	"encoding/json"
 	"errors"
+	"kaleido-backend/lib/functions/lib"
+	"kaleido-backend/lib/functions/lib/ad"
+	"kaleido-backend/lib/functions/lib/infrastructure/arweave"
+	"kaleido-backend/lib/functions/lib/infrastructure/eth/admanager"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"

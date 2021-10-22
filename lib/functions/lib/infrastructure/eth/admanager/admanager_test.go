@@ -1,8 +1,8 @@
 package admanager
 
 import (
-	"aurora-backend/lib/functions/lib/ad"
 	"context"
+	"kaleido-backend/lib/functions/lib/ad"
 	"testing"
 )
 

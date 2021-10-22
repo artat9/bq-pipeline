@@ -1,8 +1,8 @@
 package post
 
 import (
-	"aurora-backend/lib/functions/lib/klimg"
 	"context"
+	"kaleido-backend/lib/functions/lib/klimg"
 	"net/http"
 )
 
