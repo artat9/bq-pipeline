@@ -29,6 +29,19 @@ type (
 		verifier AddressVerifier
 		rep      Repository
 	}
+
+	// SignInInput input for signIn
+	SignInInput struct {
+		Msg string `json:"msg"`
+		Sig string `json:"sig"`
+	}
+
+	// SignInOutput output for signin
+	SignInOutput struct {
+		Account
+		AccessToken  string `json:"accessToken"`
+		RefleshToken string `json:"refleshToken"`
+	}
 )
 
 // NewService new servcice

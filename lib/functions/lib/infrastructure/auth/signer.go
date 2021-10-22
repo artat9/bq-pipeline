@@ -14,9 +14,7 @@ const (
 )
 
 type (
-	// Verifier token verifier
-	Verifier struct {
-	}
+
 	// Signer token signer
 	Signer struct {
 		resolver Resolver
@@ -31,6 +29,7 @@ type (
 	Clock interface {
 		Now() time.Time
 	}
+	// SecretResolver resolver for secret
 	SecretResolver interface {
 		Secret(ctx context.Context) ([]byte, error)
 	}
@@ -38,11 +37,6 @@ type (
 )
 
 func (r realClock) Now() time.Time { return time.Now() }
-
-// Verify verify claim
-func (v Verifier) Verify(msg string) error {
-	return nil
-}
 
 // NewSigner new signer
 func NewSigner(ctx context.Context, re Resolver, sec SecretResolver) (Signer, error) {
@@ -58,12 +52,20 @@ func NewSigner(ctx context.Context, re Resolver, sec SecretResolver) (Signer, er
 }
 
 // Sign sign
-func (s Signer) Sign(msg, sig string) (string, error) {
+func (s Signer) Sign(msg, sig string) (accessToken, refleshToken string, err error) {
 	ad, err := s.resolver.RecoverAddress(msg, sig)
 	if err != nil {
-		return "", err
+		return
 	}
-	return s.newAccessToken(ad)
+	accessToken, err = s.newAccessToken(ad)
+	if err != nil {
+		return
+	}
+	refleshToken, err = s.newRefleshToken(ad)
+	if err != nil {
+		return
+	}
+	return
 }
 
 func (s Signer) newAccessToken(ad common.Address) (string, error) {

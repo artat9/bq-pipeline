@@ -64,28 +64,6 @@ func errorResolver() fakeResolver {
 	}
 }
 
-func TestVerifier_Verify(t *testing.T) {
-	type args struct {
-		msg string
-	}
-	tests := []struct {
-		name    string
-		v       Verifier
-		args    args
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			v := Verifier{}
-			if err := v.Verify(tt.args.msg); (err != nil) != tt.wantErr {
-				t.Errorf("Verifier.Verify() error = %v, wantErr %v", err, tt.wantErr)
-			}
-		})
-	}
-}
-
 func TestSigner_Sign(t *testing.T) {
 	type fields struct {
 		resolver Resolver
@@ -95,18 +73,20 @@ func TestSigner_Sign(t *testing.T) {
 		sig string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		want    string
-		wantErr bool
+		name             string
+		fields           fields
+		want             string
+		refleshTokenWant string
+		wantErr          bool
 	}{
 		{
 			name: "new token should be issued",
 			fields: fields{
 				resolver: fixedFakeResolver(),
 			},
-			want:    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg2NjhGMjJmMDE1QkYyYzkxQmY0ZmIxOWEwMzYxOUI4RmY1OTNFOEE4IiwiZXhwIjoxNjA5NDY0NjYxfQ.W4_mj-unUXcX_Ctkn4i1mhaSZfyoSymG590xpQjOBj8",
-			wantErr: false,
+			want:             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg2NjhGMjJmMDE1QkYyYzkxQmY0ZmIxOWEwMzYxOUI4RmY1OTNFOEE4IiwiZXhwIjoxNjA5NDY0NjYxfQ.W4_mj-unUXcX_Ctkn4i1mhaSZfyoSymG590xpQjOBj8",
+			wantErr:          false,
+			refleshTokenWant: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTA2NzI0NjEsInN1YiI6IjB4NjY4RjIyZjAxNUJGMmM5MUJmNGZiMTlhMDM2MTlCOEZmNTkzRThBOCJ9.V0C3rh5ceFOb2vkwsJYdlMUPUCHzqLD4gj3PEZ2khwY",
 		},
 		{
 			name: "new token should not be issued with failed eoa recovery",
@@ -124,13 +104,16 @@ func TestSigner_Sign(t *testing.T) {
 				secret:   []byte("secret"),
 				cl:       fixedClock{},
 			}
-			got, err := s.Sign("fake", "fake")
+			got, refGot, err := s.Sign("fake", "fake")
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Signer.Sign() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if got != tt.want {
 				t.Errorf("Signer.Sign() = %v, want %v", got, tt.want)
+			}
+			if refGot != tt.refleshTokenWant {
+				t.Errorf("Signer.Sign() = %v, want %v", refGot, tt.refleshTokenWant)
 			}
 		})
 	}
