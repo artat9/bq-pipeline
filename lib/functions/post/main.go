@@ -1,11 +1,11 @@
 package main
 
 import (
-	"aurora-backend/lib/functions/lib"
-	"aurora-backend/lib/functions/lib/infrastructure/arweave"
-	"aurora-backend/lib/functions/lib/post"
 	"context"
 	"encoding/json"
+	"kaleido-backend/lib/functions/lib"
+	"kaleido-backend/lib/functions/lib/infrastructure/arweave"
+	"kaleido-backend/lib/functions/lib/post"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"

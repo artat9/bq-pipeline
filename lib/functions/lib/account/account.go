@@ -24,10 +24,11 @@ type (
 		FromAddress(ctx context.Context, eoa common.Address) (Account, error)
 		New(ctx context.Context, ac Account) error
 	}
-	// Service service
-	Service struct {
+	// SignService service
+	SignService struct {
 		verifier AddressVerifier
 		rep      Repository
+		signer   Signer
 	}
 
 	// SignInInput input for signIn
@@ -42,25 +43,34 @@ type (
 		AccessToken  string `json:"accessToken"`
 		RefleshToken string `json:"refleshToken"`
 	}
+	// Signer signer
+	Signer interface {
+		Sign(ad common.Address) (accessToken, refleshToken string, err error)
+	}
+
+	// Verifier verifier
+	Verifier interface {
+		Verify(val string) error
+	}
 )
 
-// NewService new servcice
-func NewService(v AddressVerifier, r Repository) Service {
-	return Service{
+// NewSignService new servcice
+func NewSignService(v AddressVerifier, r Repository) SignService {
+	return SignService{
 		verifier: v,
 		rep:      r,
 	}
 }
 
 // SignIn sign in
-func (s Service) SignIn(ctx context.Context, msg, sig string) (Account, error) {
+func (s SignService) SignIn(ctx context.Context, msg, sig string) (SignInOutput, error) {
 	ad, err := s.verifier.Recover(msg, sig)
 	if err != nil {
-		return Account{}, err
+		return SignInOutput{}, err
 	}
 	ac, err := s.rep.FromAddress(ctx, ad)
 	if err != nil {
-		return Account{}, err
+		return SignInOutput{}, err
 	}
 	if reflect.DeepEqual(ac, Account{}) {
 		return s.signUp(ctx, ad)
@@ -68,13 +78,21 @@ func (s Service) SignIn(ctx context.Context, msg, sig string) (Account, error) {
 	return s.signIn(ctx, ac)
 }
 
-func (s Service) signIn(ctx context.Context, ac Account) (Account, error) {
-	return ac, nil
+func (s SignService) signIn(ctx context.Context, ac Account) (SignInOutput, error) {
+	return SignInOutput{}, nil
 }
 
-func (s Service) signUp(ctx context.Context, address common.Address) (Account, error) {
+func (s SignService) signUp(ctx context.Context, address common.Address) (SignInOutput, error) {
+	at, rt, err := s.signer.Sign(address)
+	if err != nil {
+		return SignInOutput{}, err
+	}
 	ac := New(address)
-	return ac, s.rep.New(ctx, ac)
+	return SignInOutput{
+		Account:      ac,
+		AccessToken:  at,
+		RefleshToken: rt,
+	}, s.rep.New(ctx, ac)
 }
 
 // New new account
