@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 const (
@@ -72,7 +72,7 @@ func (s Signer) newAccessToken(ad common.Address) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["address"] = ad.Hex()
-	claims["exp"] = s.cl.Now().Add(accessTokenValidity).Unix()
+	claims["exp"] = jwt.NewNumericDate(s.cl.Now().Add(accessTokenValidity))
 	t, err := token.SignedString(s.secret)
 	return t, err
 }
@@ -81,7 +81,7 @@ func (s Signer) newRefleshToken(ad common.Address) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["sub"] = ad.Hex()
-	claims["exp"] = s.cl.Now().Add(refleshTokenValidity).Unix()
+	claims["exp"] = jwt.NewNumericDate(s.cl.Now().Add(refleshTokenValidity))
 	t, err := token.SignedString(s.secret)
 	return t, err
 }

@@ -10,6 +10,10 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 )
 
+const (
+	accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg2NjhGMjJmMDE1QkYyYzkxQmY0ZmIxOWEwMzYxOUI4RmY1OTNFOEE4IiwiZXhwIjoxNjA5NDY0NjYxfQ.W4_mj-unUXcX_Ctkn4i1mhaSZfyoSymG590xpQjOBj8"
+)
+
 type (
 	fakeResolver struct {
 		recoverAddressFunc func(msg, sig string) (common.Address, error)
@@ -84,7 +88,7 @@ func TestSigner_Sign(t *testing.T) {
 			fields: fields{
 				resolver: fixedFakeResolver(),
 			},
-			want:             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg2NjhGMjJmMDE1QkYyYzkxQmY0ZmIxOWEwMzYxOUI4RmY1OTNFOEE4IiwiZXhwIjoxNjA5NDY0NjYxfQ.W4_mj-unUXcX_Ctkn4i1mhaSZfyoSymG590xpQjOBj8",
+			want:             accessToken,
 			wantErr:          false,
 			refleshTokenWant: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTA2NzI0NjEsInN1YiI6IjB4NjY4RjIyZjAxNUJGMmM5MUJmNGZiMTlhMDM2MTlCOEZmNTkzRThBOCJ9.V0C3rh5ceFOb2vkwsJYdlMUPUCHzqLD4gj3PEZ2khwY",
 		},
@@ -114,34 +118,6 @@ func TestSigner_Sign(t *testing.T) {
 			}
 			if refGot != tt.refleshTokenWant {
 				t.Errorf("Signer.Sign() = %v, want %v", refGot, tt.refleshTokenWant)
-			}
-		})
-	}
-}
-
-func Test_fakeResolver_RecoverAddress(t *testing.T) {
-	type args struct {
-		msg string
-		sig string
-	}
-	tests := []struct {
-		name    string
-		fr      fakeResolver
-		args    args
-		want    common.Address
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := tt.fr.RecoverAddress(tt.args.msg, tt.args.sig)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("fakeResolver.RecoverAddress() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("fakeResolver.RecoverAddress() = %v, want %v", got, tt.want)
 			}
 		})
 	}

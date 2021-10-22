@@ -4,11 +4,9 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"strconv"
-	"time"
 
-	"github.com/golang-jwt/jwt"
-	request "github.com/golang-jwt/jwt/request"
+	"github.com/golang-jwt/jwt/v4"
+	request "github.com/golang-jwt/jwt/v4/request"
 )
 
 type (
@@ -33,6 +31,7 @@ func NewVerifier(ctx context.Context, sec SecretResolver) (Verifier, error) {
 
 // Verify verify claim
 func (v Verifier) Verify(val string) error {
+	jwt.TimeFunc = v.cl.Now
 	req := http.Request{
 		Header: http.Header{
 			"Authorization": []string{val},
@@ -45,20 +44,7 @@ func (v Verifier) Verify(val string) error {
 	if !t.Valid {
 		return fmt.Errorf("token invalid")
 	}
-	claims := t.Claims.(jwt.MapClaims)
-	timestamp, err := strconv.ParseInt(claims["exp"].(string), 10, 64)
-	if err != nil {
-		return err
-	}
-	tm := time.Unix(timestamp, 0)
-	if v.expired(tm) {
-		return fmt.Errorf("token expired")
-	}
 	return nil
-}
-
-func (v Verifier) expired(t time.Time) bool {
-	return v.cl.Now().Before(t)
 }
 
 func keyResolver(secret []byte) func(t *jwt.Token) (interface{}, error) {
