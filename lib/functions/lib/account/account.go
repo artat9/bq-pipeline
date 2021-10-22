@@ -67,6 +67,7 @@ func NewSignService(v AddressVerifier, r Repository, s Signer) SignService {
 
 // Sign sign in / sign up
 func (s SignService) Sign(ctx context.Context, in SignInInput) (SignInOutput, error) {
+	// TODO: verify nonce
 	if err := validator.New().Struct(&in); err != nil {
 		return SignInOutput{}, err
 	}
@@ -85,7 +86,16 @@ func (s SignService) Sign(ctx context.Context, in SignInInput) (SignInOutput, er
 }
 
 func (s SignService) signIn(ctx context.Context, ac Account) (SignInOutput, error) {
-	return SignInOutput{}, nil
+	at, rt, err := s.signer.Sign(ac.Address)
+	if err != nil {
+		return SignInOutput{}, err
+	}
+	return SignInOutput{
+		Address: ac.Address,
+		//Nonce:        ac.Nonce.String(),
+		AccessToken:  at,
+		RefleshToken: rt,
+	}, nil
 }
 
 func (s SignService) signUp(ctx context.Context, address common.Address) (SignInOutput, error) {
