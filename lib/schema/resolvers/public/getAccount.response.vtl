@@ -5,8 +5,8 @@
     #return
 #end
 #foreach($item in $ctx.result.items)
-    #set($address =  $util.str.toReplace($item.PK, "User:", ""))
-    #set($nonce =  $item.Nonce)
+    #set($address =  $util.str.toReplace($item.PK, "Account:", ""))
+    #set($nonce =  $item.Data)
 #end
 {
   "address": $util.toJson($address),

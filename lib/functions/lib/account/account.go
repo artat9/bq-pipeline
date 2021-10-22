@@ -40,9 +40,10 @@ type (
 
 	// SignInOutput output for signin
 	SignInOutput struct {
-		Account
-		AccessToken  string `json:"accessToken"`
-		RefleshToken string `json:"refleshToken"`
+		AccessToken  string         `json:"accessToken"`
+		RefleshToken string         `json:"refleshToken"`
+		Address      common.Address `json:"address"`
+		//Nonce        string         `json:"nonce"`
 	}
 	// Signer signer
 	Signer interface {
@@ -94,7 +95,8 @@ func (s SignService) signUp(ctx context.Context, address common.Address) (SignIn
 	}
 	ac := New(address)
 	return SignInOutput{
-		Account:      ac,
+		Address: ac.Address,
+		//Nonce:        ac.Nonce.String(),
 		AccessToken:  at,
 		RefleshToken: rt,
 	}, s.rep.New(ctx, ac)
