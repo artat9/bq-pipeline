@@ -67,7 +67,14 @@ export class RestApiStack extends cdk.Stack {
       "GET",
       new LambdaIntegration(lambdaFunction(this, "getad", target))
     );
+
     addCorsOptions(getad);
+    const sign = api.root.addResource("sign");
+    sign.addMethod(
+      "POST",
+      new LambdaIntegration(lambdaFunction(this, "sign", target))
+    );
+    addCorsOptions(sign);
     aRecord(this, target, customDomain);
   }
 }

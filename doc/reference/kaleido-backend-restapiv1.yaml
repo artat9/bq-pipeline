@@ -1,43 +1,63 @@
 openapi: 3.0.0
 info:
   title: aurora-backend-restapi
-  version: "1.0"
+  version: '1.0'
 servers:
-  - url: "https://api.auroradao-dev.tk"
+  - url: 'https://api.auroradao-dev.tk'
     description: dev
-  - url: "https://api.auroradao.org"
+  - url: 'https://api.auroradao.org'
     description: prod
 paths:
+  /sign:
+    post:
+      summary: Sign in/Sign up
+      operationId: post-sign
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignOutput'
+        '401':
+          description: UnAuthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInput'
+            examples: {}
+      parameters: []
   /ad:
     post:
       summary: Upload Ad
       operationId: post-ad
       responses:
-        "200":
+        '200':
           description: Ad Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Metadata"
-        "400":
+                $ref: '#/components/schemas/Metadata'
+        '400':
           description: Missing Required Information
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AdInput"
+              $ref: '#/components/schemas/AdInput'
             examples: {}
       parameters: []
-  "/ad/{account}/{metadata}":
+  '/ad/{account}/{metadata}':
     get:
       responses:
-        "200":
+        '200':
           description: OK
           headers: {}
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Metadata"
+                $ref: '#/components/schemas/Metadata'
     parameters:
       - schema:
           type: string
@@ -55,32 +75,32 @@ paths:
       summary: Upload Post
       operationId: post-post
       responses:
-        "200":
+        '200':
           description: Post Created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Metadata"
-        "400":
+                $ref: '#/components/schemas/Metadata'
+        '400':
           description: Missing Required Information
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PostInput"
+              $ref: '#/components/schemas/PostInput'
             examples: {}
       parameters: []
     parameters: []
-  "/right/{postId}":
+  '/right/{postId}':
     get:
       responses:
-        "200":
+        '200':
           description: OK
           headers: {}
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Owner"
+                $ref: '#/components/schemas/Owner'
     parameters:
       - schema:
           type: string
@@ -91,7 +111,7 @@ paths:
 components:
   schemas:
     Metadata:
-      description: ""
+      description: ''
       type: object
       properties:
         metadata:
@@ -99,8 +119,25 @@ components:
           minLength: 1
       required:
         - metadata
+    SignOutput:
+      description: ''
+      type: object
+      properties:
+        accessToken:
+          type: string
+          minLength: 1
+        refleshToken:
+          type: string
+          minLength: 1
+        address:
+          type: string
+          minLength: 1
+      required:
+        - accessToekn
+        - refleshToken
+        - address
     Owner:
-      description: ""
+      description: ''
       type: object
       properties:
         owner:
@@ -120,6 +157,17 @@ components:
       required:
         - width
         - height
+    SignInput:
+      title: SignInput
+      type: object
+      properties:
+        msg:
+          type: string
+        sig:
+          type: string
+      required:
+        - msg
+        - sig
     PostInput:
       title: PostInput
       type: object
@@ -131,7 +179,7 @@ components:
         key_visual:
           type: string
         ad_specifications:
-          $ref: "#/components/schemas/AdSpecifications"
+          $ref: '#/components/schemas/AdSpecifications'
         images:
           type: array
           items:

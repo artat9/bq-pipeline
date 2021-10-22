@@ -7,6 +7,7 @@ import (
 	"reflect"
 
 	"github.com/ethereum/go-ethereum/common"
+	"gopkg.in/go-playground/validator.v9"
 )
 
 type (
@@ -33,8 +34,8 @@ type (
 
 	// SignInInput input for signIn
 	SignInInput struct {
-		Msg string `json:"msg"`
-		Sig string `json:"sig"`
+		Msg string `json:"msg" validate:"required"`
+		Sig string `json:"sig" validate:"required"`
 	}
 
 	// SignInOutput output for signin
@@ -62,9 +63,12 @@ func NewSignService(v AddressVerifier, r Repository) SignService {
 	}
 }
 
-// SignIn sign in
-func (s SignService) SignIn(ctx context.Context, msg, sig string) (SignInOutput, error) {
-	ad, err := s.verifier.Recover(msg, sig)
+// Sign sign in / sign up
+func (s SignService) Sign(ctx context.Context, in SignInInput) (SignInOutput, error) {
+	if err := validator.New().Struct(&in); err != nil {
+		return SignInOutput{}, err
+	}
+	ad, err := s.verifier.Recover(in.Msg, in.Sig)
 	if err != nil {
 		return SignInOutput{}, err
 	}

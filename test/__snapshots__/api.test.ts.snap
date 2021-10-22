@@ -64,7 +64,7 @@ Object {
           ],
         },
         "Description": "default",
-        "Expires": 1666338132,
+        "Expires": 1666434091,
       },
       "Type": "AWS::AppSync::ApiKey",
     },
@@ -90,7 +90,7 @@ Object {
         ## Provide a query expression. **
         "expression": "PK = :PK",
         "expressionValues" : {
-            ":PK" : $util.dynamodb.toDynamoDBJson("User:\${context.arguments.address}")
+            ":PK" : $util.dynamodb.toDynamoDBJson("Account:\${context.arguments.address}")
         }
     },
 }
