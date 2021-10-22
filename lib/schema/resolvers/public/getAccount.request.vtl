@@ -5,7 +5,7 @@
         ## Provide a query expression. **
         "expression": "PK = :PK",
         "expressionValues" : {
-            ":PK" : $util.dynamodb.toDynamoDBJson("User:${context.arguments.address}")
+            ":PK" : $util.dynamodb.toDynamoDBJson("Account:${context.arguments.address}")
         }
     },
 }
