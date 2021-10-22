@@ -23,7 +23,7 @@ func New() *dynamo.DB {
 
 // Table Resolve table name
 func Table() string {
-	return "bridges-backend-main-" + os.Getenv("EnvironmentId")
+	return "kaleido-backend-main-" + os.Getenv("EnvironmentId")
 }
 
 // SimpleEntry simple entry

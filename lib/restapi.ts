@@ -103,6 +103,27 @@ const lambdaFunction = (
       resources: ["*"],
     })
   );
+  func.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["ssm:Get*"],
+      resources: ["*"],
+    })
+  );
+  func.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["ssm:Get*"],
+      resources: ["*"],
+    })
+  );
+  func.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["dynamodb:*"],
+      resources: ["*"],
+    })
+  );
   return func;
 };
 

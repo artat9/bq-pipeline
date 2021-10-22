@@ -22,7 +22,7 @@ type (
 
 const (
 	keyPrefix     = "kaleido-"
-	signingSecret = keyPrefix + "siging-secret"
+	signingSecret = keyPrefix + "signing-secret"
 )
 
 // New New client
@@ -58,11 +58,8 @@ func (c Client) get(ctx context.Context, key string) (val string, err error) {
 
 func withEnvSuffix(key string) string {
 	env := os.Getenv("EnvironmentId")
-	if env == "" {
-		env = "dev"
-	}
 	if env == "prod" {
 		return key
 	}
-	return key + "-" + env
+	return key + "-" + "dev"
 }

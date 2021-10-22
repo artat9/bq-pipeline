@@ -3,9 +3,11 @@ info:
   title: aurora-backend-restapi
   version: '1.0'
 servers:
-  - url: 'https://api.auroradao-dev.tk'
+  - url: 'https://api.kaleido-dev.tk'
     description: dev
-  - url: 'https://api.auroradao.org'
+  - url: 'https://api.kaleido-v1dev.tk'
+    description: v1dev
+  - url: 'https://api.kaleido.org'
     description: prod
 paths:
   /sign:
