@@ -67,11 +67,24 @@ func (s Signer) newAccessToken(ad common.Address) (string, error) {
 	return t, err
 }
 
+func newAccessToken(ad common.Address, secret []byte, now time.Time) (string, error) {
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["address"] = ad.Hex()
+	claims["exp"] = jwt.NewNumericDate(now.Add(accessTokenValidity))
+	t, err := token.SignedString(secret)
+	return t, err
+}
+
 func (s Signer) newRefleshToken(ad common.Address) (string, error) {
+	return newRefleshToken(ad, s.secret, s.cl.Now())
+}
+
+func newRefleshToken(ad common.Address, secret []byte, now time.Time) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["sub"] = ad.Hex()
-	claims["exp"] = jwt.NewNumericDate(s.cl.Now().Add(refleshTokenValidity))
-	t, err := token.SignedString(s.secret)
+	claims["exp"] = jwt.NewNumericDate(now.Add(refleshTokenValidity))
+	t, err := token.SignedString(secret)
 	return t, err
 }

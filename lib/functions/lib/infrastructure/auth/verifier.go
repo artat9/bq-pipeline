@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/golang-jwt/jwt/v4"
 	request "github.com/golang-jwt/jwt/v4/request"
 )
@@ -31,6 +32,11 @@ func NewVerifier(ctx context.Context, sec SecretResolver) (Verifier, error) {
 
 // Verify verify claim
 func (v Verifier) Verify(val string) error {
+	_, err := v.verify(val)
+	return err
+}
+
+func (v Verifier) verify(val string) (jwt.MapClaims, error) {
 	jwt.TimeFunc = v.cl.Now
 	req := http.Request{
 		Header: http.Header{
@@ -39,12 +45,25 @@ func (v Verifier) Verify(val string) error {
 	}
 	t, err := request.ParseFromRequest(&req, request.AuthorizationHeaderExtractor, keyResolver(v.secret))
 	if err != nil {
-		return err
+		return jwt.MapClaims{}, err
 	}
 	if !t.Valid {
-		return fmt.Errorf("token invalid")
+		return jwt.MapClaims{}, fmt.Errorf("token invalid")
 	}
-	return nil
+	return t.Claims.(jwt.MapClaims), nil
+}
+
+// Reflesh renew access token
+func (v Verifier) Reflesh(refleshToken string) (string, error) {
+	cls, err := v.verify(refleshToken)
+	if err != nil {
+		return "", err
+	}
+	ad, ok := cls["sub"]
+	if !ok {
+		return "", fmt.Errorf("token invalid")
+	}
+	return newAccessToken(common.HexToAddress(ad.(string)), v.secret, v.cl.Now())
 }
 
 func keyResolver(secret []byte) func(t *jwt.Token) (interface{}, error) {

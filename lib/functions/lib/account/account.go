@@ -32,10 +32,25 @@ type (
 		signer   Signer
 	}
 
+	// VerifyService verify service
+	VerifyService struct {
+		verifier Verifier
+	}
+
 	// SignInInput input for signIn
 	SignInInput struct {
 		Msg string `json:"msg" validate:"required"`
 		Sig string `json:"sig" validate:"required"`
+	}
+
+	// RefleshInput reflesh
+	RefleshInput struct {
+		RefleshToken string `json:"refleshToken"`
+	}
+
+	// RefleshOutput reflesh
+	RefleshOutput struct {
+		AccessToken string `json:"accessToken"`
 	}
 
 	// SignInOutput output for signin
@@ -53,6 +68,7 @@ type (
 	// Verifier verifier
 	Verifier interface {
 		Verify(val string) error
+		Reflesh(refleshToken string) (string, error)
 	}
 )
 
@@ -63,6 +79,21 @@ func NewSignService(v AddressVerifier, r Repository, s Signer) SignService {
 		rep:      r,
 		signer:   s,
 	}
+}
+
+// NewVerifyService new verify service
+func NewVerifyService(v Verifier) VerifyService {
+	return VerifyService{
+		verifier: v,
+	}
+}
+
+// Reflesh renew token
+func (v VerifyService) Reflesh(ctx context.Context, in RefleshInput) (RefleshOutput, error) {
+	out, err := v.verifier.Reflesh(in.RefleshToken)
+	return RefleshOutput{
+		AccessToken: out,
+	}, err
 }
 
 // Sign sign in / sign up
