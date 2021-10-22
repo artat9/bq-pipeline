@@ -15,9 +15,6 @@ const (
 )
 
 type (
-	fakeResolver struct {
-		recoverAddressFunc func(msg, sig string) (common.Address, error)
-	}
 	fakeSecretResolver struct {
 		resolveFunc func(ctx context.Context) ([]byte, error)
 	}
@@ -26,10 +23,6 @@ type (
 
 func (f fixedClock) Now() time.Time {
 	return time.Date(2021, 1, 1, 1, 1, 1, 1, time.UTC)
-}
-
-func (fr fakeResolver) RecoverAddress(msg, sig string) (common.Address, error) {
-	return fr.recoverAddressFunc(msg, sig)
 }
 
 func (fs fakeSecretResolver) SigningSecret(ctx context.Context) ([]byte, error) {
@@ -52,63 +45,33 @@ func errorSecretResolver() fakeSecretResolver {
 	}
 }
 
-func fixedFakeResolver() fakeResolver {
-	return fakeResolver{
-		recoverAddressFunc: func(msg, sig string) (common.Address, error) {
-			return common.HexToAddress("0x668F22f015BF2c91Bf4fb19a03619B8Ff593E8A8"), nil
-		},
-	}
-}
-
-func errorResolver() fakeResolver {
-	return fakeResolver{
-		recoverAddressFunc: func(msg, sig string) (common.Address, error) {
-			return common.Address{}, errors.New("error")
-		},
-	}
-}
-
 func TestSigner_Sign(t *testing.T) {
-	type fields struct {
-		resolver Resolver
-	}
+
 	type args struct {
 		msg string
 		sig string
 	}
 	tests := []struct {
 		name             string
-		fields           fields
 		want             string
 		refleshTokenWant string
 		wantErr          bool
 	}{
 		{
 			name: "new token should be issued",
-			fields: fields{
-				resolver: fixedFakeResolver(),
-			},
+
 			want:             accessToken,
 			wantErr:          false,
 			refleshTokenWant: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTA2NzI0NjEsInN1YiI6IjB4NjY4RjIyZjAxNUJGMmM5MUJmNGZiMTlhMDM2MTlCOEZmNTkzRThBOCJ9.V0C3rh5ceFOb2vkwsJYdlMUPUCHzqLD4gj3PEZ2khwY",
-		},
-		{
-			name: "new token should not be issued with failed eoa recovery",
-			fields: fields{
-				resolver: errorResolver(),
-			},
-			want:    "",
-			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := Signer{
-				resolver: tt.fields.resolver,
-				secret:   []byte("secret"),
-				cl:       fixedClock{},
+				secret: []byte("secret"),
+				cl:     fixedClock{},
 			}
-			got, refGot, err := s.Sign("fake", "fake")
+			got, refGot, err := s.Sign(common.HexToAddress("0x668F22f015BF2c91Bf4fb19a03619B8Ff593E8A8"))
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Signer.Sign() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -125,9 +88,8 @@ func TestSigner_Sign(t *testing.T) {
 
 func TestSigner_newRefleshToken(t *testing.T) {
 	type fields struct {
-		resolver Resolver
-		secret   []byte
-		cl       Clock
+		secret []byte
+		cl     Clock
 	}
 	type args struct {
 		ad common.Address
@@ -144,9 +106,8 @@ func TestSigner_newRefleshToken(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := Signer{
-				resolver: tt.fields.resolver,
-				secret:   tt.fields.secret,
-				cl:       tt.fields.cl,
+				secret: tt.fields.secret,
+				cl:     tt.fields.cl,
 			}
 			got, err := s.newRefleshToken(tt.args.ad)
 			if (err != nil) != tt.wantErr {
@@ -181,7 +142,6 @@ func Test_realClock_Now(t *testing.T) {
 func TestNewSigner(t *testing.T) {
 	type args struct {
 		ctx context.Context
-		re  Resolver
 		sec SecretResolver
 	}
 	tests := []struct {
@@ -191,18 +151,18 @@ func TestNewSigner(t *testing.T) {
 	}{
 		{
 			name:    "initialization success",
-			args:    args{ctx: context.Background(), re: fixedFakeResolver(), sec: fixedFakeSecretResolver()},
+			args:    args{ctx: context.Background(), sec: fixedFakeSecretResolver()},
 			wantErr: false,
 		},
 		{
 			name:    "fail in case get secret failed",
-			args:    args{ctx: context.Background(), re: fixedFakeResolver(), sec: errorSecretResolver()},
+			args:    args{ctx: context.Background(), sec: errorSecretResolver()},
 			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := NewSigner(tt.args.ctx, tt.args.re, tt.args.sec)
+			_, err := NewSigner(tt.args.ctx, tt.args.sec)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewSigner() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -213,9 +173,8 @@ func TestNewSigner(t *testing.T) {
 
 func TestSigner_newAccessToken(t *testing.T) {
 	type fields struct {
-		resolver Resolver
-		secret   []byte
-		cl       Clock
+		secret []byte
+		cl     Clock
 	}
 	type args struct {
 		ad common.Address
@@ -232,9 +191,8 @@ func TestSigner_newAccessToken(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := Signer{
-				resolver: tt.fields.resolver,
-				secret:   tt.fields.secret,
-				cl:       tt.fields.cl,
+				secret: tt.fields.secret,
+				cl:     tt.fields.cl,
 			}
 			got, err := s.newAccessToken(tt.args.ad)
 			if (err != nil) != tt.wantErr {

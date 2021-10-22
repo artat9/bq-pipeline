@@ -17,13 +17,8 @@ type (
 
 	// Signer token signer
 	Signer struct {
-		resolver Resolver
-		secret   []byte
-		cl       Clock
-	}
-	// Resolver eoa resolver
-	Resolver interface {
-		RecoverAddress(msg, sig string) (common.Address, error)
+		secret []byte
+		cl     Clock
 	}
 	// Clock clock
 	Clock interface {
@@ -39,24 +34,19 @@ type (
 func (r realClock) Now() time.Time { return time.Now() }
 
 // NewSigner new signer
-func NewSigner(ctx context.Context, re Resolver, sec SecretResolver) (Signer, error) {
+func NewSigner(ctx context.Context, sec SecretResolver) (Signer, error) {
 	secret, err := sec.SigningSecret(ctx)
 	if err != nil {
 		return Signer{}, err
 	}
 	return Signer{
-		resolver: re,
-		secret:   secret,
-		cl:       realClock{},
+		secret: secret,
+		cl:     realClock{},
 	}, err
 }
 
 // Sign sign
-func (s Signer) Sign(msg, sig string) (accessToken, refleshToken string, err error) {
-	ad, err := s.resolver.RecoverAddress(msg, sig)
-	if err != nil {
-		return
-	}
+func (s Signer) Sign(ad common.Address) (accessToken, refleshToken string, err error) {
 	accessToken, err = s.newAccessToken(ad)
 	if err != nil {
 		return
