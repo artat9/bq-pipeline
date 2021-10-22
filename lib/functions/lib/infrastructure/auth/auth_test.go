@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"errors"
 	"reflect"
 	"testing"
@@ -13,6 +14,9 @@ type (
 	fakeResolver struct {
 		recoverAddressFunc func(msg, sig string) (common.Address, error)
 	}
+	fakeSecretResolver struct {
+		resolveFunc func(ctx context.Context) ([]byte, error)
+	}
 	fixedClock struct{}
 )
 
@@ -22,6 +26,26 @@ func (f fixedClock) Now() time.Time {
 
 func (fr fakeResolver) RecoverAddress(msg, sig string) (common.Address, error) {
 	return fr.recoverAddressFunc(msg, sig)
+}
+
+func (fs fakeSecretResolver) Secret(ctx context.Context) ([]byte, error) {
+	return fs.resolveFunc(ctx)
+}
+
+func fixedFakeSecretResolver() fakeSecretResolver {
+	return fakeSecretResolver{
+		resolveFunc: func(ctx context.Context) ([]byte, error) {
+			return []byte("secret"), nil
+		},
+	}
+}
+
+func errorSecretResolver() fakeSecretResolver {
+	return fakeSecretResolver{
+		resolveFunc: func(ctx context.Context) ([]byte, error) {
+			return nil, errors.New("error")
+		},
+	}
 }
 
 func fixedFakeResolver() fakeResolver {
@@ -73,7 +97,6 @@ func TestSigner_Sign(t *testing.T) {
 	tests := []struct {
 		name    string
 		fields  fields
-		args    args
 		want    string
 		wantErr bool
 	}{
@@ -82,10 +105,6 @@ func TestSigner_Sign(t *testing.T) {
 			fields: fields{
 				resolver: fixedFakeResolver(),
 			},
-			args: args{
-				msg: "fake",
-				sig: "fake",
-			},
 			want:    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMHg2NjhGMjJmMDE1QkYyYzkxQmY0ZmIxOWEwMzYxOUI4RmY1OTNFOEE4IiwiZXhwIjoxNjA5NDY0NjYxfQ.W4_mj-unUXcX_Ctkn4i1mhaSZfyoSymG590xpQjOBj8",
 			wantErr: false,
 		},
@@ -93,10 +112,6 @@ func TestSigner_Sign(t *testing.T) {
 			name: "new token should not be issued with failed eoa recovery",
 			fields: fields{
 				resolver: errorResolver(),
-			},
-			args: args{
-				msg: "fake",
-				sig: "fake",
 			},
 			want:    "",
 			wantErr: true,
@@ -109,7 +124,7 @@ func TestSigner_Sign(t *testing.T) {
 				secret:   []byte("secret"),
 				cl:       fixedClock{},
 			}
-			got, err := s.Sign(tt.args.msg, tt.args.sig)
+			got, err := s.Sign("fake", "fake")
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Signer.Sign() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -149,22 +164,126 @@ func Test_fakeResolver_RecoverAddress(t *testing.T) {
 	}
 }
 
-func TestNewSigner(t *testing.T) {
+func TestSigner_newRefleshToken(t *testing.T) {
+	type fields struct {
+		resolver Resolver
+		secret   []byte
+		cl       Clock
+	}
 	type args struct {
-		re     Resolver
-		secret []byte
+		ad common.Address
 	}
 	tests := []struct {
-		name string
-		args args
-		want Signer
+		name    string
+		fields  fields
+		args    args
+		want    string
+		wantErr bool
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewSigner(tt.args.re, tt.args.secret); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewSigner() = %v, want %v", got, tt.want)
+			s := Signer{
+				resolver: tt.fields.resolver,
+				secret:   tt.fields.secret,
+				cl:       tt.fields.cl,
+			}
+			got, err := s.newRefleshToken(tt.args.ad)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Signer.newRefleshToken() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("Signer.newRefleshToken() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_realClock_Now(t *testing.T) {
+	tests := []struct {
+		name string
+		r    realClock
+		want time.Time
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := realClock{}
+			if got := r.Now(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("realClock.Now() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestNewSigner(t *testing.T) {
+	type args struct {
+		ctx context.Context
+		re  Resolver
+		sec SecretResolver
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name:    "initialization success",
+			args:    args{ctx: context.Background(), re: fixedFakeResolver(), sec: fixedFakeSecretResolver()},
+			wantErr: false,
+		},
+		{
+			name:    "fail in case get secret failed",
+			args:    args{ctx: context.Background(), re: fixedFakeResolver(), sec: errorSecretResolver()},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := NewSigner(tt.args.ctx, tt.args.re, tt.args.sec)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("NewSigner() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+		})
+	}
+}
+
+func TestSigner_newAccessToken(t *testing.T) {
+	type fields struct {
+		resolver Resolver
+		secret   []byte
+		cl       Clock
+	}
+	type args struct {
+		ad common.Address
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    string
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := Signer{
+				resolver: tt.fields.resolver,
+				secret:   tt.fields.secret,
+				cl:       tt.fields.cl,
+			}
+			got, err := s.newAccessToken(tt.args.ad)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Signer.newAccessToken() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("Signer.newAccessToken() = %v, want %v", got, tt.want)
 			}
 		})
 	}

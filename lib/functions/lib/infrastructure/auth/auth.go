@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"time"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -30,6 +31,9 @@ type (
 	Clock interface {
 		Now() time.Time
 	}
+	SecretResolver interface {
+		Secret(ctx context.Context) ([]byte, error)
+	}
 	realClock struct{}
 )
 
@@ -41,12 +45,16 @@ func (v Verifier) Verify(msg string) error {
 }
 
 // NewSigner new signer
-func NewSigner(re Resolver, secret []byte) Signer {
+func NewSigner(ctx context.Context, re Resolver, sec SecretResolver) (Signer, error) {
+	secret, err := sec.Secret(ctx)
+	if err != nil {
+		return Signer{}, err
+	}
 	return Signer{
 		resolver: re,
 		secret:   secret,
 		cl:       realClock{},
-	}
+	}, err
 }
 
 // Sign sign
