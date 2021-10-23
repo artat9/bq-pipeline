@@ -3,6 +3,7 @@ package account
 import (
 	"context"
 	"crypto/rand"
+	"errors"
 	"math/big"
 	"reflect"
 
@@ -58,7 +59,6 @@ type (
 		AccessToken  string         `json:"accessToken"`
 		RefleshToken string         `json:"refleshToken"`
 		Address      common.Address `json:"address"`
-		//Nonce        string         `json:"nonce"`
 	}
 	// Signer signer
 	Signer interface {
@@ -113,17 +113,24 @@ func (s SignService) Sign(ctx context.Context, in SignInInput) (SignInOutput, er
 	if reflect.DeepEqual(ac, Account{}) {
 		return s.signUp(ctx, ad)
 	}
-	return s.signIn(ctx, ac)
+	return s.signIn(ctx, in.Msg, ac)
 }
 
-func (s SignService) signIn(ctx context.Context, ac Account) (SignInOutput, error) {
+func (s SignService) signIn(ctx context.Context, nonce string, ac Account) (SignInOutput, error) {
+	n := new(big.Int)
+	n, _ = n.SetString(nonce, 10)
+	if n.Cmp(ac.Nonce) != 0 {
+		return SignInOutput{}, errors.New("invalid request")
+	}
 	at, rt, err := s.signer.Sign(ac.Address)
 	if err != nil {
 		return SignInOutput{}, err
 	}
+	if err = s.rep.New(ctx, New(ac.Address)); err != nil {
+		return SignInOutput{}, err
+	}
 	return SignInOutput{
-		Address: ac.Address,
-		//Nonce:        ac.Nonce.String(),
+		Address:      ac.Address,
 		AccessToken:  at,
 		RefleshToken: rt,
 	}, nil
@@ -136,8 +143,7 @@ func (s SignService) signUp(ctx context.Context, address common.Address) (SignIn
 	}
 	ac := New(address)
 	return SignInOutput{
-		Address: ac.Address,
-		//Nonce:        ac.Nonce.String(),
+		Address:      ac.Address,
 		AccessToken:  at,
 		RefleshToken: rt,
 	}, s.rep.New(ctx, ac)
