@@ -1,10 +1,15 @@
 package handle
 
 import (
+	"context"
 	"encoding/json"
+	"kaleido-backend/pkg/account"
+	"kaleido-backend/pkg/infrastructure/auth"
+	"kaleido-backend/pkg/infrastructure/ssm"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/ethereum/go-ethereum/common"
 )
 
 // Headers with headers
@@ -15,6 +20,16 @@ func Headers(request events.APIGatewayProxyRequest) map[string]string {
 		"Access-Control-Allow-Credentials": "true",
 		"Access-Control-Allow-Origin":      "*",
 	}
+}
+
+// EOA retrive eoa from string
+func EOA(ctx context.Context, jwt string) (common.Address, error) {
+	v, err := auth.NewVerifier(ctx, ssm.New())
+	if err != nil {
+		return common.Address{}, err
+	}
+	account.NewVerifyService(v).
+
 }
 
 func withoutProtocol(origin string) string {

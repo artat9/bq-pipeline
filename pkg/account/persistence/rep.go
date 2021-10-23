@@ -46,6 +46,11 @@ func (r Repository) New(ctx context.Context, ac account.Account) error {
 	return nil
 }
 
+// Update update account
+func (r Repository) Update(ctx context.Context, ac account.Account) error {
+	return r.New(ctx, ac)
+}
+
 func fromAccount(ac account.Account) DDBAccount {
 	return DDBAccount{
 		SimpleEntry: ddb.NewSimpleEntry(pkPrefix+strings.ToLower(ac.Address.Hex()), sk, ac.Nonce.String()),

@@ -31,9 +31,12 @@ func NewVerifier(ctx context.Context, sec SecretResolver) (Verifier, error) {
 }
 
 // Verify verify claim
-func (v Verifier) Verify(val string) error {
-	_, err := v.verify(val)
-	return err
+func (v Verifier) Verify(val string) (common.Address, error) {
+	cl, err := v.verify(val)
+	if err != nil {
+		return common.Address{}, err
+	}
+	return common.HexToAddress(cl["address"].(string)), err
 }
 
 func (v Verifier) verify(val string) (jwt.MapClaims, error) {

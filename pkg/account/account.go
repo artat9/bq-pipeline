@@ -14,8 +14,16 @@ import (
 type (
 	// Account account
 	Account struct {
-		Address common.Address `json:"address"`
-		Nonce   *big.Int       `json:"nonce"`
+		Address     common.Address `json:"address"`
+		Nonce       *big.Int       `json:"nonce"`
+		Name        string         `json:"name"`
+		Email       string         `json:"email"`
+		Description string         `json:"description"`
+	}
+
+	// Service account service
+	Service struct {
+		rep Repository
 	}
 	// AddressVerifier verifier
 	AddressVerifier interface {
@@ -25,12 +33,22 @@ type (
 	Repository interface {
 		FromAddress(ctx context.Context, eoa common.Address) (Account, error)
 		New(ctx context.Context, ac Account) error
+		Update(ctx context.Context, ac Account) error
 	}
 	// SignService service
 	SignService struct {
 		verifier AddressVerifier
 		rep      Repository
 		signer   Signer
+	}
+
+	// UpdateInput update input
+	UpdateInput struct {
+		// TODO: updateable?
+		//ID          *string `json:"email"`
+		Name        *string `json:"name"`
+		Email       *string `json:"email"`
+		Description *string `json:"description"`
 	}
 
 	// VerifyService verify service
@@ -67,10 +85,17 @@ type (
 
 	// Verifier verifier
 	Verifier interface {
-		Verify(val string) error
+		Verify(val string) (common.Address, error)
 		Reflesh(refleshToken string) (string, error)
 	}
 )
+
+// NewService new service
+func NewService(r Repository) Service {
+	return Service{
+		rep: r,
+	}
+}
 
 // NewSignService new servcice
 func NewSignService(v AddressVerifier, r Repository, s Signer) SignService {
@@ -96,9 +121,31 @@ func (v VerifyService) Reflesh(ctx context.Context, in RefleshInput) (RefleshOut
 	}, err
 }
 
+// Verify verify access token and return eoa
+func (v VerifyService) Verify(ctx context.Context, accessToken string) (common.Address, error) {
+	return v.verifier.Verify(accessToken)
+}
+
+// Update udpate account
+func (s Service) Update(ctx context.Context, account common.Address, in UpdateInput) (Account, error) {
+	ac, err := s.rep.FromAddress(ctx, account)
+	if err != nil {
+		return Account{}, err
+	}
+	if in.Description != nil {
+		ac.Description = *in.Description
+	}
+	if in.Email != nil {
+		ac.Email = *in.Email
+	}
+	if in.Name != nil {
+		ac.Name = *in.Name
+	}
+	return ac, s.rep.Update(ctx, ac)
+}
+
 // Sign sign in / sign up
 func (s SignService) Sign(ctx context.Context, in SignInInput) (SignInOutput, error) {
-	// TODO: verify nonce
 	if err := validator.New().Struct(&in); err != nil {
 		return SignInOutput{}, err
 	}
@@ -116,9 +163,9 @@ func (s SignService) Sign(ctx context.Context, in SignInInput) (SignInOutput, er
 	return s.signIn(ctx, in.Msg, ac)
 }
 
-func (s SignService) signIn(ctx context.Context, nonce string, ac Account) (SignInOutput, error) {
+func (s SignService) signIn(ctx context.Context, non string, ac Account) (SignInOutput, error) {
 	n := new(big.Int)
-	n, _ = n.SetString(nonce, 10)
+	n, _ = n.SetString(non, 10)
 	if n.Cmp(ac.Nonce) != 0 {
 		return SignInOutput{}, errors.New("invalid request")
 	}
@@ -126,7 +173,9 @@ func (s SignService) signIn(ctx context.Context, nonce string, ac Account) (Sign
 	if err != nil {
 		return SignInOutput{}, err
 	}
-	if err = s.rep.New(ctx, New(ac.Address)); err != nil {
+	newnonce, _ := nonce()
+	ac.Nonce = newnonce
+	if err = s.rep.Update(ctx, ac); err != nil {
 		return SignInOutput{}, err
 	}
 	return SignInOutput{

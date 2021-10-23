@@ -108,7 +108,7 @@ func TestVerifier_Verify(t *testing.T) {
 				secret: secret,
 				cl:     tt.fields.cl,
 			}
-			if err := v.Verify(tt.args.val); (err != nil) != tt.wantErr {
+			if _, err := v.Verify(tt.args.val); (err != nil) != tt.wantErr {
 				t.Errorf("Verifier.Verify() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
