@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"encoding/json"
-	lib "kaleido-backend/pkg"
 	"kaleido-backend/pkg/ad"
+	"kaleido-backend/pkg/handle"
 	"kaleido-backend/pkg/infrastructure/arweave"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -14,26 +14,17 @@ import (
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	req, err := toInput(request)
 	if err != nil {
-		return unexpectedError(request), err
+		return handle.UnexpectedErrorResponse(request), err
 	}
 	app, err := newApp(ctx)
 	if err != nil {
-		return unexpectedError(request), err
+		return handle.UnexpectedErrorResponse(request), err
 	}
 	res, err := app.Upload(ctx, req)
 	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: 500,
-			Headers:    lib.Headers(request),
-			Body:       "unknown error",
-		}, err
+		return handle.UnexpectedErrorResponse(request), err
 	}
-	resJSON, _ := json.Marshal(&res)
-	return events.APIGatewayProxyResponse{
-		StatusCode: 200,
-		Headers:    lib.Headers(request),
-		Body:       string(resJSON),
-	}, nil
+	return handle.NormalResponse(request, res), nil
 }
 
 func main() {
@@ -54,12 +45,4 @@ func newApp(ctx context.Context) (*ad.Service, error) {
 		return &ad.Service{}, err
 	}
 	return ad.NewService(cli), nil
-}
-
-func unexpectedError(request events.APIGatewayProxyRequest) events.APIGatewayProxyResponse {
-	return events.APIGatewayProxyResponse{
-		StatusCode: 500,
-		Headers:    lib.Headers(request),
-		Body:       "unknown error",
-	}
 }

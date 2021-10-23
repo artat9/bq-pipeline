@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
-	lib "kaleido-backend/pkg"
+	"kaleido-backend/pkg/handle"
 	"kaleido-backend/pkg/infrastructure/arweave"
 	"kaleido-backend/pkg/post"
 
@@ -14,26 +14,17 @@ import (
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	req, err := toInput(request)
 	if err != nil {
-		return unexpectedError(request), err
+		return handle.UnexpectedErrorResponse(request), err
 	}
 	app, err := newApp(ctx)
 	if err != nil {
-		return unexpectedError(request), err
+		return handle.UnexpectedErrorResponse(request), err
 	}
 	res, err := app.Upload(ctx, req)
 	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: 500,
-			Headers:    lib.Headers(request),
-			Body:       "unknown error",
-		}, err
+		handle.UnexpectedErrorResponse(request)
 	}
-	resJSON, _ := json.Marshal(&res)
-	return events.APIGatewayProxyResponse{
-		StatusCode: 200,
-		Headers:    lib.Headers(request),
-		Body:       string(resJSON),
-	}, nil
+	return handle.NormalResponse(request, res), err
 }
 
 func main() {
@@ -54,12 +45,4 @@ func newApp(ctx context.Context) (*post.Service, error) {
 		return &post.Service{}, err
 	}
 	return post.NewService(cli), nil
-}
-
-func unexpectedError(request events.APIGatewayProxyRequest) events.APIGatewayProxyResponse {
-	return events.APIGatewayProxyResponse{
-		StatusCode: 500,
-		Headers:    lib.Headers(request),
-		Body:       "unknown error",
-	}
 }

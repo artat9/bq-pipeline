@@ -24,7 +24,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	app, err := newApp(ctx)
 	if err != nil {
 		log.Error("initialization failed", err)
-		return handle.UnauthorizedResponse(request, err), nil
+		return handle.UnauthorizedResponse(request, err), err
 	}
 	res, err := app.Sign(ctx, req)
 	if err != nil {

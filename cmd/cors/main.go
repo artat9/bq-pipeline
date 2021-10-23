@@ -2,17 +2,14 @@ package main
 
 import (
 	"context"
-	lib "kaleido-backend/pkg"
+	"kaleido-backend/pkg/handle"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{
-		StatusCode: 200,
-		Headers:    lib.Headers(request),
-	}, nil
+	return handle.NormalResponse(request, ""), nil
 }
 
 func main() {

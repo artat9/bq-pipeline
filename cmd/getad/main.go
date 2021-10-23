@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
-	lib "kaleido-backend/pkg"
 	"kaleido-backend/pkg/ad"
+	"kaleido-backend/pkg/common/log"
+	"kaleido-backend/pkg/handle"
 	"kaleido-backend/pkg/infrastructure/arweave"
 	"kaleido-backend/pkg/infrastructure/eth/admanager"
 
@@ -17,26 +17,19 @@ import (
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	req, err := toInput(request)
 	if err != nil {
-		return unexpectedErrorAsNotFound(request, err), err
+		log.Error("unexpected error", err)
+		return handle.NotFoundErrorResponse(request, err), nil
 	}
 	app, err := newApp(ctx)
 	if err != nil {
-		return unexpectedErrorAsNotFound(request, err), err
+		log.Error("unexpected err", err)
+		return handle.NotFoundErrorResponse(request, err), err
 	}
 	res, err := app.Get(ctx, req)
 	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: 500,
-			Headers:    lib.Headers(request),
-			Body:       "unknown error",
-		}, err
+		return handle.UnexpectedErrorResponse(request), err
 	}
-	resJSON, _ := json.Marshal(&res)
-	return events.APIGatewayProxyResponse{
-		StatusCode: 200,
-		Headers:    lib.Headers(request),
-		Body:       string(resJSON),
-	}, nil
+	return handle.NormalResponse(request, res), err
 }
 
 func main() {
@@ -72,20 +65,4 @@ func newApp(ctx context.Context) (*ad.Service, error) {
 		return &ad.Service{}, err
 	}
 	return ad.NewWithContract(cli, contract), nil
-}
-
-func unexpectedErrorAsNotFound(request events.APIGatewayProxyRequest, err error) events.APIGatewayProxyResponse {
-	return anyError(request, 404, err)
-}
-
-func anyError(request events.APIGatewayProxyRequest, code int, err error) events.APIGatewayProxyResponse {
-	return events.APIGatewayProxyResponse{
-		StatusCode: code,
-		Headers:    lib.Headers(request),
-		Body:       err.Error(),
-	}
-}
-
-func clientError(request events.APIGatewayProxyRequest, err error) events.APIGatewayProxyResponse {
-	return anyError(request, 400, err)
 }
