@@ -49,7 +49,7 @@
     "@aws-cdk/cx-api" "1.106.1"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-apigateway@1.109.0", "@aws-cdk/aws-apigateway@^1.109.0":
+"@aws-cdk/aws-apigateway@1.109.0":
   version "1.109.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-apigateway/-/aws-apigateway-1.109.0.tgz#c5f33a9e773840c8c37ceeac9fae9ab749418ce0"
   integrity sha512-njvUcUZtkteTK3j5uQup7LBs/0VNm7A0A5NY2QcO3yJDlcREW6i72n1w5NG1GPsY22csY7gR9G9Pbll70hAyLg==
@@ -677,7 +677,7 @@
     "@aws-cdk/custom-resources" "1.109.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-events-targets@1.109.0", "@aws-cdk/aws-events-targets@^1.109.0":
+"@aws-cdk/aws-events-targets@1.109.0":
   version "1.109.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-events-targets/-/aws-events-targets-1.109.0.tgz#c4aff240486176db7f6e92b78783b60a080ecbfd"
   integrity sha512-FXLzx9HLzuyR02XkgcpWuSQGcC7b2ukZCdqkEgTUExRd2oxUsae4A3qZ1G2k9GmiE8YEx1qkK0IrAvL681JgWA==
@@ -711,7 +711,7 @@
     "@aws-cdk/core" "1.106.1"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-events@1.109.0", "@aws-cdk/aws-events@^1.109.0":
+"@aws-cdk/aws-events@1.109.0":
   version "1.109.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-events/-/aws-events-1.109.0.tgz#472ffb25848767070422041b71fbef85c1bba54f"
   integrity sha512-9bvvf2Z9WPgcMZ7Uxrot/8GHdi5fVX5u9KbwfTf97KBb5aKQLboQK+HZ1JQKzti7LsH7NuznHH9/R5zr4qJrwg==

@@ -7,16 +7,15 @@ require (
 	github.com/aws/aws-cdk-go/awscdk v1.118.0-devpreview
 	github.com/aws/aws-cdk-go/awscdk/v2 v2.0.0-rc.16
 	github.com/aws/aws-lambda-go v1.26.0
-	github.com/aws/aws-sdk-go v1.41.8
+	github.com/aws/aws-sdk-go v1.41.9
 	github.com/aws/aws-xray-sdk-go v1.6.0
 	github.com/aws/constructs-go/constructs/v10 v10.0.5
 	github.com/aws/constructs-go/constructs/v3 v3.3.119
 	github.com/aws/jsii-runtime-go v1.32.0
 	github.com/ethereum/go-ethereum v1.10.11
-	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang-jwt/jwt/v4 v4.1.0
+	github.com/google/uuid v1.3.0
 	github.com/guregu/dynamo v1.11.0
-	github.com/qmuntal/gltf v0.20.2
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.7.0
 	github.com/tidwall/gjson v1.8.1
@@ -36,8 +35,8 @@ require (
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/gofrs/uuid v3.3.0+incompatible // indirect
+	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/protobuf v1.4.3 // indirect
-	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/klauspost/compress v1.11.8 // indirect
@@ -45,6 +44,7 @@ require (
 	github.com/mendsley/gojwk v0.0.0-20141217222730-4d5ec6e58103 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/qmuntal/gltf v0.20.2 // indirect
 	github.com/rjeczalik/notify v0.9.1 // indirect
 	github.com/shirou/gopsutil v3.21.4-0.20210419000835-c7a38de76ee5+incompatible // indirect
 	github.com/tidwall/match v1.0.3 // indirect
