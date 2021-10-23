@@ -10,15 +10,13 @@ import {
   SecurityPolicy,
 } from "@aws-cdk/aws-apigateway";
 import * as certificatemanager from "@aws-cdk/aws-certificatemanager";
-import { Effect, PolicyStatement } from "@aws-cdk/aws-iam";
-import { Code, Function, Runtime, Tracing } from "@aws-cdk/aws-lambda";
 import * as route53 from "@aws-cdk/aws-route53";
 import * as alias from "@aws-cdk/aws-route53-targets";
 import { Bucket, IBucket } from "@aws-cdk/aws-s3";
 import * as cdk from "@aws-cdk/core";
-import { CfnOutput, Construct, Duration } from "@aws-cdk/core";
-import { resolve } from "path";
+import { CfnOutput, Construct } from "@aws-cdk/core";
 import * as environment from "./env";
+import { lambdaFunction } from "./function";
 import { hostedZoneFromId } from "./route53";
 
 export class RestApiStack extends cdk.Stack {
@@ -85,54 +83,6 @@ export class RestApiStack extends cdk.Stack {
     aRecord(this, target, customDomain);
   }
 }
-
-const lambdaFunction = (
-  scope: Construct,
-  id: string,
-  target: environment.Environments
-) => {
-  const func = new Function(scope, id, {
-    functionName: environment.withEnvPrefix(target, id),
-    code: code(id),
-    handler: "bin/main",
-    timeout: Duration.minutes(1),
-    runtime: Runtime.GO_1_X,
-    tracing: Tracing.ACTIVE,
-    environment: {
-      EnvironmentId: target.toString(),
-      AllowedOrigin: environment.valueOf(target).allowedOrigin,
-    },
-  });
-  func.addToRolePolicy(
-    new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: ["lambda:*"],
-      resources: ["*"],
-    })
-  );
-  func.addToRolePolicy(
-    new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: ["ssm:Get*"],
-      resources: ["*"],
-    })
-  );
-  func.addToRolePolicy(
-    new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: ["ssm:Get*"],
-      resources: ["*"],
-    })
-  );
-  func.addToRolePolicy(
-    new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: ["dynamodb:*"],
-      resources: ["*"],
-    })
-  );
-  return func;
-};
 
 const nftFunctions = (
   scope: Construct,
@@ -234,8 +184,3 @@ function addCorsOptions(apiResource: IResource) {
     }
   );
 }
-const code = (dirname: string) => {
-  return Code.fromAsset(
-    resolve(`${__dirname}/../`, "cmd", dirname, "bin", "main.zip")
-  );
-};

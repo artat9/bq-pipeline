@@ -11,12 +11,14 @@ import {
   Effect,
   PolicyStatement,
 } from "@aws-cdk/aws-iam";
+import { S3EventSource } from "@aws-cdk/aws-lambda-event-sources";
 import { ARecord, IHostedZone, RecordTarget } from "@aws-cdk/aws-route53";
 import { CloudFrontTarget } from "@aws-cdk/aws-route53-targets";
 import {
   BlockPublicAccess,
   Bucket,
   BucketAccessControl,
+  EventType,
   HttpMethods,
 } from "@aws-cdk/aws-s3";
 import {
@@ -27,6 +29,7 @@ import {
   StackProps,
 } from "@aws-cdk/core";
 import * as environment from "./env";
+import { lambdaFunction } from "./function";
 type AsstesStackProps = StackProps & {
   certificate: ICertificate;
   hostedZone: IHostedZone;
@@ -40,7 +43,7 @@ export class AsstesStack extends Stack {
     props: AsstesStackProps
   ) {
     super(scope, id);
-    permanentBucket(this, target, props);
+    permanentBucket(this, target, this.account, props);
   }
 }
 
@@ -51,6 +54,7 @@ export const assetBucketName = (target: environment.Environments) => {
 const permanentBucket = (
   scope: Construct,
   target: environment.Environments,
+  account: string,
   props: AsstesStackProps
 ) => {
   const b = new Bucket(scope, "AssetBucket", {
@@ -102,6 +106,24 @@ const permanentBucket = (
       },
     ],
   });
+  const invalidateFunc = lambdaFunction(scope, "updateimage", target, {
+    AssetDistributionId: assetsDist.distributionId,
+  });
+  invalidateFunc.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["cloudfront:CreateInvalidation"],
+      resources: [
+        `arn:aws:cloudfront::${account}:distribution/${assetsDist.distributionId}`,
+        `arn:aws:cloudfront::${account}:distribution/${assetsDist.distributionId}/*`,
+      ],
+    })
+  );
+  invalidateFunc.addEventSource(
+    new S3EventSource(b, {
+      events: [EventType.OBJECT_CREATED],
+    })
+  );
   new ARecord(scope, `AssetCDNArecord`, {
     recordName: assetDomainName(target),
     target: RecordTarget.fromAlias(new CloudFrontTarget(assetsDist)),

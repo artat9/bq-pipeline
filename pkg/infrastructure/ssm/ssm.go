@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
 	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
+	"github.com/aws/aws-xray-sdk-go/xray"
 	"github.com/ethereum/go-ethereum/log"
 )
 
@@ -27,8 +28,10 @@ const (
 
 // New New client
 func New() Client {
+	svc := ssm.New(session.New(&aws.Config{Region: aws.String("us-east-1")}))
+	xray.AWS(svc.Client)
 	return Client{
-		svc: ssm.New(session.New(&aws.Config{Region: aws.String("us-east-1")})),
+		svc: svc,
 	}
 }
 

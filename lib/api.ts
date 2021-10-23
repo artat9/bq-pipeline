@@ -8,16 +8,10 @@ import {
   Schema,
 } from "@aws-cdk/aws-appsync";
 import * as dynamodb from "@aws-cdk/aws-dynamodb";
-import {
-  Code,
-  Function,
-  FunctionProps,
-  Runtime,
-  Tracing,
-} from "@aws-cdk/aws-lambda";
 import * as cdk from "@aws-cdk/core";
-import { join, resolve } from "path";
+import { join } from "path";
 import * as environment from "./env";
+import { lambdaFunction } from "./function";
 import IAM = require("@aws-cdk/aws-iam");
 interface ApiProps extends cdk.StackProps {
   ddb: dynamodb.Table;
@@ -112,10 +106,11 @@ const apiDefaultRole = (
 
 const withLambdaQueryResolvers = (
   api: GraphqlApi,
-  input: QueryResolverInput
+  input: QueryResolverInput,
+  target: environment.Environments
 ) => {
   input.resolverNames.forEach((n) => {
-    const f = new Function(input.stack, n, funcProps(n, n, input.target));
+    const f = lambdaFunction(input.stack, n, target);
     f.addToRolePolicy(input.functionRole);
     api.addLambdaDataSource(n, f).createResolver(queryResolver(n));
   });
@@ -151,25 +146,5 @@ const apiProps = (target: environment.Environments): GraphqlApiProps => {
         },
       },
     },
-  };
-};
-
-const code = (dirname: string) => {
-  return Code.fromAsset(
-    resolve(__dirname, "..", "functions", dirname, "bin", "main.zip")
-  );
-};
-
-const funcProps = (
-  funcName: string,
-  dirname: string,
-  target: environment.Environments
-): FunctionProps => {
-  return {
-    functionName: environment.withEnvPrefix(target, funcName),
-    code: code(dirname),
-    handler: "bin/main",
-    runtime: Runtime.GO_1_X,
-    tracing: Tracing.ACTIVE,
   };
 };

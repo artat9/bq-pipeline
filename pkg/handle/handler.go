@@ -28,8 +28,7 @@ func EOA(ctx context.Context, jwt string) (common.Address, error) {
 	if err != nil {
 		return common.Address{}, err
 	}
-	account.NewVerifyService(v).
-
+	return account.NewVerifyService(v).Verify(ctx, jwt)
 }
 
 func withoutProtocol(origin string) string {
