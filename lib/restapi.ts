@@ -236,6 +236,6 @@ function addCorsOptions(apiResource: IResource) {
 }
 const code = (dirname: string) => {
   return Code.fromAsset(
-    resolve(`${__dirname}/../`, "lib", "functions", dirname, "bin", "main.zip")
+    resolve(`${__dirname}/../`, "cmd", dirname, "bin", "main.zip")
   );
 };

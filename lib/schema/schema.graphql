@@ -5,5 +5,7 @@ type Query {
 type Account {
   address: String!
   nonce: String!
+  iconPath: String
+  bannerPath: String
 }
 

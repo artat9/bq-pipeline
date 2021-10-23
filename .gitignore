@@ -9,15 +9,14 @@ cdk.out
 
 
 # go binaries
-lib/functions/**/bin
+cmd/**/bin
 vendor/*
-lib/functions/vendor*
+cmd/vendor*
 
 doc/.DS_Store
 
 .DS_Store
-
-lib/functions/**/**/arweave.json
+**/arweave.json
 # assets
 !package.json
 *.bin

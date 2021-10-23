@@ -156,7 +156,7 @@ const apiProps = (target: environment.Environments): GraphqlApiProps => {
 
 const code = (dirname: string) => {
   return Code.fromAsset(
-    resolve(__dirname, "functions", dirname, "bin", "main.zip")
+    resolve(__dirname, "..", "functions", dirname, "bin", "main.zip")
   );
 };
 

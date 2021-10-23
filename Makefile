@@ -9,21 +9,21 @@ setup:
 	cd kaleido-core && yarn && npx hardhat compile
 
 abi:
-	abigen --abi kaleido-core/abi/contracts/AdManager.sol/AdManager.json --pkg contracts --out lib/functions/lib/contracts/adm/admanager.go	--alias bid=bid1, _bid=bid2
-	abigen --abi kaleido-core/abi/contracts/token/DistributionRight.sol/DistributionRight.json --pkg contracts --out lib/functions/lib/contracts/right/right.go
+	abigen --abi kaleido-core/abi/contracts/AdManager.sol/AdManager.json --pkg contracts --out pkg/contracts/adm/admanager.go	--alias bid=bid1, _bid=bid2
+	abigen --abi kaleido-core/abi/contracts/token/DistributionRight.sol/DistributionRight.json --pkg contracts --out pkg/contracts/right/right.go
 
 build: 
 	export GO111MODULE=on
-	for module_dir in $$(ls lib/functions | grep -v lib| grep -v assets); do\
+	for module_dir in $$(ls cmd | grep -v arweave); do\
 	  echo  "building start... $${module_dir}";\
-	  	cd lib/functions/$${module_dir};\
+	  	cd cmd/$${module_dir};\
 			pwd;\
 			mkdir -p bin;\
 			env GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o bin/main main.go || exit 1;\
-			cp -R ../assets . ;\
+			cp -R assets . ;\
 			rm bin/main.zip ;\
 			zip bin/main.zip bin/main assets/arweave/arweave.json;\
-			cd ../../..;\
+			cd ../..;\
 			echo  "building finished. $${module_dir}";\
 	done
 deploy: 

@@ -64,7 +64,7 @@ Object {
           ],
         },
         "Description": "default",
-        "Expires": 1666434091,
+        "Expires": 1666489880,
       },
       "Type": "AWS::AppSync::ApiKey",
     },
@@ -90,7 +90,7 @@ Object {
         ## Provide a query expression. **
         "expression": "PK = :PK",
         "expressionValues" : {
-            ":PK" : $util.dynamodb.toDynamoDBJson("Account:\${context.arguments.address}")
+            ":PK" : $util.dynamodb.toDynamoDBJson("Account:\${util.str.toLower(\${context.arguments.address})}")
         }
     },
 }
@@ -102,8 +102,8 @@ Object {
     #return
 #end
 #foreach($item in $ctx.result.items)
-    #set($address =  $util.str.toReplace($item.PK, "User:", ""))
-    #set($nonce =  $item.Nonce)
+    #set($address =  $util.str.toReplace($item.PK, "Account:", ""))
+    #set($nonce =  $item.Data)
 #end
 {
   "address": $util.toJson($address),
@@ -129,6 +129,8 @@ Object {
 type Account {
   address: String!
   nonce: String!
+  iconPath: String
+  bannerPath: String
 }
 
 ",
