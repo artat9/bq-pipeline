@@ -2,6 +2,14 @@ type Query {
   getAccount(address: String!): Account
 }
 
+type Mutation {
+  uploadImage(filename: String!): UploadImageOutput
+}
+
+type UploadImageOutput {
+  url: AWSURL!
+}
+
 type Account {
   address: String!
   nonce: String!
