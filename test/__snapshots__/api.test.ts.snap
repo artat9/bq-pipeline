@@ -2,6 +2,20 @@
 
 exports[`resource created 1`] = `
 Object {
+  "Parameters": Object {
+    "[HASH REMOVED]": Object {
+      "Description": "[HASH REMOVED]",
+      "Type": "String",
+    },
+    "[HASH REMOVED]": Object {
+      "Description": "[HASH REMOVED]",
+      "Type": "String",
+    },
+    "[HASH REMOVED]": Object {
+      "Description": "[HASH REMOVED]",
+      "Type": "String",
+    },
+  },
   "Resources": Object {
     "GraphqlApi1B6CF24C": Object {
       "Properties": Object {
@@ -64,9 +78,47 @@ Object {
           ],
         },
         "Description": "default",
-        "Expires": 1666501840,
+        "Expires": 1666757726,
       },
       "Type": "AWS::AppSync::ApiKey",
+    },
+    "GraphqlApiMutationapplyForMediaAccountResolverFA4A6D7C": Object {
+      "DependsOn": Array [
+        "createmediaaccountDF496BE5",
+        "GraphqlApiSchema1B71CE4F",
+      ],
+      "Properties": Object {
+        "ApiId": Object {
+          "Fn::GetAtt": Array [
+            "GraphqlApi1B6CF24C",
+            "ApiId",
+          ],
+        },
+        "DataSourceName": "createmediaaccount",
+        "FieldName": "applyForMediaAccount",
+        "Kind": "UNIT",
+        "TypeName": "Mutation",
+      },
+      "Type": "AWS::AppSync::Resolver",
+    },
+    "GraphqlApiMutationuploadImageResolver89651961": Object {
+      "DependsOn": Array [
+        "GraphqlApiSchema1B71CE4F",
+        "uploadimage67A846F4",
+      ],
+      "Properties": Object {
+        "ApiId": Object {
+          "Fn::GetAtt": Array [
+            "GraphqlApi1B6CF24C",
+            "ApiId",
+          ],
+        },
+        "DataSourceName": "uploadimage",
+        "FieldName": "uploadImage",
+        "Kind": "UNIT",
+        "TypeName": "Mutation",
+      },
+      "Type": "AWS::AppSync::Resolver",
     },
     "GraphqlApiQuerygetAccountResolver244E426B": Object {
       "DependsOn": Array [
@@ -95,19 +147,38 @@ Object {
     },
 }
 ",
-        "ResponseMappingTemplate": "
-#set($address = "")
-#set($nonce="")
-#if ($ctx.result.items.size() == 0)
+        "ResponseMappingTemplate": "#if ($ctx.result.items.size() == 0)
     #return
 #end
 #foreach($item in $ctx.result.items)
-    #set($address =  $util.str.toReplace($item.PK, "Account:", ""))
-    #set($nonce =  $item.Data)
+    #if( $item.SK== "Account:Account" )
+        #set($address =  $util.str.toReplace($item.PK, "Account:", ""))
+        #set($nonce =  $item.Data)
+    #end
+    #if( $item.SK== "Account:Description" )
+        #set($description =  $item.Data)
+    #end
+    #if( $item.SK== "Account:MailAddres" )
+        #set($mailAddress =  $item.Data)
+    #end
+    #if( $item.SK== "Account:URL" )
+        #set($url =  $item.Data)
+    #end
+    #if( $item.SK== "Account:TwitterId" )
+        #set($twitterId =  $item.Data)
+    #end
+    #if( $item.SK== "Account:PVMonth" )
+        #set($pvMonth =  $item.Data)
+    #end
 #end
 {
   "address": $util.toJson($address),
-  "nonce": $util.toJson($nonce)
+  "nonce": $util.toJson($nonce),
+  "description": $util.toJson($description),
+  "mailAddress": $util.toJson($mailAddress),
+  "url": $util.toJson($url),
+  "twitterId": $util.toJson($twitterId),
+  "pvMonth": $util.toJson($pvMonth)
 }
 ",
         "TypeName": "Query",
@@ -126,11 +197,34 @@ Object {
   getAccount(address: String!): Account
 }
 
+type Mutation {
+  uploadImage(filename: String!): UploadImageOutput
+  applyForMediaAccount(input: ApplyForMediaAccountInput): ApplyForMediaAccountOutput!
+}
+
+input ApplyForMediaAccountInput {
+  name: String!
+  mailAddress: AWSEmail
+  url: String
+}
+
+type ApplyForMediaAccountOutput {
+  name: String!
+  mailAddress: AWSEmail
+  url: String
+}
+
+type UploadImageOutput {
+  url: AWSURL!
+}
+
 type Account {
   address: String!
   nonce: String!
-  iconPath: String
-  bannerPath: String
+  description: String
+  mailAddress: AWSEmail
+  twitterId: String
+  pvMonth: Int
 }
 
 ",
@@ -220,6 +314,418 @@ type Account {
         "Roles": Array [
           Object {
             "Ref": "GraphqlApimainServiceRole47381CDD",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "createmediaaccountDF496BE5": Object {
+      "Properties": Object {
+        "ApiId": Object {
+          "Fn::GetAtt": Array [
+            "GraphqlApi1B6CF24C",
+            "ApiId",
+          ],
+        },
+        "LambdaConfig": Object {
+          "LambdaFunctionArn": Object {
+            "Fn::GetAtt": Array [
+              "mediaaccount264C74B7",
+              "Arn",
+            ],
+          },
+        },
+        "Name": "createmediaaccount",
+        "ServiceRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "createmediaaccountServiceRole04E97FA9",
+            "Arn",
+          ],
+        },
+        "Type": "AWS_LAMBDA",
+      },
+      "Type": "AWS::AppSync::DataSource",
+    },
+    "createmediaaccountServiceRole04E97FA9": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "appsync.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "createmediaaccountServiceRoleDefaultPolicy1F231ED1": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "mediaaccount264C74B7",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "createmediaaccountServiceRoleDefaultPolicy1F231ED1",
+        "Roles": Array [
+          Object {
+            "Ref": "createmediaaccountServiceRole04E97FA9",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "issuepresignFB27D3B6": Object {
+      "DependsOn": Array [
+        "issuepresignServiceRoleDefaultPolicyECDE0C15",
+        "issuepresignServiceRole6D26FEC4",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "[HASH REMOVED]",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "[HASH REMOVED]",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "[HASH REMOVED]",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AllowedOrigin": "http://localhost:3001",
+            "EnvironmentId": "test",
+          },
+        },
+        "FunctionName": "kaleido-backend-issuepresign-test",
+        "Handler": "bin/main",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "issuepresignServiceRole6D26FEC4",
+            "Arn",
+          ],
+        },
+        "Runtime": "go1.x",
+        "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "issuepresignServiceRole6D26FEC4": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "issuepresignServiceRoleDefaultPolicyECDE0C15": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "lambda:*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "ssm:Get*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "dynamodb:*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "issuepresignServiceRoleDefaultPolicyECDE0C15",
+        "Roles": Array [
+          Object {
+            "Ref": "issuepresignServiceRole6D26FEC4",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "mediaaccount264C74B7": Object {
+      "DependsOn": Array [
+        "mediaaccountServiceRoleDefaultPolicy7CA80317",
+        "mediaaccountServiceRole98FB0C20",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "[HASH REMOVED]",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "[HASH REMOVED]",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "[HASH REMOVED]",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AllowedOrigin": "http://localhost:3001",
+            "EnvironmentId": "test",
+          },
+        },
+        "FunctionName": "kaleido-backend-mediaaccount-test",
+        "Handler": "bin/main",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "mediaaccountServiceRole98FB0C20",
+            "Arn",
+          ],
+        },
+        "Runtime": "go1.x",
+        "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "mediaaccountServiceRole98FB0C20": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "mediaaccountServiceRoleDefaultPolicy7CA80317": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "lambda:*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "ssm:Get*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "dynamodb:*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "mediaaccountServiceRoleDefaultPolicy7CA80317",
+        "Roles": Array [
+          Object {
+            "Ref": "mediaaccountServiceRole98FB0C20",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "uploadimage67A846F4": Object {
+      "Properties": Object {
+        "ApiId": Object {
+          "Fn::GetAtt": Array [
+            "GraphqlApi1B6CF24C",
+            "ApiId",
+          ],
+        },
+        "LambdaConfig": Object {
+          "LambdaFunctionArn": Object {
+            "Fn::GetAtt": Array [
+              "issuepresignFB27D3B6",
+              "Arn",
+            ],
+          },
+        },
+        "Name": "uploadimage",
+        "ServiceRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "uploadimageServiceRole8F3AD60F",
+            "Arn",
+          ],
+        },
+        "Type": "AWS_LAMBDA",
+      },
+      "Type": "AWS::AppSync::DataSource",
+    },
+    "uploadimageServiceRole8F3AD60F": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "appsync.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "uploadimageServiceRoleDefaultPolicy115F49F0": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "issuepresignFB27D3B6",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "uploadimageServiceRoleDefaultPolicy115F49F0",
+        "Roles": Array [
+          Object {
+            "Ref": "uploadimageServiceRole8F3AD60F",
           },
         ],
       },

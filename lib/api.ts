@@ -37,6 +37,14 @@ export class ApiStack extends cdk.Stack {
         lambdaFunction: lambdaFunction(this, "issuepresign", target),
       }),
     });
+    api.createResolver({
+      typeName: "Mutation",
+      fieldName: "applyForMediaAccount",
+      dataSource: new LambdaDataSource(this, "createmediaaccount", {
+        api: api,
+        lambdaFunction: lambdaFunction(this, "mediaaccount", target),
+      }),
+    });
   }
 }
 

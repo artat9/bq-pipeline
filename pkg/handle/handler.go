@@ -108,5 +108,9 @@ func Argument(event interface{}, key string) string {
 	b, _ := json.Marshal(&event)
 	json.Unmarshal(b, &req)
 	input := req["arguments"]
-	return input.(map[string]interface{})[key].(string)
+	k := input.(map[string]interface{})[key]
+	if k != nil {
+		return k.(string)
+	}
+	return ""
 }

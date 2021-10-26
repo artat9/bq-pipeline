@@ -4,6 +4,19 @@ type Query {
 
 type Mutation {
   uploadImage(filename: String!): UploadImageOutput
+  applyForMediaAccount(input: ApplyForMediaAccountInput): ApplyForMediaAccountOutput!
+}
+
+input ApplyForMediaAccountInput {
+  name: String!
+  mailAddress: AWSEmail
+  url: String
+}
+
+type ApplyForMediaAccountOutput {
+  name: String!
+  mailAddress: AWSEmail
+  url: String
 }
 
 type UploadImageOutput {
