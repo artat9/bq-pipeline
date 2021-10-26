@@ -13,7 +13,9 @@ type UploadImageOutput {
 type Account {
   address: String!
   nonce: String!
-  iconPath: String
-  bannerPath: String
+  description: String
+  mailAddress: AWSEmail
+  twitterId: String
+  pvMonth: Int
 }
 

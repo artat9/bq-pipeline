@@ -1,14 +1,33 @@
-
-#set($address = "")
-#set($nonce="")
 #if ($ctx.result.items.size() == 0)
     #return
 #end
 #foreach($item in $ctx.result.items)
-    #set($address =  $util.str.toReplace($item.PK, "Account:", ""))
-    #set($nonce =  $item.Data)
+    #if( $item.SK== "Account:Account" )
+        #set($address =  $util.str.toReplace($item.PK, "Account:", ""))
+        #set($nonce =  $item.Data)
+    #end
+    #if( $item.SK== "Account:Description" )
+        #set($description =  $item.Data)
+    #end
+    #if( $item.SK== "Account:MailAddres" )
+        #set($mailAddress =  $item.Data)
+    #end
+    #if( $item.SK== "Account:URL" )
+        #set($url =  $item.Data)
+    #end
+    #if( $item.SK== "Account:TwitterId" )
+        #set($twitterId =  $item.Data)
+    #end
+    #if( $item.SK== "Account:PVMonth" )
+        #set($pvMonth =  $item.Data)
+    #end
 #end
 {
   "address": $util.toJson($address),
-  "nonce": $util.toJson($nonce)
+  "nonce": $util.toJson($nonce),
+  "description": $util.toJson($description),
+  "mailAddress": $util.toJson($mailAddress),
+  "url": $util.toJson($url),
+  "twitterId": $util.toJson($twitterId),
+  "pvMonth": $util.toJson($pvMonth)
 }
