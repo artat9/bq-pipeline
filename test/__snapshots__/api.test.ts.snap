@@ -15,6 +15,18 @@ Object {
       "Description": "[HASH REMOVED]",
       "Type": "String",
     },
+    "[HASH REMOVED]": Object {
+      "Description": "[HASH REMOVED]",
+      "Type": "String",
+    },
+    "[HASH REMOVED]": Object {
+      "Description": "[HASH REMOVED]",
+      "Type": "String",
+    },
+    "[HASH REMOVED]": Object {
+      "Description": "[HASH REMOVED]",
+      "Type": "String",
+    },
   },
   "Resources": Object {
     "GraphqlApi1B6CF24C": Object {
@@ -78,7 +90,7 @@ Object {
           ],
         },
         "Description": "default",
-        "Expires": 1666757726,
+        "Expires": 1666763004,
       },
       "Type": "AWS::AppSync::ApiKey",
     },
