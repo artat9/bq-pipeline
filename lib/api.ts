@@ -4,6 +4,7 @@ import {
   FieldLogLevel,
   GraphqlApi,
   GraphqlApiProps,
+  LambdaDataSource,
   MappingTemplate,
   Schema,
 } from "@aws-cdk/aws-appsync";
@@ -28,6 +29,22 @@ export class ApiStack extends cdk.Stack {
     super(scope, id, props);
     const api = new GraphqlApi(this, "GraphqlApi", apiProps(target));
     withDDBResolvers(api, dDBDataSource(api, target, props));
+    api.createResolver({
+      typeName: "Mutation",
+      fieldName: "uploadImage",
+      dataSource: new LambdaDataSource(this, "uploadimage", {
+        api: api,
+        lambdaFunction: lambdaFunction(this, "issuepresign", target),
+      }),
+    });
+    api.createResolver({
+      typeName: "Mutation",
+      fieldName: "applyForMediaAccount",
+      dataSource: new LambdaDataSource(this, "createmediaaccount", {
+        api: api,
+        lambdaFunction: lambdaFunction(this, "mediaaccount", target),
+      }),
+    });
   }
 }
 

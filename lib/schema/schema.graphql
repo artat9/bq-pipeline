@@ -2,10 +2,33 @@ type Query {
   getAccount(address: String!): Account
 }
 
+type Mutation {
+  uploadImage(filename: String!): UploadImageOutput
+  applyForMediaAccount(input: ApplyForMediaAccountInput): ApplyForMediaAccountOutput!
+}
+
+input ApplyForMediaAccountInput {
+  name: String!
+  mailAddress: AWSEmail
+  url: String
+}
+
+type ApplyForMediaAccountOutput {
+  name: String!
+  mailAddress: AWSEmail
+  url: String
+}
+
+type UploadImageOutput {
+  url: AWSURL!
+}
+
 type Account {
   address: String!
   nonce: String!
-  iconPath: String
-  bannerPath: String
+  description: String
+  mailAddress: AWSEmail
+  twitterId: String
+  pvMonth: Int
 }
 

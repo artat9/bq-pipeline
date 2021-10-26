@@ -87,3 +87,30 @@ func NormalResponse(request events.APIGatewayProxyRequest, res interface{}) even
 		Body:       string(resJSON),
 	}
 }
+
+// Authorization auth value
+func Authorization(event interface{}) string {
+	req := map[string]interface{}{}
+	b, _ := json.Marshal(&event)
+	json.Unmarshal(b, &req)
+	input := req["request"]
+	headers := input.(map[string]interface{})
+	auth := headers["authorization"]
+	if auth != nil {
+		return auth.(string)
+	}
+	return ""
+}
+
+// Argument argument
+func Argument(event interface{}, key string) string {
+	req := map[string]interface{}{}
+	b, _ := json.Marshal(&event)
+	json.Unmarshal(b, &req)
+	input := req["arguments"]
+	k := input.(map[string]interface{})[key]
+	if k != nil {
+		return k.(string)
+	}
+	return ""
+}

@@ -17,6 +17,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/guregu/dynamo v1.11.0
 	github.com/sirupsen/logrus v1.8.1
+	github.com/slack-go/slack v0.9.5
 	github.com/stretchr/testify v1.7.0
 	github.com/tidwall/gjson v1.8.1
 	gopkg.in/go-playground/validator.v9 v9.31.0
