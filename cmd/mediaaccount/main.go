@@ -4,6 +4,8 @@ import (
 	"context"
 	"kaleido-backend/pkg/handle"
 	"kaleido-backend/pkg/infrastructure/ddb"
+	"kaleido-backend/pkg/infrastructure/slack"
+	"kaleido-backend/pkg/infrastructure/ssm"
 	"kaleido-backend/pkg/mediaaccount"
 	mediarep "kaleido-backend/pkg/mediaaccount/persistence"
 
@@ -16,7 +18,8 @@ func handler(ctx context.Context, event interface{}) (*mediaaccount.ApplyForMedi
 	if err != nil {
 		return nil, err
 	}
-	res, err := mediaaccount.NewService(mediarep.New(ddb.New())).NewApplication(ctx, ad, toInput(event))
+	slc, err := slack.New(ctx, ssm.New())
+	res, err := mediaaccount.NewService(mediarep.New(ddb.New()), slc).NewApplication(ctx, ad, toInput(event))
 	if err != nil {
 		return nil, err
 	}

@@ -11,7 +11,8 @@ import (
 type (
 	// Service account service
 	Service struct {
-		rep Repository
+		rep      Repository
+		notifier Notifier
 	}
 
 	// Application apply
@@ -26,6 +27,11 @@ type (
 	Repository interface {
 		OneWithEOA(ctx context.Context, eoa common.Address) (Application, error)
 		NewApplication(ctx context.Context, application Application) error
+	}
+
+	// Notifier notifier
+	Notifier interface {
+		NotifyApplicationCreated(ctx context.Context, application Application) error
 	}
 
 	// ApplyForMediaInput input for applying a media ccount
@@ -51,9 +57,10 @@ func (in ApplyForMediaInput) toOut() ApplyForMediaOutput {
 }
 
 // NewService new service
-func NewService(r Repository) Service {
+func NewService(r Repository, n Notifier) Service {
 	return Service{
-		rep: r,
+		rep:      r,
+		notifier: n,
 	}
 }
 
@@ -66,7 +73,11 @@ func (s Service) NewApplication(ctx context.Context, eoa common.Address, in Appl
 	if !reflect.DeepEqual(ap, Application{}) {
 		return ApplyForMediaOutput{}, errors.New("application already registered")
 	}
-	return in.toOut(), s.rep.NewApplication(ctx, in.newApp(eoa))
+	newapp := in.newApp(eoa)
+	if err = s.rep.NewApplication(ctx, newapp); err != nil {
+		return ApplyForMediaOutput{}, err
+	}
+	return in.toOut(), s.notifier.NotifyApplicationCreated(ctx, newapp)
 }
 
 func (in ApplyForMediaInput) newApp(eoa common.Address) Application {

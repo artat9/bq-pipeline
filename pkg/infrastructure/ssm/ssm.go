@@ -24,6 +24,7 @@ type (
 const (
 	keyPrefix     = "kaleido-"
 	signingSecret = keyPrefix + "signing-secret"
+	slackToken    = keyPrefix + "slack-bot-token"
 )
 
 // New New client
@@ -43,6 +44,11 @@ func (c Client) SigningSecret(ctx context.Context) ([]byte, error) {
 		return []byte{}, err
 	}
 	return []byte(k), nil
+}
+
+// SlackToken slack token
+func (c Client) SlackToken(ctx context.Context) (string, error) {
+	return c.get(ctx, slackToken)
 }
 
 // Get get parameter
