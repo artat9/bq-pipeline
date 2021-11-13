@@ -17,10 +17,15 @@ type (
 
 	// Application apply
 	Application struct {
+		MailAddress string
+		PublicInfo
+	}
+
+	PublicInfo struct {
 		Account     common.Address
 		Name        string
-		MailAddress string
 		URL         string
+		Description string
 	}
 
 	// Repository repository
@@ -39,7 +44,9 @@ type (
 		Name        string `json:"name"`
 		MailAddress string `json:"mailAddress"`
 		URL         string `json:"url"`
+		Description string `json:"description"`
 	}
+
 	// ApplyForMediaOutput output for applying a media ccount
 	ApplyForMediaOutput struct {
 		Name        string `json:"name"`
@@ -82,9 +89,12 @@ func (s Service) NewApplication(ctx context.Context, eoa common.Address, in Appl
 
 func (in ApplyForMediaInput) newApp(eoa common.Address) Application {
 	return Application{
-		Account:     eoa,
-		Name:        in.Name,
+		PublicInfo: PublicInfo{
+			Account:     eoa,
+			Name:        in.Name,
+			URL:         in.URL,
+			Description: in.Description,
+		},
 		MailAddress: in.MailAddress,
-		URL:         in.URL,
 	}
 }
