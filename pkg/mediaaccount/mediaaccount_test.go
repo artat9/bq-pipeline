@@ -100,11 +100,9 @@ func TestApplyForMediaInput_newApp(t *testing.T) {
 				eoa: common.HexToAddress("0x8dc81f896b38167734ca4ff26b1d20c4c78e9190"),
 			},
 			want: Application{
-				PublicInfo: PublicInfo{
-					Account: common.HexToAddress("0x8dc81f896b38167734ca4ff26b1d20c4c78e9190"),
-					Name:    "Name",
-					URL:     "https://auroradao.org",
-				},
+				Account:     common.HexToAddress("0x8dc81f896b38167734ca4ff26b1d20c4c78e9190"),
+				Name:        "Name",
+				URL:         "https://auroradao.org",
 				MailAddress: "test@example.com",
 			},
 		},

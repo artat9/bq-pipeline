@@ -27,10 +27,11 @@ func main() {
 	input.Name = text(scanner, "media name", notempty)
 	input.Description = text(scanner, "description", notempty)
 	input.URL = text(scanner, "url", notempty)
-	b, _ := json.Marshal(&input.PublicInfo)
+	input.MailAddress = text(scanner, "mailAddress", notempty)
+	b, _ := json.Marshal(&input)
 	fmt.Println("uploading json")
 	fmt.Println(string(b))
-	cid, err := ipfsclient.NewIpfsClient().UploadMedia(context.Background(), input.PublicInfo)
+	cid, err := ipfsclient.NewIpfsClient().UploadMedia(context.Background(), input)
 	if err != nil {
 		fmt.Println("unexpected error occured")
 		fmt.Println(err)

@@ -17,11 +17,7 @@ type (
 
 	// Application apply
 	Application struct {
-		MailAddress string
-		PublicInfo
-	}
-
-	PublicInfo struct {
+		MailAddress string         `json:"mailAddress"`
 		Account     common.Address `json:"-"`
 		Name        string         `json:"name"`
 		URL         string         `json:"url"`
@@ -89,12 +85,10 @@ func (s Service) NewApplication(ctx context.Context, eoa common.Address, in Appl
 
 func (in ApplyForMediaInput) newApp(eoa common.Address) Application {
 	return Application{
-		PublicInfo: PublicInfo{
-			Account:     eoa,
-			Name:        in.Name,
-			URL:         in.URL,
-			Description: in.Description,
-		},
+		Account:     eoa,
+		Name:        in.Name,
+		URL:         in.URL,
+		Description: in.Description,
 		MailAddress: in.MailAddress,
 	}
 }

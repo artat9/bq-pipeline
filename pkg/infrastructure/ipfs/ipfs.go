@@ -36,21 +36,21 @@ func NewIpfsClient() Service {
 }
 
 // UploadMedia upload media info
-func (s Service) UploadMedia(ctx context.Context, info mediaaccount.PublicInfo) error {
+func (s Service) UploadMedia(ctx context.Context, info mediaaccount.PublicInfo) (string, error) {
 	return s.upload(ctx, info)
 }
 
-func (s Service) upload(ctx context.Context, target interface{}) error {
+func (s Service) upload(ctx context.Context, target interface{}) (string, error) {
 	b, err := json.Marshal(&target)
 	if err != nil {
 		log.Error("json marshall faile", err)
-		return err
+		return "", err
 	}
 	cid, err := s.client.Add(bytes.NewReader(b))
 	if err != nil {
 		log.Error("add failed", err)
-		return err
+		return "", err
 	}
-	return s.client.Pin(cid)
+	return cid, s.client.Pin(cid)
 
 }
