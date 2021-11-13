@@ -31,7 +31,7 @@ func TestService_UploadMedia(t *testing.T) {
 		client Client
 	}
 	type args struct {
-		info mediaaccount.PublicInfo
+		info mediaaccount.Application
 	}
 	tests := []struct {
 		name    string
@@ -45,7 +45,7 @@ func TestService_UploadMedia(t *testing.T) {
 				client: NewIpfsClient().client,
 			},
 			args: args{
-				info: mediaaccount.PublicInfo{
+				info: mediaaccount.Application{
 					Account:     common.HexToAddress(""),
 					Name:        "name",
 					URL:         "url",
@@ -90,7 +90,7 @@ func TestService_UploadMedia(t *testing.T) {
 			s := Service{
 				client: tt.fields.client,
 			}
-			if err := s.UploadMedia(context.Background(), tt.args.info); (err != nil) != tt.wantErr {
+			if _, err := s.UploadMedia(context.Background(), tt.args.info); (err != nil) != tt.wantErr {
 				t.Errorf("Service.UploadMedia() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})

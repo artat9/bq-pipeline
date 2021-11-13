@@ -90,7 +90,7 @@ Object {
           ],
         },
         "Description": "default",
-        "Expires": 1666763004,
+        "Expires": 1668335684,
       },
       "Type": "AWS::AppSync::ApiKey",
     },
@@ -218,6 +218,7 @@ input ApplyForMediaAccountInput {
   name: String!
   mailAddress: AWSEmail
   url: String
+  description: String
 }
 
 type ApplyForMediaAccountOutput {

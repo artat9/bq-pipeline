@@ -36,7 +36,7 @@ func NewIpfsClient() Service {
 }
 
 // UploadMedia upload media info
-func (s Service) UploadMedia(ctx context.Context, info mediaaccount.PublicInfo) (string, error) {
+func (s Service) UploadMedia(ctx context.Context, info mediaaccount.Application) (string, error) {
 	return s.upload(ctx, info)
 }
 

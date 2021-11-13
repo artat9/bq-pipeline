@@ -30,10 +30,12 @@ func toInput(event interface{}) mediaaccount.ApplyForMediaInput {
 	name := handle.Argument(event, "name")
 	mail := handle.Argument(event, "mailAddress")
 	url := handle.Argument(event, "url")
+	description := handle.Argument(event, "description")
 	return mediaaccount.ApplyForMediaInput{
 		Name:        name,
 		MailAddress: mail,
 		URL:         url,
+		Description: description,
 	}
 }
 

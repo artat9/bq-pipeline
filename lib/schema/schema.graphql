@@ -11,6 +11,7 @@ input ApplyForMediaAccountInput {
   name: String!
   mailAddress: AWSEmail
   url: String
+  description: String
 }
 
 type ApplyForMediaAccountOutput {
