@@ -8,8 +8,6 @@ import (
 	ipfsclient "kaleido-backend/pkg/infrastructure/ipfs"
 	"kaleido-backend/pkg/mediaaccount"
 	"os"
-
-	"github.com/ethereum/go-ethereum/common"
 )
 
 var (
@@ -21,11 +19,11 @@ var (
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	input := mediaaccount.Application{}
-	add := text(scanner, "address of account", func(input string) bool {
-		eoa := common.HexToAddress(input)
-		return eoa != common.Address{}
-	})
-	input.Account = common.HexToAddress(add)
+	//add := text(scanner, "address of account", func(input string) bool {
+	//	eoa := common.HexToAddress(input)
+	//	return eoa != common.Address{}
+	//})
+	//input.Account = common.HexToAddress(add)
 	input.Name = text(scanner, "media name", notempty)
 	input.Description = text(scanner, "description", notempty)
 	input.URL = text(scanner, "url", notempty)

@@ -22,10 +22,10 @@ type (
 	}
 
 	PublicInfo struct {
-		Account     common.Address
-		Name        string
-		URL         string
-		Description string
+		Account     common.Address `json:"-"`
+		Name        string         `json:"name"`
+		URL         string         `json:"url"`
+		Description string         `json:"description"`
 	}
 
 	// Repository repository
