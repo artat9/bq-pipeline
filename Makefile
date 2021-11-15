@@ -11,6 +11,9 @@ setup:
 abi:
 	abigen --abi kaleido-core/abi/contracts/AdManager.sol/AdManager.json --pkg contracts --out pkg/contracts/adm/admanager.go	--alias bid=bid1, _bid=bid2
 	abigen --abi kaleido-core/abi/contracts/token/DistributionRight.sol/DistributionRight.json --pkg contracts --out pkg/contracts/right/right.go
+	abigen --abi kaleido-core/abi/contracts/peripheries/MediaRegistry.sol/MediaRegistry.json --pkg contracts --out pkg/contracts/reg/mediaregistry.go	--alias bid=bid1, _bid=bid2
+	abigen --abi kaleido-core/abi/contracts/interfaces/IAdManager.sol/IAdManager.json --pkg contracts --out pkg/contracts/iadmanager/iadmanager.go	--alias bid=bid1, _bid=bid2
+
 
 build: 
 	export GO111MODULE=on

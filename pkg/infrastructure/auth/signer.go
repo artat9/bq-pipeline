@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	accessTokenValidity  = time.Minute * 30
+	accessTokenValidity  = time.Hour * 24
 	refleshTokenValidity = time.Hour * 24 * 14
 )
 

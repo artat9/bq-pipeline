@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"kaleido-backend/pkg/account"
 	"kaleido-backend/pkg/infrastructure/auth"
+	"kaleido-backend/pkg/infrastructure/signature"
 	"kaleido-backend/pkg/infrastructure/ssm"
 	"strings"
 
@@ -29,6 +30,12 @@ func EOA(ctx context.Context, jwt string) (common.Address, error) {
 		return common.Address{}, err
 	}
 	return account.NewVerifyService(v).Verify(ctx, jwt)
+}
+
+// EOAFromSign get eoa from sign
+func EOAFromSign(event interface{}) (common.Address, error) {
+	sign := Sign(event)
+	return signature.SignedMessage{}.Recover(sign.Msg, sign.Sig)
 }
 
 func withoutProtocol(origin string) string {
@@ -104,13 +111,34 @@ func Authorization(event interface{}) string {
 
 // Argument argument
 func Argument(event interface{}, key string) string {
+	k := arguments(event)
+	if k == nil {
+		return ""
+	}
+	return k[key].(string)
+}
+
+func arguments(event interface{}) map[string]interface{} {
 	req := map[string]interface{}{}
 	b, _ := json.Marshal(&event)
 	json.Unmarshal(b, &req)
 	input := req["arguments"]
-	k := input.(map[string]interface{})[key]
-	if k != nil {
-		return k.(string)
+	kv, ok := input.(map[string]interface{})
+	if !ok {
+		return nil
 	}
-	return ""
+	return kv
+}
+
+// Sign sign
+func Sign(event interface{}) account.SignInInput {
+	args := arguments(event)
+	if args == nil {
+		return account.SignInInput{}
+	}
+	sign := args["sign"]
+	input := account.SignInInput{}
+	b, _ := json.Marshal(&sign)
+	json.Unmarshal(b, &input)
+	return input
 }

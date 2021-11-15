@@ -11,13 +11,12 @@ import (
 
 func handler(ctx context.Context, event interface{}) (*image.UpdateOutput, error) {
 	filename := handle.Argument(event, "filename")
-	auth := handle.Authorization(event)
-	ad, err := handle.EOA(ctx, auth)
+	eoa, err := handle.EOAFromSign(event)
 	if err != nil {
 		return nil, err
 	}
 	service := image.New(s3.New())
-	res, err := service.Update(ctx, ad, image.UpdateInput{Name: filename})
+	res, err := service.Update(ctx, eoa, image.UpdateInput{Name: filename})
 	if err != nil {
 		return nil, err
 	}

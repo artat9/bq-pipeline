@@ -1,13 +1,13 @@
 openapi: 3.0.0
 info:
   title: aurora-backend-restapi
-  version: '1.0'
+  version: "1.0"
 servers:
-  - url: 'https://api.kaleido-dev.tk'
+  - url: "https://api.kaleido-dev.tk"
     description: dev
-  - url: 'https://api.kaleido-v1dev.tk'
+  - url: "https://api.kaleido-v1dev.tk"
     description: v1dev
-  - url: 'https://api.kaleido.org'
+  - url: "https://api.kaleido.org"
     description: prod
 paths:
   /account/sign:
@@ -15,19 +15,19 @@ paths:
       summary: Sign in/Sign up
       operationId: post-sign
       responses:
-        '200':
+        "200":
           description: success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SignOutput'
-        '401':
+                $ref: "#/components/schemas/SignOutput"
+        "401":
           description: UnAuthorized
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SignInput'
+              $ref: "#/components/schemas/SignInput"
             examples: {}
       parameters: []
     parameters: []
@@ -36,106 +36,26 @@ paths:
       summary: Reflesh token
       operationId: post-reflesh
       responses:
-        '200':
+        "200":
           description: success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RefleshOutput'
-        '401':
+                $ref: "#/components/schemas/RefleshOutput"
+        "401":
           description: UnAuthorized
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RefleshInput'
+              $ref: "#/components/schemas/RefleshInput"
             examples: {}
       parameters: []
     parameters: []
-  /ad:
-    post:
-      summary: Upload Ad
-      operationId: post-ad
-      responses:
-        '200':
-          description: Ad Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Metadata'
-        '400':
-          description: Missing Required Information
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AdInput'
-            examples: {}
-      parameters: []
-  '/ad/{account}/{metadata}':
-    get:
-      responses:
-        '200':
-          description: OK
-          headers: {}
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Metadata'
-    parameters:
-      - schema:
-          type: string
-        name: account
-        in: path
-        required: true
-        description: account address hex string
-      - schema:
-          type: string
-        name: metadata
-        in: path
-        required: true
-  /post:
-    post:
-      summary: Upload Post
-      operationId: post-post
-      responses:
-        '200':
-          description: Post Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Metadata'
-        '400':
-          description: Missing Required Information
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PostInput'
-            examples: {}
-      parameters: []
-    parameters: []
-  '/right/{postId}':
-    get:
-      responses:
-        '200':
-          description: OK
-          headers: {}
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Owner'
-    parameters:
-      - schema:
-          type: string
-        name: postId
-        in: path
-        required: true
-        description: postId
 components:
   schemas:
     Metadata:
-      description: ''
+      description: ""
       type: object
       properties:
         metadata:
@@ -144,7 +64,7 @@ components:
       required:
         - metadata
     SignOutput:
-      description: ''
+      description: ""
       type: object
       properties:
         accessToken:
@@ -161,7 +81,7 @@ components:
         - refleshToken
         - address
     RefleshOutput:
-      description: ''
+      description: ""
       type: object
       properties:
         accessToken:
@@ -170,7 +90,7 @@ components:
       required:
         - accessToekn
     Owner:
-      description: ''
+      description: ""
       type: object
       properties:
         owner:
@@ -220,7 +140,7 @@ components:
         key_visual:
           type: string
         ad_specifications:
-          $ref: '#/components/schemas/AdSpecifications'
+          $ref: "#/components/schemas/AdSpecifications"
         images:
           type: array
           items:

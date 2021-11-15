@@ -90,7 +90,7 @@ Object {
           ],
         },
         "Description": "default",
-        "Expires": 1668335684,
+        "Expires": 1668413632,
       },
       "Type": "AWS::AppSync::ApiKey",
     },
@@ -210,15 +210,32 @@ Object {
 }
 
 type Mutation {
-  uploadImage(filename: String!): UploadImageOutput
+  uploadImage(input: UploadImageInput!): UploadImageOutput
   applyForMediaAccount(input: ApplyForMediaAccountInput): ApplyForMediaAccountOutput!
+}
+
+input UploadImageInput {
+  filename: String!
+  sign: Sign!
 }
 
 input ApplyForMediaAccountInput {
   name: String!
+  description: String!
+  iconPath: String!
+  headerPath: String!
   mailAddress: AWSEmail
   url: String
   description: String
+  primaryCustomers: String
+  ducomentPath: String
+  pvMonth: Int
+  sign: Sign!
+}
+
+type Sign {
+  msg: String!
+  sig: String!
 }
 
 type ApplyForMediaAccountOutput {

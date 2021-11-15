@@ -3,15 +3,32 @@ type Query {
 }
 
 type Mutation {
-  uploadImage(filename: String!): UploadImageOutput
+  uploadImage(input: UploadImageInput!): UploadImageOutput
   applyForMediaAccount(input: ApplyForMediaAccountInput): ApplyForMediaAccountOutput!
+}
+
+input UploadImageInput {
+  filename: String!
+  sign: Sign!
 }
 
 input ApplyForMediaAccountInput {
   name: String!
+  description: String!
+  iconPath: String!
+  headerPath: String!
   mailAddress: AWSEmail
   url: String
   description: String
+  primaryCustomers: String
+  ducomentPath: String
+  pvMonth: Int
+  sign: Sign!
+}
+
+type Sign {
+  msg: String!
+  sig: String!
 }
 
 type ApplyForMediaAccountOutput {
