@@ -19,15 +19,14 @@ input ApplyForMediaAccountInput {
   headerPath: String!
   mailAddress: AWSEmail
   url: String
-  description: String
   primaryCustomers: String
-  ducomentPath: String
+  documentPath: String
   pvMonth: Int
   sign: Sign!
 }
 
-type Sign {
-  msg: String!
+input Sign {
+  timestamp: String!
   sig: String!
 }
 
@@ -49,4 +48,3 @@ type Account {
   twitterId: String
   pvMonth: Int
 }
-
