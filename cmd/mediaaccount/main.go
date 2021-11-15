@@ -32,7 +32,7 @@ func toInput(event interface{}) mediaaccount.ApplyForMediaInput {
 		URL:              handle.Argument(event, "url"),
 		Description:      handle.Argument(event, "description"),
 		PrimaryCustomers: handle.Argument(event, "primaryCustomers"),
-		DocumentURL:      handle.Argument(event, "documentPath"),
+		DocumentURL:      handle.Argument(event, "documentUrl"),
 		PVMonth:          handle.IntArgument(event, "pvMonth"),
 	}
 }

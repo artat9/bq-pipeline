@@ -2,8 +2,6 @@ package mediaaccount
 
 import (
 	"context"
-	"errors"
-	"reflect"
 
 	"github.com/ethereum/go-ethereum/common"
 )
@@ -72,18 +70,19 @@ func NewService(r Repository, n Notifier) Service {
 
 // NewApplication apply for a media account
 func (s Service) NewApplication(ctx context.Context, eoa common.Address, in ApplyForMediaInput) (ApplyForMediaOutput, error) {
-	ap, err := s.rep.OneWithEOA(ctx, eoa)
-	if err != nil {
-		return ApplyForMediaOutput{}, err
-	}
-	if !reflect.DeepEqual(ap, Application{}) {
-		return ApplyForMediaOutput{}, errors.New("application already registered")
-	}
+	//ap, err := s.rep.OneWithEOA(ctx, eoa)
+	//if err != nil {
+	//	return ApplyForMediaOutput{}, err
+	//}
+	//if !reflect.DeepEqual(ap, Application{}) {
+	//	return ApplyForMediaOutput{}, errors.New("application already registered")
+	//}
 	newapp := in.newApp(eoa)
-	if err = s.rep.NewApplication(ctx, newapp); err != nil {
+	if err := s.rep.NewApplication(ctx, newapp); err != nil {
 		return ApplyForMediaOutput{}, err
 	}
-	return in.toOut(), s.notifier.NotifyApplicationCreated(ctx, newapp)
+	//	return in.toOut(), s.notifier.NotifyApplicationCreated(ctx, newapp)
+	return in.toOut(), nil
 }
 
 func (in ApplyForMediaInput) newApp(eoa common.Address) Application {

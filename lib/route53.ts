@@ -6,9 +6,10 @@ import {
   IHostedZone,
   PublicHostedZone,
   RecordTarget,
-} from "@aws-cdk/aws-route53";
-import { Construct, Stack, StackProps } from "@aws-cdk/core";
-import * as environment from "./env";
+} from '@aws-cdk/aws-route53';
+import { Construct, Stack, StackProps } from '@aws-cdk/core';
+import { DnsValidatedDomainIdentity } from 'aws-cdk-ses-domain-identity';
+import * as environment from './env';
 
 export class Route53Stack extends Stack {
   public readonly hostedZone: IHostedZone;
@@ -25,26 +26,33 @@ export class Route53Stack extends Stack {
     const vercelARecordProps: ARecordProps = {
       zone: this.hostedZone,
       recordName: `${rootDomain}`,
-      target: RecordTarget.fromIpAddresses("76.76.21.21"),
+      target: RecordTarget.fromIpAddresses('76.76.21.21'),
     };
-    new ARecord(this, "VercelARecord", vercelARecordProps);
+    new ARecord(this, 'VercelARecord', vercelARecordProps);
 
-    new CnameRecord(this, "VercelCNAMERecord", {
+    new CnameRecord(this, 'VercelCNAMERecord', {
       zone: this.hostedZone,
       recordName: `www.${rootDomain}`,
-      domainName: "cname.vercel-dns.com",
+      domainName: 'cname.vercel-dns.com',
     });
     // Anotion LP Domain Verification
-    new CnameRecord(this, "AnotionLpCNAMERecord", {
+    new CnameRecord(this, 'AnotionLpCNAMERecord', {
       zone: this.hostedZone,
       recordName: `about.${rootDomain}`,
-      domainName: "cname.vercel-dns.com",
+      domainName: 'cname.vercel-dns.com',
     });
     // Demo env Domain Verification
-    new CnameRecord(this, "AnotionDemoLpCNAMERecord", {
+    new CnameRecord(this, 'AnotionDemoLpCNAMERecord', {
       zone: this.hostedZone,
       recordName: `demo.${rootDomain}`,
-      domainName: "cname.vercel-dns.com",
+      domainName: 'cname.vercel-dns.com',
+    });
+    // Domain verification for SES
+    new DnsValidatedDomainIdentity(this, 'DomainIdentity', {
+      domainName: rootDomain,
+      dkim: true,
+      region: this.region,
+      hostedZone: this.hostedZone,
     });
   }
 }
@@ -53,9 +61,9 @@ const hostedZone = (
   scope: Construct,
   target: environment.Environments
 ): IHostedZone => {
-  return new PublicHostedZone(scope, "HostedZone", {
+  return new PublicHostedZone(scope, 'HostedZone', {
     zoneName: hostedZoneName(target),
-    comment: "created by cdk",
+    comment: 'created by cdk',
   });
 };
 

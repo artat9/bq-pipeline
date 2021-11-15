@@ -2,6 +2,20 @@
 
 exports[`resource created 1`] = `
 Object {
+  "Parameters": Object {
+    "[HASH REMOVED]": Object {
+      "Description": "[HASH REMOVED]",
+      "Type": "String",
+    },
+    "[HASH REMOVED]": Object {
+      "Description": "[HASH REMOVED]",
+      "Type": "String",
+    },
+    "[HASH REMOVED]": Object {
+      "Description": "[HASH REMOVED]",
+      "Type": "String",
+    },
+  },
   "Resources": Object {
     "AnotionDemoLpCNAMERecord82A508A3": Object {
       "Properties": Object {
@@ -30,6 +44,168 @@ Object {
         "Type": "CNAME",
       },
       "Type": "AWS::Route53::RecordSet",
+    },
+    "DomainIdentityDomainIdentityRequestorFunction700A5CBC": Object {
+      "DependsOn": Array [
+        "DomainIdentityDomainIdentityRequestorFunctionServiceRoleDefaultPolicy9D23D5BE",
+        "DomainIdentityDomainIdentityRequestorFunctionServiceRoleD8F10EBD",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "[HASH REMOVED]",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "[HASH REMOVED]",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "[HASH REMOVED]",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Handler": "index.identityRequestHandler",
+        "MemorySize": 128,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "DomainIdentityDomainIdentityRequestorFunctionServiceRoleD8F10EBD",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs12.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "DomainIdentityDomainIdentityRequestorFunctionServiceRoleD8F10EBD": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DomainIdentityDomainIdentityRequestorFunctionServiceRoleDefaultPolicy9D23D5BE": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "ses:GetIdentityVerificationAttributes",
+                "ses:GetIdentityDkimAttributes",
+                "ses:SetIdentityDkimEnabled",
+                "ses:VerifyDomainIdentity",
+                "ses:VerifyDomainDkim",
+                "ses:ListIdentities",
+                "ses:DeleteIdentity",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "route53:GetChange",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "route53:changeResourceRecordSets",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":route53:::hostedzone/",
+                    Object {
+                      "Ref": "HostedZoneDB99F866",
+                    },
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DomainIdentityDomainIdentityRequestorFunctionServiceRoleDefaultPolicy9D23D5BE",
+        "Roles": Array [
+          Object {
+            "Ref": "DomainIdentityDomainIdentityRequestorFunctionServiceRoleD8F10EBD",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DomainIdentityIdentityRequestorResource3CDC595E": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "DKIM": true,
+        "DomainName": "test.example.com",
+        "HostedZoneId": Object {
+          "Ref": "HostedZoneDB99F866",
+        },
+        "Region": Object {
+          "Ref": "AWS::Region",
+        },
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "DomainIdentityDomainIdentityRequestorFunction700A5CBC",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::CloudFormation::CustomResource",
+      "UpdateReplacePolicy": "Delete",
     },
     "HostedZoneDB99F866": Object {
       "Properties": Object {

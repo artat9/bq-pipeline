@@ -1,12 +1,9 @@
 package handle
 
 import (
-	"context"
 	"encoding/json"
 	"kaleido-backend/pkg/account"
-	"kaleido-backend/pkg/infrastructure/auth"
 	"kaleido-backend/pkg/infrastructure/signature"
-	"kaleido-backend/pkg/infrastructure/ssm"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -21,15 +18,6 @@ func Headers(request events.APIGatewayProxyRequest) map[string]string {
 		"Access-Control-Allow-Credentials": "true",
 		"Access-Control-Allow-Origin":      "*",
 	}
-}
-
-// EOA retrive eoa from string
-func EOA(ctx context.Context, jwt string) (common.Address, error) {
-	v, err := auth.NewVerifier(ctx, ssm.New())
-	if err != nil {
-		return common.Address{}, err
-	}
-	return account.NewVerifyService(v).Verify(ctx, jwt)
 }
 
 // EOAFromSign get eoa from sign
@@ -112,36 +100,51 @@ func Authorization(event interface{}) string {
 
 // Argument argument
 func Argument(event interface{}, key string) string {
-	k := arguments(event)
+	k := input(event)
 	if k == nil {
 		return ""
 	}
 	return k[key].(string)
 }
 
+// IntArgument int argument
 func IntArgument(event interface{}, key string) int {
-	k := arguments(event)
+	k := input(event)
 	if k == nil {
 		return 0
 	}
-	return k[key].(int)
+	value := k[key]
+	switch value.(type) {
+	case int:
+		b := value.(int)
+		return b
+	case float64:
+		n := value.(float64)
+		return int(n)
+	}
+	return 0
 }
 
-func arguments(event interface{}) map[string]interface{} {
+func input(event interface{}) map[string]interface{} {
 	req := map[string]interface{}{}
 	b, _ := json.Marshal(&event)
 	json.Unmarshal(b, &req)
-	input := req["arguments"]
-	kv, ok := input.(map[string]interface{})
+	arguments := req["arguments"]
+	kv, ok := arguments.(map[string]interface{})
 	if !ok {
 		return nil
 	}
-	return kv
+	input, ok := kv["input"]
+	in, ok := input.(map[string]interface{})
+	if !ok {
+		return nil
+	}
+	return in
 }
 
 // Sign sign
 func Sign(event interface{}) account.SignInInput {
-	args := arguments(event)
+	args := input(event)
 	if args == nil {
 		return account.SignInInput{}
 	}
