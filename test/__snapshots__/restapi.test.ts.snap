@@ -848,6 +848,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AllowedOrigin": "http://localhost:3001",
+            "ApplicationCreatedTopicName": "kaleido-backend-media-application-created-test",
             "EnvironmentId": "test",
           },
         },
@@ -925,6 +926,11 @@ Object {
               "Effect": "Allow",
               "Resource": "*",
             },
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -984,6 +990,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AllowedOrigin": "http://localhost:3001",
+            "ApplicationCreatedTopicName": "kaleido-backend-media-application-created-test",
             "EnvironmentId": "test",
           },
         },
@@ -1061,6 +1068,11 @@ Object {
               "Effect": "Allow",
               "Resource": "*",
             },
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -1120,6 +1132,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AllowedOrigin": "http://localhost:3001",
+            "ApplicationCreatedTopicName": "kaleido-backend-media-application-created-test",
             "EnvironmentId": "test",
           },
         },
@@ -1194,6 +1207,11 @@ Object {
             },
             Object {
               "Action": "dynamodb:*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "sns:Publish",
               "Effect": "Allow",
               "Resource": "*",
             },

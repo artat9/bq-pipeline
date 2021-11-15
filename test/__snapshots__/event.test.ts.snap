@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`resource created 1`] = `
+Object {
+  "Resources": Object {
+    "applicationcreated3CAC6D39": Object {
+      "Properties": Object {
+        "TopicName": "kaleido-backend-media-application-created-test",
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+  },
+}
+`;

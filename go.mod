@@ -7,13 +7,12 @@ require (
 	github.com/aws/aws-cdk-go/awscdk v1.132.0-devpreview
 	github.com/aws/aws-cdk-go/awscdk/v2 v2.0.0-rc.28
 	github.com/aws/aws-lambda-go v1.26.0
-	github.com/aws/aws-sdk-go v1.41.9
+	github.com/aws/aws-sdk-go v1.42.4
 	github.com/aws/aws-xray-sdk-go v1.6.0
 	github.com/aws/constructs-go/constructs/v10 v10.0.9
 	github.com/aws/constructs-go/constructs/v3 v3.3.161
 	github.com/aws/jsii-runtime-go v1.43.0
 	github.com/ethereum/go-ethereum v1.10.11
-	github.com/golang-jwt/jwt/v4 v4.1.0
 	github.com/google/uuid v1.3.0
 	github.com/guregu/dynamo v1.11.0
 	github.com/ipfs/go-ipfs-api v0.2.0
@@ -21,7 +20,6 @@ require (
 	github.com/slack-go/slack v0.9.5
 	github.com/stretchr/testify v1.7.0
 	github.com/tidwall/gjson v1.11.0
-	gopkg.in/go-playground/validator.v9 v9.31.0
 )
 
 require (
@@ -39,6 +37,7 @@ require (
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/gofrs/uuid v3.3.0+incompatible // indirect
 	github.com/gogo/protobuf v1.3.1 // indirect
+	github.com/golang-jwt/jwt/v4 v4.1.0 // indirect
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/ipfs/go-cid v0.0.7 // indirect
@@ -84,6 +83,7 @@ require (
 	google.golang.org/grpc v1.35.0 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
+	gopkg.in/go-playground/validator.v9 v9.31.0 // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 )

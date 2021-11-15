@@ -2,6 +2,8 @@ package ssm
 
 import (
 	"context"
+	"crypto/ed25519"
+	"encoding/hex"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -22,9 +24,11 @@ type (
 )
 
 const (
-	keyPrefix     = "kaleido-"
-	signingSecret = keyPrefix + "signing-secret"
-	slackToken    = keyPrefix + "slack-bot-token"
+	keyPrefix              = "kaleido-"
+	signingSecret          = keyPrefix + "signing-secret"
+	slackToken             = keyPrefix + "slack-bot-token"
+	emailSigningPublicKey  = keyPrefix + "email-signing-public-key"
+	emailSigningPrivateKey = keyPrefix + "email-signing-private-key"
 )
 
 // New New client
@@ -49,6 +53,24 @@ func (c Client) SigningSecret(ctx context.Context) ([]byte, error) {
 // SlackToken slack token
 func (c Client) SlackToken(ctx context.Context) (string, error) {
 	return c.get(ctx, slackToken)
+}
+
+// EmailSigningPublicKey pub-key for email verification
+func (c Client) EmailSigningPublicKey(ctx context.Context) (val ed25519.PublicKey, err error) {
+	return c.getKey(ctx, withEnvSuffix(emailSigningPublicKey))
+}
+
+// EmailSigningPrivateKey private-key for email verification
+func (c Client) EmailSigningPrivateKey(ctx context.Context) (val ed25519.PrivateKey, err error) {
+	return c.getKey(ctx, withEnvSuffix(emailSigningPrivateKey))
+}
+
+func (c Client) getKey(ctx context.Context, key string) ([]byte, error) {
+	k, err := c.get(ctx, key)
+	if err != nil {
+		return []byte{}, err
+	}
+	return hex.DecodeString(k)
 }
 
 // Get get parameter

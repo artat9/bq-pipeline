@@ -22,6 +22,11 @@ type (
 		Description string         `json:"description"`
 	}
 
+	// EventEmitter emitter
+	EventEmitter interface {
+		EmitNewMediaApplied(ctx context.Context, application Application) error
+	}
+
 	// Repository repository
 	Repository interface {
 		OneWithEOA(ctx context.Context, eoa common.Address) (Application, error)
@@ -70,6 +75,7 @@ func NewService(r Repository, n Notifier) Service {
 
 // NewApplication apply for a media account
 func (s Service) NewApplication(ctx context.Context, eoa common.Address, in ApplyForMediaInput) (ApplyForMediaOutput, error) {
+	// TODO: check
 	//ap, err := s.rep.OneWithEOA(ctx, eoa)
 	//if err != nil {
 	//	return ApplyForMediaOutput{}, err
@@ -81,8 +87,7 @@ func (s Service) NewApplication(ctx context.Context, eoa common.Address, in Appl
 	if err := s.rep.NewApplication(ctx, newapp); err != nil {
 		return ApplyForMediaOutput{}, err
 	}
-	//	return in.toOut(), s.notifier.NotifyApplicationCreated(ctx, newapp)
-	return in.toOut(), nil
+	return in.toOut(), s.notifier.NotifyApplicationCreated(ctx, newapp)
 }
 
 func (in ApplyForMediaInput) newApp(eoa common.Address) Application {
