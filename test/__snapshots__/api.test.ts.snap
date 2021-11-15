@@ -90,7 +90,7 @@ Object {
           ],
         },
         "Description": "default",
-        "Expires": 1668413632,
+        "Expires": 1668489078,
       },
       "Type": "AWS::AppSync::ApiKey",
     },
@@ -222,20 +222,18 @@ input UploadImageInput {
 input ApplyForMediaAccountInput {
   name: String!
   description: String!
-  iconPath: String!
-  headerPath: String!
-  mailAddress: AWSEmail
-  url: String
-  description: String
-  primaryCustomers: String
-  ducomentPath: String
-  pvMonth: Int
+  documentUrl: String!
+  mailAddress: AWSEmail!
+  url: String!
+  primaryCustomers: String!
+  pvMonth: Int!
   sign: Sign!
 }
 
-type Sign {
-  msg: String!
+input Sign {
+  validity: String!
   sig: String!
+  eoa: String!
 }
 
 type ApplyForMediaAccountOutput {
@@ -256,7 +254,6 @@ type Account {
   twitterId: String
   pvMonth: Int
 }
-
 ",
       },
       "Type": "AWS::AppSync::GraphQLSchema",

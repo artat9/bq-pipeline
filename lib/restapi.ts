@@ -8,16 +8,16 @@ import {
   PassthroughBehavior,
   RestApi,
   SecurityPolicy,
-} from "@aws-cdk/aws-apigateway";
-import * as certificatemanager from "@aws-cdk/aws-certificatemanager";
-import * as route53 from "@aws-cdk/aws-route53";
-import * as alias from "@aws-cdk/aws-route53-targets";
-import { Bucket, IBucket } from "@aws-cdk/aws-s3";
-import * as cdk from "@aws-cdk/core";
-import { CfnOutput, Construct } from "@aws-cdk/core";
-import * as environment from "./env";
-import { lambdaFunction } from "./function";
-import { hostedZoneFromId } from "./route53";
+} from '@aws-cdk/aws-apigateway';
+import * as certificatemanager from '@aws-cdk/aws-certificatemanager';
+import * as route53 from '@aws-cdk/aws-route53';
+import * as alias from '@aws-cdk/aws-route53-targets';
+import { Bucket, IBucket } from '@aws-cdk/aws-s3';
+import * as cdk from '@aws-cdk/core';
+import { CfnOutput, Construct } from '@aws-cdk/core';
+import * as environment from './env';
+import { lambdaFunction } from './function';
+import { hostedZoneFromId } from './route53';
 
 export class RestApiStack extends cdk.Stack {
   constructor(
@@ -27,8 +27,8 @@ export class RestApiStack extends cdk.Stack {
     props?: cdk.StackProps
   ) {
     super(scope, id, props);
-    const bucket = new Bucket(this, "AssetsBucket", {
-      bucketName: environment.withEnvPrefix(target, "assets"),
+    const bucket = new Bucket(this, 'AssetsBucket', {
+      bucketName: environment.withEnvPrefix(target, 'assets'),
       blockPublicAccess: {
         blockPublicAcls: true,
         blockPublicPolicy: true,
@@ -38,48 +38,35 @@ export class RestApiStack extends cdk.Stack {
     });
 
     // ApiGateway
-    const api = new RestApi(this, "RestApi", {
-      restApiName: environment.withEnvPrefix(target, "restApi"),
+    const api = new RestApi(this, 'RestApi', {
+      restApiName: environment.withEnvPrefix(target, 'restApi'),
       apiKeySourceType: ApiKeySourceType.HEADER,
     });
-    const apiKey = api.addApiKey("APIKey", {
-      apiKeyName: environment.withEnvPrefix(target, "RestApiKey"),
+    const apiKey = api.addApiKey('APIKey', {
+      apiKeyName: environment.withEnvPrefix(target, 'RestApiKey'),
     });
     api
-      .addUsagePlan("UsagePlanForAPIKey", {
+      .addUsagePlan('UsagePlanForAPIKey', {
         apiKey: apiKey,
       })
       .addApiStage({
         stage: api.deploymentStage,
       });
-    new CfnOutput(this, environment.withEnvPrefix(target, "RestAPIKey"), {
+    new CfnOutput(this, environment.withEnvPrefix(target, 'RestAPIKey'), {
       value: apiKey.keyId,
     });
-    nftFunctions(this, ["post", "ad"], target, bucket, api);
+    nftFunctions(this, ['post', 'ad'], target, bucket, api);
     const customDomain = withCustomDomain(this, api, target);
     const getad = api.root
-      .resourceForPath("ad")
-      .addResource("{account}")
-      .addResource("{metadata}");
+      .resourceForPath('ad')
+      .addResource('{account}')
+      .addResource('{metadata}');
     getad.addMethod(
-      "GET",
-      new LambdaIntegration(lambdaFunction(this, "getad", target))
+      'GET',
+      new LambdaIntegration(lambdaFunction(this, 'getad', target))
     );
 
     addCorsOptions(getad);
-    const account = api.root.addResource("account");
-    const sign = account.addResource("sign");
-    sign.addMethod(
-      "POST",
-      new LambdaIntegration(lambdaFunction(this, "sign", target))
-    );
-    addCorsOptions(sign);
-    const reflesh = account.addResource("reflesh");
-    reflesh.addMethod(
-      "POST",
-      new LambdaIntegration(lambdaFunction(this, "reflesh", target))
-    );
-    addCorsOptions(reflesh);
     aRecord(this, target, customDomain);
   }
 }
@@ -94,7 +81,7 @@ const nftFunctions = (
   return resources.map((r) => {
     const resource = api.root.addResource(r);
     const func = lambdaFunction(scope, r, target);
-    resource.addMethod("POST", new LambdaIntegration(func));
+    resource.addMethod('POST', new LambdaIntegration(func));
     addCorsOptions(resource);
     return resource;
   });
@@ -106,7 +93,7 @@ const withCustomDomain = (
   target: environment.Environments
 ) => {
   const customDomain = api.addDomainName(
-    environment.withEnvPrefix(target, "domain"),
+    environment.withEnvPrefix(target, 'domain'),
     customDomainProps(stack, target)
   );
   return customDomain;
@@ -121,7 +108,7 @@ const aRecord = (
   target: environment.Environments,
   customDomain: DomainName
 ) => {
-  new route53.ARecord(stack, "RestApiARecord", {
+  new route53.ARecord(stack, 'RestApiARecord', {
     zone: hostedZoneFromId(stack, target),
     recordName: restApiDomainName(target),
     target: route53.RecordTarget.fromAlias(
@@ -138,7 +125,7 @@ const customDomainProps = (
     domainName: restApiDomainName(target),
     certificate: certificatemanager.Certificate.fromCertificateArn(
       stack,
-      "Cert",
+      'Cert',
       environment.valueOf(target).certificateArn
     ),
     securityPolicy: SecurityPolicy.TLS_1_2,
@@ -148,36 +135,36 @@ const customDomainProps = (
 
 function addCorsOptions(apiResource: IResource) {
   apiResource.addMethod(
-    "OPTIONS",
+    'OPTIONS',
     new MockIntegration({
       integrationResponses: [
         {
-          statusCode: "200",
+          statusCode: '200',
           responseParameters: {
-            "method.response.header.Access-Control-Allow-Headers":
+            'method.response.header.Access-Control-Allow-Headers':
               "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-            "method.response.header.Access-Control-Allow-Origin": "'*'",
-            "method.response.header.Access-Control-Allow-Credentials":
+            'method.response.header.Access-Control-Allow-Origin': "'*'",
+            'method.response.header.Access-Control-Allow-Credentials':
               "'false'",
-            "method.response.header.Access-Control-Allow-Methods":
+            'method.response.header.Access-Control-Allow-Methods':
               "'OPTIONS,GET,PUT,POST,DELETE'",
           },
         },
       ],
       passthroughBehavior: PassthroughBehavior.NEVER,
       requestTemplates: {
-        "application/json": '{"statusCode": 200}',
+        'application/json': '{"statusCode": 200}',
       },
     }),
     {
       methodResponses: [
         {
-          statusCode: "200",
+          statusCode: '200',
           responseParameters: {
-            "method.response.header.Access-Control-Allow-Headers": true,
-            "method.response.header.Access-Control-Allow-Methods": true,
-            "method.response.header.Access-Control-Allow-Credentials": true,
-            "method.response.header.Access-Control-Allow-Origin": true,
+            'method.response.header.Access-Control-Allow-Headers': true,
+            'method.response.header.Access-Control-Allow-Methods': true,
+            'method.response.header.Access-Control-Allow-Credentials': true,
+            'method.response.header.Access-Control-Allow-Origin': true,
           },
         },
       ],
