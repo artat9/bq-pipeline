@@ -15,19 +15,18 @@ input UploadImageInput {
 input ApplyForMediaAccountInput {
   name: String!
   description: String!
-  iconPath: String!
-  headerPath: String!
-  mailAddress: AWSEmail
-  url: String
-  primaryCustomers: String
-  documentPath: String
-  pvMonth: Int
+  documentUrl: String!
+  mailAddress: AWSEmail!
+  url: String!
+  primaryCustomers: String!
+  pvMonth: Int!
   sign: Sign!
 }
 
 input Sign {
-  timestamp: String!
+  validity: String!
   sig: String!
+  eoa: String!
 }
 
 type ApplyForMediaAccountOutput {

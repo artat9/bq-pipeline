@@ -2,17 +2,32 @@ package signature
 
 import (
 	"testing"
+	"time"
 )
 
 const (
-	messageSignature = "0x03574b2456ba7e3e4fc9f62004c9160dbebbf7731b9b666372ab0d62dc08e5497ba3c6864b6cdadf8211bac776edeeda3426abbdfa2f01851d79af51a38cfcfd1c"
-	message          = "{\"propertyType\":\"Discord User ID\",\"propertyId\":\"895234765119168522\",\"evidence\":\"\",\"method\":\"Claime Discord App\"}"
-	expectedAddress  = "0x8dc81F896B38167734ca4ff26b1D20C4c78e9190"
+	messageSignature = "0xfdf923c4588ba8bbb305bae866dbd4f13dcef982a1b1e5700e8a53da37b29d59655ac6a734c7a26fd861cc54f24897cc6fa32d52aa97584b96de2beaf49b5a7c1c"
+	message          = "{\"validity\":\"1636951865\"}"
+	expectedAddress  = "0xCdfc500F7f0FCe1278aECb0340b523cD55b3EBbb"
 )
+
+var target = SignedMessage{}
+
+type (
+	fakeTimestamper struct{}
+)
+
+func (ft fakeTimestamper) Now() time.Time {
+	return time.Date(2000, 1, 1, 1, 1, 1, 1, time.Local)
+}
+
+func init() {
+	target.timestamper = fakeTimestamper{}
+}
 
 func TestRecover(t *testing.T) {
 	t.Run("recover address", func(t *testing.T) {
-		addr, err := SignedMessage{}.Recover(message, messageSignature)
+		addr, err := target.Recover(message, messageSignature)
 		if err != nil {
 			t.Error(err)
 		}

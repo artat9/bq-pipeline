@@ -58,7 +58,7 @@ type (
 
 	// SignInInput input for signIn
 	SignInInput struct {
-		Msg string `json:"msg" validate:"required"`
+		Msg string `json:"validity" validate:"required"`
 		Sig string `json:"sig" validate:"required"`
 	}
 

@@ -33,6 +33,7 @@ func EOA(ctx context.Context, jwt string) (common.Address, error) {
 }
 
 // EOAFromSign get eoa from sign
+// TODO: inputのeoaと検証
 func EOAFromSign(event interface{}) (common.Address, error) {
 	sign := Sign(event)
 	return signature.SignedMessage{}.Recover(sign.Msg, sign.Sig)
@@ -116,6 +117,14 @@ func Argument(event interface{}, key string) string {
 		return ""
 	}
 	return k[key].(string)
+}
+
+func IntArgument(event interface{}, key string) int {
+	k := arguments(event)
+	if k == nil {
+		return 0
+	}
+	return k[key].(int)
 }
 
 func arguments(event interface{}) map[string]interface{} {

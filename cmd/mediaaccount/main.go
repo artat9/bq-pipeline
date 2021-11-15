@@ -26,15 +26,16 @@ func handler(ctx context.Context, event interface{}) (*mediaaccount.ApplyForMedi
 }
 
 func toInput(event interface{}) mediaaccount.ApplyForMediaInput {
-	name := handle.Argument(event, "name")
-	mail := handle.Argument(event, "mailAddress")
-	url := handle.Argument(event, "url")
-	description := handle.Argument(event, "description")
 	return mediaaccount.ApplyForMediaInput{
-		Name:        name,
-		MailAddress: mail,
-		URL:         url,
-		Description: description,
+		Name:             handle.Argument(event, "name"),
+		MailAddress:      handle.Argument(event, "mailAddress"),
+		URL:              handle.Argument(event, "url"),
+		Description:      handle.Argument(event, "description"),
+		IconPath:         handle.Argument(event, "iconPath"),
+		HeaderPath:       handle.Argument(event, "headerPath"),
+		PrimaryCustomers: handle.Argument(event, "primaryCustomers"),
+		DocumentPath:     handle.Argument(event, "documentPath"),
+		PVMonth:          handle.IntArgument(event, "pvMonth"),
 	}
 }
 

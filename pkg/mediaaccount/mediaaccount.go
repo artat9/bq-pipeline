@@ -37,10 +37,13 @@ type (
 
 	// ApplyForMediaInput input for applying a media ccount
 	ApplyForMediaInput struct {
-		Name        string `json:"name"`
-		MailAddress string `json:"mailAddress"`
-		URL         string `json:"url"`
-		Description string `json:"description"`
+		Name             string `json:"name"`
+		Description      string `json:"description"`
+		DocumentURL      string `json:"documentUrl"`
+		MailAddress      string `json:"mailAddress"`
+		URL              string `json:"url"`
+		PrimaryCustomers string `json:"primaryCustomers"`
+		PVMonth          int    `json:"pvMonth"`
 	}
 
 	// ApplyForMediaOutput output for applying a media ccount

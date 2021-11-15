@@ -80,9 +80,11 @@ func fromApplication(ap mediaaccount.Application) []DDBApplication {
 func nameSK() string {
 	return toSK("Name")
 }
+
 func mailSK() string {
 	return toSK("MailAddress")
 }
+
 func urlSK() string {
 	return toSK("URL")
 }
