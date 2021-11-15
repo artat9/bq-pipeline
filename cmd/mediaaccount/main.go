@@ -31,10 +31,8 @@ func toInput(event interface{}) mediaaccount.ApplyForMediaInput {
 		MailAddress:      handle.Argument(event, "mailAddress"),
 		URL:              handle.Argument(event, "url"),
 		Description:      handle.Argument(event, "description"),
-		IconPath:         handle.Argument(event, "iconPath"),
-		HeaderPath:       handle.Argument(event, "headerPath"),
 		PrimaryCustomers: handle.Argument(event, "primaryCustomers"),
-		DocumentPath:     handle.Argument(event, "documentPath"),
+		DocumentURL:      handle.Argument(event, "documentPath"),
 		PVMonth:          handle.IntArgument(event, "pvMonth"),
 	}
 }

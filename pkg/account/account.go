@@ -3,12 +3,9 @@ package account
 import (
 	"context"
 	"crypto/rand"
-	"errors"
 	"math/big"
-	"reflect"
 
 	"github.com/ethereum/go-ethereum/common"
-	"gopkg.in/go-playground/validator.v9"
 )
 
 type (
@@ -35,13 +32,6 @@ type (
 		New(ctx context.Context, ac Account) error
 		Update(ctx context.Context, ac Account) error
 	}
-	// SignService service
-	SignService struct {
-		verifier AddressVerifier
-		rep      Repository
-		signer   Signer
-	}
-
 	// UpdateInput update input
 	UpdateInput struct {
 		// TODO: updateable?
@@ -62,27 +52,6 @@ type (
 		Sig string `json:"sig" validate:"required"`
 	}
 
-	// RefleshInput reflesh
-	RefleshInput struct {
-		RefleshToken string `json:"refleshToken"`
-	}
-
-	// RefleshOutput reflesh
-	RefleshOutput struct {
-		AccessToken string `json:"accessToken"`
-	}
-
-	// SignInOutput output for signin
-	SignInOutput struct {
-		AccessToken  string         `json:"accessToken"`
-		RefleshToken string         `json:"refleshToken"`
-		Address      common.Address `json:"address"`
-	}
-	// Signer signer
-	Signer interface {
-		Sign(ad common.Address) (accessToken, refleshToken string, err error)
-	}
-
 	// Verifier verifier
 	Verifier interface {
 		Verify(val string) (common.Address, error)
@@ -97,28 +66,11 @@ func NewService(r Repository) Service {
 	}
 }
 
-// NewSignService new servcice
-func NewSignService(v AddressVerifier, r Repository, s Signer) SignService {
-	return SignService{
-		verifier: v,
-		rep:      r,
-		signer:   s,
-	}
-}
-
 // NewVerifyService new verify service
 func NewVerifyService(v Verifier) VerifyService {
 	return VerifyService{
 		verifier: v,
 	}
-}
-
-// Reflesh renew token
-func (v VerifyService) Reflesh(ctx context.Context, in RefleshInput) (RefleshOutput, error) {
-	out, err := v.verifier.Reflesh(in.RefleshToken)
-	return RefleshOutput{
-		AccessToken: out,
-	}, err
 }
 
 // Verify verify access token and return eoa
@@ -142,60 +94,6 @@ func (s Service) Update(ctx context.Context, account common.Address, in UpdateIn
 		ac.Name = *in.Name
 	}
 	return ac, s.rep.Update(ctx, ac)
-}
-
-// Sign sign in / sign up
-func (s SignService) Sign(ctx context.Context, in SignInInput) (SignInOutput, error) {
-	if err := validator.New().Struct(&in); err != nil {
-		return SignInOutput{}, err
-	}
-	ad, err := s.verifier.Recover(in.Msg, in.Sig)
-	if err != nil {
-		return SignInOutput{}, err
-	}
-	ac, err := s.rep.FromAddress(ctx, ad)
-	if err != nil {
-		return SignInOutput{}, err
-	}
-	if reflect.DeepEqual(ac, Account{}) {
-		return s.signUp(ctx, ad)
-	}
-	return s.signIn(ctx, in.Msg, ac)
-}
-
-func (s SignService) signIn(ctx context.Context, non string, ac Account) (SignInOutput, error) {
-	n := new(big.Int)
-	n, _ = n.SetString(non, 10)
-	if n.Cmp(ac.Nonce) != 0 {
-		return SignInOutput{}, errors.New("invalid request")
-	}
-	at, rt, err := s.signer.Sign(ac.Address)
-	if err != nil {
-		return SignInOutput{}, err
-	}
-	newnonce, _ := nonce()
-	ac.Nonce = newnonce
-	if err = s.rep.Update(ctx, ac); err != nil {
-		return SignInOutput{}, err
-	}
-	return SignInOutput{
-		Address:      ac.Address,
-		AccessToken:  at,
-		RefleshToken: rt,
-	}, nil
-}
-
-func (s SignService) signUp(ctx context.Context, address common.Address) (SignInOutput, error) {
-	at, rt, err := s.signer.Sign(address)
-	if err != nil {
-		return SignInOutput{}, err
-	}
-	ac := New(address)
-	return SignInOutput{
-		Address:      ac.Address,
-		AccessToken:  at,
-		RefleshToken: rt,
-	}, s.rep.New(ctx, ac)
 }
 
 // New new account
