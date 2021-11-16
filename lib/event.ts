@@ -24,10 +24,19 @@ export class EventStack extends Stack {
     const applicationCreated = new Topic(this, 'application-created', {
       topicName: applicationCreatedTopicName(target),
     });
+    const applicationCompleted = new Topic(this, 'application-completed', {
+      topicName: applicationCreatedTopicName(target),
+    });
     subscribeFunctions(
       this,
       new SnsEventSource(applicationCreated),
       ['accountmail', 'notifytoslack'],
+      target
+    );
+    subscribeFunctions(
+      this,
+      new SnsEventSource(applicationCompleted),
+      ['notifytoslack'],
       target
     );
   }
@@ -49,4 +58,9 @@ export const applicationCreatedTopicName = (
   target: environment.Environments
 ) => {
   return environment.withEnvPrefix(target, 'media-application-created');
+};
+export const applicationCompletedTopicName = (
+  target: environment.Environments
+) => {
+  return environment.withEnvPrefix(target, 'media-application-completed');
 };

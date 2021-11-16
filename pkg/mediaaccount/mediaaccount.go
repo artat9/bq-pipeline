@@ -13,16 +13,6 @@ type (
 		notifier Notifier
 	}
 
-	// Application apply
-	Application struct {
-		MailAddress string         `json:"mailAddress"`
-		Account     common.Address `json:"-"`
-		Name        string         `json:"name"`
-		URL         string         `json:"url"`
-		Description string         `json:"description"`
-		AppliedAt   string         `json:"appliedAt"`
-	}
-
 	// Repository repository
 	Repository interface {
 		//OneWithEOA(ctx context.Context, eoa common.Address) (Application, error)
@@ -46,6 +36,18 @@ type (
 		Timestamp        string `json:"timestamp"`
 	}
 
+	// Application apply
+	Application struct {
+		MailAddress      string         `json:"mailAddress"`
+		Account          common.Address `json:"-"`
+		Name             string         `json:"name"`
+		URL              string         `json:"url"`
+		Description      string         `json:"description"`
+		DocumentURL      string         `json:"documentUrl"`
+		AppliedAt        string         `json:"appliedAt"`
+		PrimaryCustomers string         `json:"primaryCustomers"`
+		PVMonth          int            `json:"pvMonth"`
+	}
 	// ApplyForMediaOutput output for applying a media ccount
 	ApplyForMediaOutput struct {
 		Name        string `json:"name"`
@@ -89,11 +91,14 @@ func (s Service) NewApplication(ctx context.Context, eoa common.Address, in Appl
 
 func (in ApplyForMediaInput) newApp(eoa common.Address) Application {
 	return Application{
-		Account:     eoa,
-		Name:        in.Name,
-		URL:         in.URL,
-		Description: in.Description,
-		MailAddress: in.MailAddress,
-		AppliedAt:   in.Timestamp,
+		Account:          eoa,
+		Name:             in.Name,
+		URL:              in.URL,
+		Description:      in.Description,
+		MailAddress:      in.MailAddress,
+		AppliedAt:        in.Timestamp,
+		DocumentURL:      in.DocumentURL,
+		PrimaryCustomers: in.PrimaryCustomers,
+		PVMonth:          in.PVMonth,
 	}
 }

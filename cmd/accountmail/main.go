@@ -22,7 +22,7 @@ func handler(ctx context.Context, request events.SNSEvent) error {
 		return err
 	}
 	for _, app := range applications {
-		if err = email.NewNotificationService(signer, ses.New()).SendEmailVerification(ctx, app.MailAddress); err != nil {
+		if err = email.NewSignService(signer, ses.New()).SendEmailVerification(ctx, app.MailAddress); err != nil {
 			return err
 		}
 	}

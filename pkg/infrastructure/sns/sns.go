@@ -47,7 +47,12 @@ func (p Payload) toApplication() mediaaccount.Application {
 	return p.Application
 }
 
+// NotifyApplicationCreated notify application created
 func (s SNS) NotifyApplicationCreated(ctx context.Context, application mediaaccount.Application) error {
+	return s.notifyApplication(ctx, application, newMediaAppliedTopicArn())
+}
+
+func (s SNS) notifyApplication(ctx context.Context, application mediaaccount.Application, topicArn string) error {
 	input := fromApplication(application)
 	payload, err := json.Marshal(&input)
 	if err != nil {
@@ -56,7 +61,7 @@ func (s SNS) NotifyApplicationCreated(ctx context.Context, application mediaacco
 	}
 	_, err = s.svc.PublishWithContext(ctx, &sns.PublishInput{
 		Message:  aws.String(string(payload)),
-		TopicArn: aws.String(newMediaAppliedTopicArn()),
+		TopicArn: aws.String(topicArn),
 	})
 	if err != nil {
 		log.Error("sns publish failed", err)
@@ -64,6 +69,12 @@ func (s SNS) NotifyApplicationCreated(ctx context.Context, application mediaacco
 	return err
 }
 
+// NotifyApplicationCompleted notify application completed
+func (s SNS) NotifyApplicationCompleted(ctx context.Context, application mediaaccount.Application) error {
+	return s.notifyApplication(ctx, application, completeMediaAppliedTopicArn())
+}
+
+// FromEvent from sns event to application
 func FromEvent(input events.SNSEvent) ([]mediaaccount.Application, error) {
 	res := []mediaaccount.Application{}
 	for _, r := range input.Records {
@@ -79,6 +90,17 @@ func FromEvent(input events.SNSEvent) ([]mediaaccount.Application, error) {
 }
 
 func newMediaAppliedTopicArn() string {
-	topicName := os.Getenv("ApplicationCreatedTopicName")
-	return "arn:aws:sns:us-east-1:495476032358:" + topicName
+	return topicArn(os.Getenv("ApplicationCreatedTopicName"))
+}
+
+func completeMediaAppliedTopicArn() string {
+	return topicArn(os.Getenv("ApplicationCompletedTopicName"))
+}
+
+func topicArn(suf string) string {
+	return topicArnPrefix() + suf
+}
+
+func topicArnPrefix() string {
+	return "arn:aws:sns:us-east-1:495476032358:"
 }

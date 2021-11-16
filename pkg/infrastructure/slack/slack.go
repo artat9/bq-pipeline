@@ -2,9 +2,12 @@ package slack
 
 import (
 	"context"
+	"fmt"
 	"kaleido-backend/pkg/common/log"
+	"kaleido-backend/pkg/email"
 	"kaleido-backend/pkg/mediaaccount"
 	"os"
+	"reflect"
 
 	"github.com/slack-go/slack"
 )
@@ -31,18 +34,20 @@ func New(ctx context.Context, r TokenResolver) (Slack, error) {
 	}, nil
 }
 
-// NotifyApplicationCreated notify to a slack channel
-func (s Slack) NotifyApplicationCreated(ctx context.Context, application mediaaccount.Application) error {
+func (s Slack) NotifyEmailAddressConfirmationCompleted(ctx context.Context, in email.VerificationInput) error {
+	return s.notify(ctx, in.SignatureInput)
+}
+
+func (s Slack) notify(ctx context.Context, input interface{}) error {
+	vs := reflect.ValueOf(input)
+	txtblocks := []*slack.TextBlockObject{}
+	for i := 0; i < vs.NumField(); i++ {
+		txtblocks = append(txtblocks, slack.NewTextBlockObject("plain_text", fmt.Sprintf("%v", vs.Field(i).Interface()), false, false))
+	}
 	_, _, err := s.svc.PostMessage(channelName(), slack.MsgOptionBlocks(
 		slack.NewSectionBlock(
 			&slack.TextBlockObject{Type: "mrkdwn", Text: "New Application arrival"},
-			[]*slack.TextBlockObject{
-				{Type: "plain_text", Text: application.Name},
-				{Type: "plain_text", Text: application.URL},
-				{Type: "plain_text", Text: application.Description},
-				{Type: "plain_text", Text: application.Account.Hex()},
-				{Type: "plain_text", Text: application.MailAddress},
-			},
+			txtblocks,
 			nil,
 		),
 	))
@@ -50,6 +55,11 @@ func (s Slack) NotifyApplicationCreated(ctx context.Context, application mediaac
 		log.Error("unexpected error", err)
 	}
 	return err
+}
+
+// NotifyApplicationCreated notify to a slack channel
+func (s Slack) NotifyApplicationCreated(ctx context.Context, application mediaaccount.Application) error {
+	return s.notify(ctx, application)
 }
 
 func channelName() string {

@@ -19,13 +19,14 @@ type (
 		Signature string `json:"signature"`
 	}
 
-	NotificationService struct {
+	SignService struct {
 		signer   Signer
 		notifier Notifier
 	}
 
 	VerificationService struct {
 		verifier Verifier
+		notifier InhouseNotifier
 	}
 
 	// Signer signer
@@ -34,18 +35,28 @@ type (
 	}
 	// Verifier verifyer
 	Verifier interface {
-		Verify(input VerificationInput) (bool, error)
+		Verify(input VerificationInput) bool
 	}
 	// Notifier notifier
 	Notifier interface {
 		SendApplicationCreated(ctx context.Context, in VerificationInput) error
 	}
+	InhouseNotifier interface {
+		NotifyEmailAddressConfirmationCompleted(ctx context.Context, in VerificationInput) error
+	}
 )
 
-func NewNotificationService(signer Signer, notifier Notifier) NotificationService {
-	return NotificationService{
+func NewSignService(signer Signer, notifier Notifier) SignService {
+	return SignService{
 		signer:   signer,
 		notifier: notifier,
+	}
+}
+
+func NewVerificationService(verifier Verifier, not InhouseNotifier) VerificationService {
+	return VerificationService{
+		verifier: verifier,
+		notifier: not,
 	}
 }
 
@@ -68,11 +79,15 @@ func NewInput(mailAddress string) SignatureInput {
 }
 
 // SendEmailVerification send email verification
-func (s NotificationService) SendEmailVerification(ctx context.Context, email string) error {
+func (s SignService) SendEmailVerification(ctx context.Context, email string) error {
 	return s.notifier.SendApplicationCreated(ctx, s.signer.Sign(email))
 }
 
 // VerifyEmail verify email
-func (s VerificationService) VerifyEmail(in VerificationInput) (bool, error) {
-	return s.verifier.Verify(in)
+func (s VerificationService) VerifyEmail(ctx context.Context, in VerificationInput) (bool, error) {
+	verified := s.verifier.Verify(in)
+	if !verified {
+		return false, nil
+	}
+	return true, s.notifier.NotifyEmailAddressConfirmationCompleted(ctx, in)
 }
