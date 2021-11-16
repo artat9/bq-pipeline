@@ -20,16 +20,12 @@ type (
 		Name        string         `json:"name"`
 		URL         string         `json:"url"`
 		Description string         `json:"description"`
-	}
-
-	// EventEmitter emitter
-	EventEmitter interface {
-		EmitNewMediaApplied(ctx context.Context, application Application) error
+		AppliedAt   string         `json:"appliedAt"`
 	}
 
 	// Repository repository
 	Repository interface {
-		OneWithEOA(ctx context.Context, eoa common.Address) (Application, error)
+		//OneWithEOA(ctx context.Context, eoa common.Address) (Application, error)
 		NewApplication(ctx context.Context, application Application) error
 	}
 
@@ -47,6 +43,7 @@ type (
 		URL              string `json:"url"`
 		PrimaryCustomers string `json:"primaryCustomers"`
 		PVMonth          int    `json:"pvMonth"`
+		Timestamp        string `json:"timestamp"`
 	}
 
 	// ApplyForMediaOutput output for applying a media ccount
@@ -97,5 +94,6 @@ func (in ApplyForMediaInput) newApp(eoa common.Address) Application {
 		URL:         in.URL,
 		Description: in.Description,
 		MailAddress: in.MailAddress,
+		AppliedAt:   in.Timestamp,
 	}
 }

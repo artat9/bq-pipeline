@@ -17,11 +17,11 @@ func handler(ctx context.Context, request events.SNSEvent) error {
 	if err != nil {
 		return err
 	}
+	signer, err := signer.NewWithResolver(context.Background(), ssm.New())
+	if err != nil {
+		return err
+	}
 	for _, app := range applications {
-		signer, err := signer.NewWithResolver(context.Background(), ssm.New())
-		if err != nil {
-			panic(err)
-		}
 		if err = email.NewNotificationService(signer, ses.New()).SendEmailVerification(ctx, app.MailAddress); err != nil {
 			return err
 		}

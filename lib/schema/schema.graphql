@@ -28,6 +28,7 @@ input ApplyForMediaAccountInput {
   primaryCustomers: String!
   pvMonth: Int!
   sign: Sign!
+  timestamp: String!
 }
 
 input Sign {
@@ -56,5 +57,5 @@ type Account {
 }
 
 type ConfirmMailAddressOutput {
-  
+  mailAddress: AWSEmail!
 }

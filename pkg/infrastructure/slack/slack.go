@@ -38,8 +38,10 @@ func (s Slack) NotifyApplicationCreated(ctx context.Context, application mediaac
 			&slack.TextBlockObject{Type: "mrkdwn", Text: "New Application arrival"},
 			[]*slack.TextBlockObject{
 				{Type: "plain_text", Text: application.Name},
-				{Type: "plain_text", Text: application.MailAddress},
 				{Type: "plain_text", Text: application.URL},
+				{Type: "plain_text", Text: application.Description},
+				{Type: "plain_text", Text: application.Account.Hex()},
+				{Type: "plain_text", Text: application.MailAddress},
 			},
 			nil,
 		),
@@ -52,5 +54,9 @@ func (s Slack) NotifyApplicationCreated(ctx context.Context, application mediaac
 
 func channelName() string {
 	prefix := "#kaleido-media-申請-"
-	return prefix + os.Getenv("EnvironmentId")
+	env := os.Getenv("EnvironmentId")
+	if env == "v1dev" {
+		env = "dev"
+	}
+	return prefix + env
 }

@@ -54,27 +54,26 @@ func (s SNS) NotifyApplicationCreated(ctx context.Context, application mediaacco
 		log.Error("json unmarshal failed", err)
 		return err
 	}
-	s.svc.PublishWithContext(ctx, &sns.PublishInput{
-		Message: aws.String(string(payload)),
-		Subject: aws.String(string(application.Account.Hex())),
+	_, err = s.svc.PublishWithContext(ctx, &sns.PublishInput{
+		Message:  aws.String(string(payload)),
+		TopicArn: aws.String(newMediaAppliedTopicArn()),
 	})
-	return nil
+	if err != nil {
+		log.Error("sns publish failed", err)
+	}
+	return err
 }
 
 func FromEvent(input events.SNSEvent) ([]mediaaccount.Application, error) {
 	res := []mediaaccount.Application{}
 	for _, r := range input.Records {
-		in := mediaaccount.Application{}
-		payload, err := json.Marshal(&r)
-		if err != nil {
-			log.Error("json marshal failed", err)
-			return res, err
-		}
-		if err = json.Unmarshal(payload, &in); err != nil {
+		in := Payload{}
+		if err := json.Unmarshal([]byte(r.SNS.Message), &in); err != nil {
 			log.Error("json unmarshal failed", err)
 			return res, err
 		}
-		res = append(res, in)
+		in.Application.Account = common.HexToAddress(in.EOA)
+		res = append(res, in.Application)
 	}
 	return res, nil
 }

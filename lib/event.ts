@@ -1,4 +1,5 @@
 import { Table } from '@aws-cdk/aws-dynamodb';
+import { IEventSource } from '@aws-cdk/aws-lambda';
 import { SnsEventSource } from '@aws-cdk/aws-lambda-event-sources';
 import { Topic } from '@aws-cdk/aws-sns';
 import { Construct, Stack, StackProps } from '@aws-cdk/core';
@@ -23,10 +24,26 @@ export class EventStack extends Stack {
     const applicationCreated = new Topic(this, 'application-created', {
       topicName: applicationCreatedTopicName(target),
     });
-    const mailFunc = lambdaFunction(this, 'accountmail', target);
-    mailFunc.addEventSource(new SnsEventSource(applicationCreated));
+    subscribeFunctions(
+      this,
+      new SnsEventSource(applicationCreated),
+      ['accountmail', 'notifytoslack'],
+      target
+    );
   }
 }
+
+const subscribeFunctions = (
+  scope: Construct,
+  source: IEventSource,
+  functions: string[],
+  target: environment.Environments
+) => {
+  functions.forEach((f) => {
+    const func = lambdaFunction(scope, f, target);
+    func.addEventSource(source);
+  });
+};
 
 export const applicationCreatedTopicName = (
   target: environment.Environments

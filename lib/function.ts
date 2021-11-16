@@ -52,7 +52,14 @@ export const lambdaFunction = (
   func.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
-      actions: ['ses:Send'],
+      actions: ['ses:SendEmail'],
+      resources: ['*'],
+    })
+  );
+  func.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ['s3:*'],
       resources: ['*'],
     })
   );

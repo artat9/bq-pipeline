@@ -90,7 +90,7 @@ Object {
           ],
         },
         "Description": "default",
-        "Expires": 1668586816,
+        "Expires": 1668587923,
       },
       "Type": "AWS::AppSync::ApiKey",
     },
@@ -263,7 +263,7 @@ type Account {
 }
 
 type ConfirmMailAddressOutput {
-  
+  mailAddress: AWSEmail!
 }
 ",
       },

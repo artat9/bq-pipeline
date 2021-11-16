@@ -2,7 +2,6 @@ package mediarep
 
 import (
 	"context"
-	"kaleido-backend/pkg/common/log"
 	"kaleido-backend/pkg/infrastructure/ddb"
 	"kaleido-backend/pkg/mediaaccount"
 
@@ -38,41 +37,41 @@ func (r Repository) NewApplication(ctx context.Context, application mediaaccount
 	return nil
 }
 
-// OneWithEOA from eoa
-func (r Repository) OneWithEOA(ctx context.Context, eoa common.Address) (mediaaccount.Application, error) {
-	apps := []DDBApplication{}
-	if err := r.db.Table(ddb.Table()).Get("PK", toPK(eoa)).AllWithContext(ctx, &apps); err != nil {
-		log.Error("query failed", err)
-		return mediaaccount.Application{}, err
-	}
-	res := mediaaccount.Application{}
-	if len(apps) == 0 {
-		return res, nil
-	}
-	res.Account = eoa
-	for _, ap := range apps {
-		switch sk := ap.SK; sk {
-		case nameSK():
-			res.Name = ap.Data
-		case mailSK():
-			res.MailAddress = ap.Data
-		case urlSK():
-			res.URL = ap.Data
-		}
-	}
-	return res, nil
-}
+//// OneWithEOA from eoa
+//func (r Repository) OneWithEOA(ctx context.Context, eoa common.Address) (mediaaccount.Application, error) {
+//	apps := []DDBApplication{}
+//	if err := r.db.Table(ddb.Table()).Get("PK", toPK(eoa)).AllWithContext(ctx, &apps); err != nil {
+//		log.Error("query failed", err)
+//		return mediaaccount.Application{}, err
+//	}
+//	res := mediaaccount.Application{}
+//	if len(apps) == 0 {
+//		return res, nil
+//	}
+//	res.Account = eoa
+//	for _, ap := range apps {
+//		switch sk := ap.SK; sk {
+//		case nameSK():
+//			res.Name = ap.Data
+//		case mailSK():
+//			res.MailAddress = ap.Data
+//		case urlSK():
+//			res.URL = ap.Data
+//		}
+//	}
+//	return res, nil
+//}
 
 func fromApplication(ap mediaaccount.Application) []DDBApplication {
 	apps := []DDBApplication{}
 	if ap.Name != "" {
-		apps = append(apps, DDBApplication{SimpleEntry: ddb.NewSimpleEntry(toPK(ap.Account), nameSK(), ap.Name)})
+		apps = append(apps, DDBApplication{SimpleEntry: ddb.NewSimpleEntry(toPK(ap.Account, ap.AppliedAt), nameSK(), ap.Name)})
 	}
 	if ap.MailAddress != "" {
-		apps = append(apps, DDBApplication{SimpleEntry: ddb.NewSimpleEntry(toPK(ap.Account), mailSK(), ap.MailAddress)})
+		apps = append(apps, DDBApplication{SimpleEntry: ddb.NewSimpleEntry(toPK(ap.Account, ap.AppliedAt), mailSK(), ap.MailAddress)})
 	}
 	if ap.URL != "" {
-		apps = append(apps, DDBApplication{SimpleEntry: ddb.NewSimpleEntry(toPK(ap.Account), urlSK(), ap.URL)})
+		apps = append(apps, DDBApplication{SimpleEntry: ddb.NewSimpleEntry(toPK(ap.Account, ap.AppliedAt), urlSK(), ap.URL)})
 	}
 	return apps
 }
@@ -93,6 +92,6 @@ func toSK(suf string) string {
 	return skPrefix + suf
 }
 
-func toPK(eoa common.Address) string {
-	return pkPrefix + eoa.Hex()
+func toPK(eoa common.Address, at string) string {
+	return pkPrefix + eoa.Hex() + ":" + at
 }
