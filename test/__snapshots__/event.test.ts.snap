@@ -2,7 +2,200 @@
 
 exports[`resource created 1`] = `
 Object {
+  "Parameters": Object {
+    "[HASH REMOVED]": Object {
+      "Description": "[HASH REMOVED]",
+      "Type": "String",
+    },
+    "[HASH REMOVED]": Object {
+      "Description": "[HASH REMOVED]",
+      "Type": "String",
+    },
+    "[HASH REMOVED]": Object {
+      "Description": "[HASH REMOVED]",
+      "Type": "String",
+    },
+  },
   "Resources": Object {
+    "accountmailAllowInvoketestapplicationcreated67E1D2D6AAEB858D": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "accountmailED6A9627",
+            "Arn",
+          ],
+        },
+        "Principal": "sns.amazonaws.com",
+        "SourceArn": Object {
+          "Ref": "applicationcreated3CAC6D39",
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "accountmailED6A9627": Object {
+      "DependsOn": Array [
+        "accountmailServiceRoleDefaultPolicy0592A271",
+        "accountmailServiceRole4455EFAB",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "[HASH REMOVED]",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "[HASH REMOVED]",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "[HASH REMOVED]",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AllowedOrigin": "http://localhost:3001",
+            "ApplicationCreatedTopicName": "kaleido-backend-media-application-created-test",
+            "EnvironmentId": "test",
+            "RootDomain": "test.example.com",
+          },
+        },
+        "FunctionName": "kaleido-backend-accountmail-test",
+        "Handler": "bin/main",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "accountmailServiceRole4455EFAB",
+            "Arn",
+          ],
+        },
+        "Runtime": "go1.x",
+        "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "accountmailServiceRole4455EFAB": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "accountmailServiceRoleDefaultPolicy0592A271": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "lambda:*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "ssm:Get*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "dynamodb:*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "ses:Send",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "accountmailServiceRoleDefaultPolicy0592A271",
+        "Roles": Array [
+          Object {
+            "Ref": "accountmailServiceRole4455EFAB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "accountmailapplicationcreatedCF35192B": Object {
+      "Properties": Object {
+        "Endpoint": Object {
+          "Fn::GetAtt": Array [
+            "accountmailED6A9627",
+            "Arn",
+          ],
+        },
+        "Protocol": "lambda",
+        "TopicArn": Object {
+          "Ref": "applicationcreated3CAC6D39",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
     "applicationcreated3CAC6D39": Object {
       "Properties": Object {
         "TopicName": "kaleido-backend-media-application-created-test",

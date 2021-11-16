@@ -1,4 +1,4 @@
-package signature
+package ethsignature
 
 import (
 	"encoding/json"

@@ -90,7 +90,7 @@ Object {
           ],
         },
         "Description": "default",
-        "Expires": 1668496386,
+        "Expires": 1668586816,
       },
       "Type": "AWS::AppSync::ApiKey",
     },
@@ -212,12 +212,13 @@ Object {
 type Mutation {
   uploadImage(input: UploadImageInput!): UploadImageOutput
   applyForMediaAccount(input: ApplyForMediaAccountInput): ApplyForMediaAccountOutput!
-  confirmMailAddressUpdate(input: ConfirmMailAddressUpdateInput): ConfirmMailAddressUpdateOutput!
+  confirmMailAddress(input: ConfirmMailAddressInput): ConfirmMailAddressOutput!
 }
 
-input ConfirmMailAddressUpdateInput {
+input ConfirmMailAddressInput {
   mailAddress: AWSEmail!
-  validity: String!
+  validity: String!  
+  signature: String!
 }
 
 input UploadImageInput {
@@ -261,7 +262,7 @@ type Account {
   pvMonth: Int
 }
 
-type ConfirmMailAddressUpdateOutput {
+type ConfirmMailAddressOutput {
   
 }
 ",
@@ -475,6 +476,7 @@ type ConfirmMailAddressUpdateOutput {
             "AllowedOrigin": "http://localhost:3001",
             "ApplicationCreatedTopicName": "kaleido-backend-media-application-created-test",
             "EnvironmentId": "test",
+            "RootDomain": "test.example.com",
           },
         },
         "FunctionName": "kaleido-backend-issuepresign-test",
@@ -556,6 +558,11 @@ type ConfirmMailAddressUpdateOutput {
               "Effect": "Allow",
               "Resource": "*",
             },
+            Object {
+              "Action": "ses:Send",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -617,6 +624,7 @@ type ConfirmMailAddressUpdateOutput {
             "AllowedOrigin": "http://localhost:3001",
             "ApplicationCreatedTopicName": "kaleido-backend-media-application-created-test",
             "EnvironmentId": "test",
+            "RootDomain": "test.example.com",
           },
         },
         "FunctionName": "kaleido-backend-mediaaccount-test",
@@ -695,6 +703,11 @@ type ConfirmMailAddressUpdateOutput {
             },
             Object {
               "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "ses:Send",
               "Effect": "Allow",
               "Resource": "*",
             },

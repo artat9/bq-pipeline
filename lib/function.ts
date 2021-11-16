@@ -49,6 +49,13 @@ export const lambdaFunction = (
       resources: ['*'],
     })
   );
+  func.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ['ses:Send'],
+      resources: ['*'],
+    })
+  );
   return func;
 };
 const code = (dirname: string) => {
@@ -67,6 +74,7 @@ const environmentParameters = (
     EnvironmentId: target.toString(),
     AllowedOrigin: environment.valueOf(target).allowedOrigin,
     ApplicationCreatedTopicName: applicationCreatedTopicName(target),
+    RootDomain: environment.valueOf(target).rootDomain,
   };
   if (!additionalEnvParams) {
     return stack;

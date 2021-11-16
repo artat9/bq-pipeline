@@ -16,7 +16,6 @@ func handler(ctx context.Context, event interface{}) (*mediaaccount.ApplyForMedi
 	if err != nil {
 		return nil, err
 	}
-	//slc, err := slack.New(ctx, ssm.New())
 	res, err := mediaaccount.NewService(mediarep.New(ddb.New()), sns.New()).NewApplication(ctx, eoa, toInput(event))
 	if err != nil {
 		return nil, err

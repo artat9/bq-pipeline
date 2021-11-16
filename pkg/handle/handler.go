@@ -3,7 +3,7 @@ package handle
 import (
 	"encoding/json"
 	"kaleido-backend/pkg/account"
-	"kaleido-backend/pkg/infrastructure/signature"
+	"kaleido-backend/pkg/infrastructure/ethsignature"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -24,7 +24,7 @@ func Headers(request events.APIGatewayProxyRequest) map[string]string {
 // TODO: inputのeoaと検証
 func EOAFromSign(event interface{}) (common.Address, error) {
 	sign := Sign(event)
-	return signature.SignedMessage{}.Recover(sign.Msg, sign.Sig)
+	return ethsignature.SignedMessage{}.Recover(sign.Msg, sign.Sig)
 }
 
 func withoutProtocol(origin string) string {

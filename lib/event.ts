@@ -1,7 +1,9 @@
 import { Table } from '@aws-cdk/aws-dynamodb';
+import { SnsEventSource } from '@aws-cdk/aws-lambda-event-sources';
 import { Topic } from '@aws-cdk/aws-sns';
 import { Construct, Stack, StackProps } from '@aws-cdk/core';
 import * as environment from './env';
+import { lambdaFunction } from './function';
 
 type EventProps = StackProps & {
   ddb: Table;
@@ -18,9 +20,11 @@ export class EventStack extends Stack {
     props?: StackProps
   ) {
     super(scope, id, props);
-    new Topic(this, 'application-created', {
+    const applicationCreated = new Topic(this, 'application-created', {
       topicName: applicationCreatedTopicName(target),
     });
+    const mailFunc = lambdaFunction(this, 'accountmail', target);
+    mailFunc.addEventSource(new SnsEventSource(applicationCreated));
   }
 }
 

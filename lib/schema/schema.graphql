@@ -5,12 +5,13 @@ type Query {
 type Mutation {
   uploadImage(input: UploadImageInput!): UploadImageOutput
   applyForMediaAccount(input: ApplyForMediaAccountInput): ApplyForMediaAccountOutput!
-  confirmMailAddressUpdate(input: ConfirmMailAddressUpdateInput): ConfirmMailAddressUpdateOutput!
+  confirmMailAddress(input: ConfirmMailAddressInput): ConfirmMailAddressOutput!
 }
 
-input ConfirmMailAddressUpdateInput {
+input ConfirmMailAddressInput {
   mailAddress: AWSEmail!
-  validity: String!
+  validity: String!  
+  signature: String!
 }
 
 input UploadImageInput {
@@ -54,6 +55,6 @@ type Account {
   pvMonth: Int
 }
 
-type ConfirmMailAddressUpdateOutput {
+type ConfirmMailAddressOutput {
   
 }

@@ -657,6 +657,7 @@ def submit_response(event: dict, context, response_status: str, error_message: s
               "Ref": "AssetDistributionCFDistributionB1B52E0D",
             },
             "EnvironmentId": "test",
+            "RootDomain": "test.example.com",
           },
         },
         "FunctionName": "kaleido-backend-updateimage-test",
@@ -735,6 +736,11 @@ def submit_response(event: dict, context, response_status: str, error_message: s
             },
             Object {
               "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "ses:Send",
               "Effect": "Allow",
               "Resource": "*",
             },
