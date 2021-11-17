@@ -18,11 +18,20 @@ type (
 	Provider struct {
 		cli *ethclient.Client
 	}
+	// KeyResolver key resolver
+	KeyResolver interface {
+		InfuraKey(ctx context.Context) (string, error)
+	}
 )
 
 // NewProvider new Provider
-func NewProvider() (Provider, error) {
-	client, err := ethclient.Dial(providerURL())
+func NewProvider(ctx context.Context, kr KeyResolver) (Provider, error) {
+	k, err := kr.InfuraKey(ctx)
+	if err != nil {
+		log.Error("key not found", err)
+		return Provider{}, err
+	}
+	client, err := ethclient.Dial(providerURL(k))
 	if err != nil {
 		log.Error("provider create failed", err)
 		return Provider{}, err
@@ -34,18 +43,18 @@ func NewProvider() (Provider, error) {
 
 // DisplayByMetadata get a metadata from a postmetadata
 func (p Provider) DisplayByMetadata(ctx context.Context, input ad.GetInput) (string, error) {
-	_, err := p.newAdManager()
+	ad, err := p.newAdManager()
 	if err != nil {
 		log.Error("build admanager failed", err)
 		return "", err
 	}
-	//metadata, err := ad.DisplayByMetadata(callOpts(ctx), common.HexToAddress(input.Account), input.Metadata)
-	//
-	//if err != nil {
-	//	log.Error("display by index failed", err)
-	//	return "", err
-	//}
-	return "", nil
+	metadata, err := ad.Display(callOpts(ctx), input.SpaceMetadata)
+
+	if err != nil {
+		log.Error("display by index failed", err)
+		return "", err
+	}
+	return metadata, nil
 }
 
 func callOpts(ctx context.Context) *bind.CallOpts {
@@ -59,9 +68,9 @@ func (p Provider) newAdManager() (*contracts.Contracts, error) {
 	return contracts.NewContracts(common.HexToAddress(admanagerAddress), p.cli)
 }
 
-func providerURL() string {
+func providerURL(infuraKey string) string {
 	if os.Getenv("EnvironmentId") == "prod" {
-		return "https://polygon-mainnet.g.alchemy.com/v2/"
+		return "https://polygon-mainnet.g.alchemy.com/v2/" + infuraKey
 	}
-	return "https://rinkeby.infura.io/v3/"
+	return "https://rinkeby.infura.io/v3/" + infuraKey
 }

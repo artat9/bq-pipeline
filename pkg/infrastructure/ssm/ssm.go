@@ -28,6 +28,7 @@ const (
 	slackToken             = keyPrefix + "slack-bot-token"
 	emailSigningPublicKey  = keyPrefix + "email-signing-public-key"
 	emailSigningPrivateKey = keyPrefix + "email-signing-private-key"
+	infuraKey              = keyPrefix + "infura-key"
 )
 
 // New New client
@@ -52,6 +53,11 @@ func (c Client) SigningSecret(ctx context.Context) ([]byte, error) {
 // SlackToken slack token
 func (c Client) SlackToken(ctx context.Context) (string, error) {
 	return c.get(ctx, slackToken)
+}
+
+// InfuraKey infura key
+func (c Client) InfuraKey(ctx context.Context) (string, error) {
+	return c.get(ctx, infuraKey)
 }
 
 // EmailSigningPublicKey pub-key for email verification

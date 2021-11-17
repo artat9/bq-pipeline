@@ -177,7 +177,12 @@ Object {
               "Resource": "*",
             },
             Object {
-              "Action": "ses:Send",
+              "Action": "ses:SendEmail",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "s3:*",
               "Effect": "Allow",
               "Resource": "*",
             },
@@ -207,6 +212,12 @@ Object {
         },
       },
       "Type": "AWS::SNS::Subscription",
+    },
+    "applicationcompletedA48FCEFC": Object {
+      "Properties": Object {
+        "TopicName": "kaleido-backend-media-application-completed-test",
+      },
+      "Type": "AWS::SNS::Topic",
     },
     "applicationcreated3CAC6D39": Object {
       "Properties": Object {
@@ -362,7 +373,12 @@ Object {
               "Resource": "*",
             },
             Object {
-              "Action": "ses:Send",
+              "Action": "ses:SendEmail",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "s3:*",
               "Effect": "Allow",
               "Resource": "*",
             },

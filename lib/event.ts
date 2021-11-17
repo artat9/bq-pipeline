@@ -25,7 +25,7 @@ export class EventStack extends Stack {
       topicName: applicationCreatedTopicName(target),
     });
     const applicationCompleted = new Topic(this, 'application-completed', {
-      topicName: applicationCreatedTopicName(target),
+      topicName: applicationCompletedTopicName(target),
     });
     subscribeFunctions(
       this,
@@ -33,12 +33,12 @@ export class EventStack extends Stack {
       ['accountmail', 'notifytoslack'],
       target
     );
-    subscribeFunctions(
-      this,
-      new SnsEventSource(applicationCompleted),
-      ['notifytoslack'],
-      target
-    );
+    //subscribeFunctions(
+    //  this,
+    //  new SnsEventSource(applicationCompleted),
+    //  ['notifytoslack'],
+    //  target
+    //);
   }
 }
 

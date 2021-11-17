@@ -53,6 +53,7 @@ Object {
               "AllowedMethods": Array [
                 "GET",
                 "HEAD",
+                "PUT",
               ],
               "AllowedOrigins": Array [
                 "*",
@@ -740,7 +741,12 @@ def submit_response(event: dict, context, response_status: str, error_message: s
               "Resource": "*",
             },
             Object {
-              "Action": "ses:Send",
+              "Action": "ses:SendEmail",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "s3:*",
               "Effect": "Allow",
               "Resource": "*",
             },

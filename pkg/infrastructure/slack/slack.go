@@ -35,10 +35,10 @@ func New(ctx context.Context, r TokenResolver) (Slack, error) {
 }
 
 func (s Slack) NotifyEmailAddressConfirmationCompleted(ctx context.Context, in email.VerificationInput) error {
-	return s.notify(ctx, in.SignatureInput)
+	return s.notify(ctx, "Mail address confirmation finished", in.SignatureInput)
 }
 
-func (s Slack) notify(ctx context.Context, input interface{}) error {
+func (s Slack) notify(ctx context.Context, title string, input interface{}) error {
 	vs := reflect.ValueOf(input)
 	txtblocks := []*slack.TextBlockObject{}
 	for i := 0; i < vs.NumField(); i++ {
@@ -46,7 +46,7 @@ func (s Slack) notify(ctx context.Context, input interface{}) error {
 	}
 	_, _, err := s.svc.PostMessage(channelName(), slack.MsgOptionBlocks(
 		slack.NewSectionBlock(
-			&slack.TextBlockObject{Type: "mrkdwn", Text: "New Application arrival"},
+			&slack.TextBlockObject{Type: "mrkdwn", Text: title},
 			txtblocks,
 			nil,
 		),
@@ -59,7 +59,7 @@ func (s Slack) notify(ctx context.Context, input interface{}) error {
 
 // NotifyApplicationCreated notify to a slack channel
 func (s Slack) NotifyApplicationCreated(ctx context.Context, application mediaaccount.Application) error {
-	return s.notify(ctx, application)
+	return s.notify(ctx, "New application arrival", application)
 }
 
 func channelName() string {

@@ -1,7 +1,6 @@
 import * as cdk from '@aws-cdk/core';
 import { CertificateStack } from '../lib/certificate';
 import * as environment from '../lib/env';
-import { RestApiStack } from '../lib/restapi';
 import { Route53Stack } from '../lib/route53';
 import { ApiStack } from './../lib/api';
 import { AsstesStack } from './../lib/asset';
@@ -29,7 +28,6 @@ new AsstesStack(app, environment.withEnvPrefix(target, 'asset'), target, {
   certificate: cert.certificate,
   hostedZone: route53.hostedZone,
 });
-new RestApiStack(app, environment.withEnvPrefix(target, 'restapi'), target);
 const ds = new DataSourceStack(
   app,
   environment.withEnvPrefix(target, 'datasource'),

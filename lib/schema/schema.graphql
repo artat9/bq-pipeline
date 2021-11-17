@@ -1,5 +1,6 @@
 type Query {
   getAccount(address: String!): Account
+  display(input: DisplayInput!): DisplayOutput!
 }
 
 type Mutation {
@@ -12,6 +13,14 @@ input ConfirmMailAddressInput {
   mailAddress: AWSEmail!
   validity: String!  
   signature: String!
+}
+
+input DisplayInput {
+  spaceMetadata: String!
+}
+
+type DisplayOutput {
+  distributedMetadata: String!
 }
 
 input UploadImageInput {
