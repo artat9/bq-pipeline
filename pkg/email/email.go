@@ -2,6 +2,7 @@ package email
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 )
@@ -84,10 +85,10 @@ func (s SignService) SendEmailVerification(ctx context.Context, email string) er
 }
 
 // VerifyEmail verify email
-func (s VerificationService) VerifyEmail(ctx context.Context, in VerificationInput) (bool, error) {
+func (s VerificationService) VerifyEmail(ctx context.Context, in VerificationInput) (string, error) {
 	verified := s.verifier.Verify(in)
 	if !verified {
-		return false, nil
+		return "", errors.New("unauthorized")
 	}
-	return true, s.notifier.NotifyEmailAddressConfirmationCompleted(ctx, in)
+	return in.MailAddress, s.notifier.NotifyEmailAddressConfirmationCompleted(ctx, in)
 }

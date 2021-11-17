@@ -57,5 +57,5 @@ type Account {
 }
 
 type ConfirmMailAddressOutput {
-  success: Boolean!
+  mailAddress: AWSEmail!
 }

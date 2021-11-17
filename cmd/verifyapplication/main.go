@@ -30,12 +30,12 @@ func handler(ctx context.Context, event interface{}) (Output, error) {
 		log.Error("verification failed", err)
 		return Output{}, err
 	}
-	return Output{Success: got}, nil
+	return Output{MailAddress: got}, nil
 }
 
 // Output output
 type Output struct {
-	Success bool `json:"success"`
+	MailAddress string `json:"mailAddress"`
 }
 
 func toInput(event interface{}) email.VerificationInput {
