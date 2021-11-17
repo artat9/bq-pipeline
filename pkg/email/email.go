@@ -63,7 +63,7 @@ func NewVerificationService(verifier Verifier, not InhouseNotifier) Verification
 
 // String string
 func (in SignatureInput) String() string {
-	return fmt.Sprintf("mailAddress=%s&validity=%d", in.MailAddress, in.Validity.UnixNano())
+	return fmt.Sprintf("mailAddress=%s&validity=%d", in.MailAddress, in.Validity.Unix())
 }
 
 // QueryString query string

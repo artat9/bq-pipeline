@@ -16,7 +16,7 @@ func TestQueryString(t *testing.T) {
 		}
 
 		got := input.QueryString()
-		want := "mailAddress=test@example.com&validity=946688461000000001&signature=test"
+		want := "mailAddress=test@example.com&validity=946688461&signature=test"
 		if want != got {
 			t.Error("got ", got)
 		}

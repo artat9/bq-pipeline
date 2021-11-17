@@ -39,7 +39,7 @@ func (v Verifier) Verify(in email.VerificationInput) bool {
 		log.Info("sign not verified:" + in.Signature)
 		return verified
 	}
-	return in.Validity.Before(time.Now())
+	return in.Validity.After(time.Now())
 }
 
 func verify(in email.VerificationInput, key ed25519.PublicKey) bool {
