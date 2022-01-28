@@ -3,7 +3,6 @@ import { Code, Function, Runtime, Tracing } from '@aws-cdk/aws-lambda';
 import { Construct, Duration } from '@aws-cdk/core';
 import { resolve } from 'path';
 import * as environment from './env';
-import { applicationCreatedTopicName } from './event';
 
 export const lambdaFunction = (
   scope: Construct,
@@ -79,9 +78,6 @@ const environmentParameters = (
 ): { [key: string]: string } => {
   var stack: { [key: string]: string } = {
     EnvironmentId: target.toString(),
-    AllowedOrigin: environment.valueOf(target).allowedOrigin,
-    ApplicationCreatedTopicName: applicationCreatedTopicName(target),
-    RootDomain: environment.valueOf(target).rootDomain,
   };
   if (!additionalEnvParams) {
     return stack;
