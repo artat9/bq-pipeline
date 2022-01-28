@@ -6,7 +6,7 @@ import { ApiStack } from './../lib/api';
 test('resource created', () => {
   const app = new App();
   const target = Environments.TEST;
-  const ds = new DataSourceStack(app, 'ds', target);
+
   const stack = new ApiStack(app, 'test', target, {});
   expect(SynthUtils.toCloudFormation(stack)).toMatchSnapshot();
 });
