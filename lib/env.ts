@@ -1,54 +1,20 @@
-const projectName = "kaleido-backend";
+const projectName = 'bq-pipeline';
 
 export enum Environments {
-  PROD = "prod",
-  DEV = "dev",
-  TEST = "test",
-  V1DEV = "v1dev",
+  PROD = 'prod',
+  DEV = 'dev',
+  TEST = 'test',
+  V1DEV = 'v1dev',
 }
-export interface EnvironmentVariables {
-  rootDomain: string;
-  hostedZoneId: string;
-  txtRecords?: string[];
-  allowedOrigin: string;
-  deployBranchName: string;
-  certificateArn: string;
-}
+export interface EnvironmentVariables {}
 
 const EnvironmentVariablesSetting: {
   [key in Environments]: EnvironmentVariables;
 } = {
-  [Environments.PROD]: {
-    certificateArn:
-      "arn:aws:acm:us-east-1:495476032358:certificate/98c65aba-1677-404e-9bac-1b2142602ad2",
-    rootDomain: "kaleidodao.org",
-    hostedZoneId: "Z07302833NYNT52C5SA30",
-    allowedOrigin: "https://kaleidodao.org",
-    deployBranchName: "main",
-  },
-  [Environments.DEV]: {
-    certificateArn:
-      "arn:aws:acm:us-east-1:495476032358:certificate/c635e3e6-7cc5-4777-b0a9-57317a70e9c2",
-    rootDomain: "kaleido-dev.tk",
-    hostedZoneId: "Z04820191RSTGGR5Z7MK0",
-    allowedOrigin: "https://kaleido-webfront-git-dev-squard.vercel.app",
-    deployBranchName: "dev",
-  },
-  [Environments.V1DEV]: {
-    certificateArn:
-      " arn:aws:acm:us-east-1:495476032358:certificate/8fa91de5-4a8f-49f7-805c-00115331cb11",
-    rootDomain: "kaleido-v1dev.tk",
-    hostedZoneId: "Z091214115E67KFJTODY4",
-    allowedOrigin: "https://kaleido-webfront-git-dev-squard.vercel.app",
-    deployBranchName: "dev",
-  },
-  [Environments.TEST]: {
-    certificateArn: "",
-    rootDomain: "test.example.com",
-    hostedZoneId: "XXX",
-    allowedOrigin: "http://localhost:3001",
-    deployBranchName: "test",
-  },
+  [Environments.PROD]: {},
+  [Environments.DEV]: {},
+  [Environments.V1DEV]: {},
+  [Environments.TEST]: {},
 };
 
 export function valueOf(env: Environments): EnvironmentVariables {

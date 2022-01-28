@@ -8,15 +8,12 @@ import {
   MappingTemplate,
   Schema,
 } from '@aws-cdk/aws-appsync';
-import * as dynamodb from '@aws-cdk/aws-dynamodb';
 import * as cdk from '@aws-cdk/core';
 import { join } from 'path';
 import * as environment from './env';
 import { lambdaFunction } from './function';
 import IAM = require('@aws-cdk/aws-iam');
-interface ApiProps extends cdk.StackProps {
-  ddb: dynamodb.Table;
-}
+interface ApiProps extends cdk.StackProps {}
 
 export class ApiStack extends cdk.Stack {
   public readonly appSyncLog: string;
@@ -28,7 +25,6 @@ export class ApiStack extends cdk.Stack {
   ) {
     super(scope, id, props);
     const api = new GraphqlApi(this, 'GraphqlApi', apiProps(target));
-    withDDBResolvers(api, dDBDataSource(api, target, props));
     api.createResolver({
       typeName: 'Mutation',
       fieldName: 'uploadImage',
@@ -90,19 +86,6 @@ const withDDBResolvers = (
         'getAccount' + '.response.vtl'
       )
     ),
-  });
-};
-
-const dDBDataSource = (
-  api: GraphqlApi,
-  target: environment.Environments,
-  props: ApiProps
-) => {
-  return new DynamoDbDataSource(api, 'main', {
-    api: api,
-    table: props.ddb,
-    name: 'ddb',
-    readOnlyAccess: true,
   });
 };
 
