@@ -64,6 +64,7 @@ export const lambdaFunction = (
   );
   return func;
 };
+
 const code = (dirname: string) => {
   return Code.fromAsset(
     resolve(`${__dirname}/../`, 'cmd', dirname, 'bin', 'main.zip')
