@@ -14,7 +14,7 @@ func TestS3_IssueUploadURL(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
-		if !strings.HasPrefix(url, "https://kaleido-backend-asset") {
+		if !strings.HasPrefix(url, "https://bq-pipeline-asset") {
 			t.Error("got:", url)
 		}
 	})

@@ -20,5 +20,4 @@ func (s Service) Upload(ctx context.Context, u user.User) error {
 		return err
 	}
 	return c.Dataset("Test").Table("test-table").Inserter().Put(ctx, u)
-
 }

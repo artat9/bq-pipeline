@@ -35,5 +35,3 @@ deploy:
 deploy_env: 
 	cdk deploy -c target=$${TARGET} --all --require-approval never
 
-up:
-	aws lambda update-function-code --function-name kaleido-backend-issuepresign-v1dev --zip-file fileb://cmd/issuepresign/bin/main.zip --publish

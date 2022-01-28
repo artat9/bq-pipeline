@@ -40,5 +40,5 @@ func (s S3) IssueUploadURL(ctx context.Context, filename string) (url string, er
 }
 
 func resolveBucketName() string {
-	return "kaleido-backend-asset-" + os.Getenv("EnvironmentId")
+	return "bq-pipeline-asset-" + os.Getenv("EnvironmentId")
 }

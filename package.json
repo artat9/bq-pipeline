@@ -1,8 +1,8 @@
 {
-  "name": "kaleido-backend",
+  "name": "bq-pipeline",
   "version": "0.1.0",
   "bin": {
-    "kaleido-backend": "bin/kaleido-backend.js"
+    "bq-pipeline": "bin/bq-pipeline.js"
   },
   "scripts": {
     "build": "tsc",
