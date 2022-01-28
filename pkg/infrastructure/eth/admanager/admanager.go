@@ -1,10 +1,10 @@
 package admanager
 
 import (
+	"bq-pipeline/pkg/ad"
+	"bq-pipeline/pkg/common/log"
+	contracts "bq-pipeline/pkg/contracts/adm"
 	"context"
-	"kaleido-backend/pkg/ad"
-	"kaleido-backend/pkg/common/log"
-	contracts "kaleido-backend/pkg/contracts/adm"
 	"os"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"

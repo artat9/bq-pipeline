@@ -1,13 +1,13 @@
 package main
 
 import (
+	"bq-pipeline/pkg/common/log"
+	"bq-pipeline/pkg/email"
+	"bq-pipeline/pkg/handle"
+	signer "bq-pipeline/pkg/infrastructure/sign"
+	"bq-pipeline/pkg/infrastructure/slack"
+	"bq-pipeline/pkg/infrastructure/ssm"
 	"context"
-	"kaleido-backend/pkg/common/log"
-	"kaleido-backend/pkg/email"
-	"kaleido-backend/pkg/handle"
-	signer "kaleido-backend/pkg/infrastructure/sign"
-	"kaleido-backend/pkg/infrastructure/slack"
-	"kaleido-backend/pkg/infrastructure/ssm"
 	"strconv"
 	"time"
 

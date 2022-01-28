@@ -1,8 +1,8 @@
 package s3
 
 import (
+	"bq-pipeline/pkg/common/log"
 	"context"
-	"kaleido-backend/pkg/common/log"
 	"os"
 	"time"
 

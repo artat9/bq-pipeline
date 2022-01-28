@@ -1,11 +1,11 @@
 package slack
 
 import (
+	"bq-pipeline/pkg/common/log"
+	"bq-pipeline/pkg/email"
+	"bq-pipeline/pkg/mediaaccount"
 	"context"
 	"fmt"
-	"kaleido-backend/pkg/common/log"
-	"kaleido-backend/pkg/email"
-	"kaleido-backend/pkg/mediaaccount"
 	"os"
 	"reflect"
 

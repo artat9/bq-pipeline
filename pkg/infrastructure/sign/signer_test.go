@@ -1,8 +1,8 @@
 package signer
 
 import (
+	"bq-pipeline/pkg/infrastructure/ssm"
 	"context"
-	"kaleido-backend/pkg/infrastructure/ssm"
 	"os"
 	"testing"
 )

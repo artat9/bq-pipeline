@@ -1,10 +1,10 @@
 package sns
 
 import (
+	"bq-pipeline/pkg/common/log"
+	"bq-pipeline/pkg/mediaaccount"
 	"context"
 	"encoding/json"
-	"kaleido-backend/pkg/common/log"
-	"kaleido-backend/pkg/mediaaccount"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"

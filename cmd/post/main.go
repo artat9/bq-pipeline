@@ -1,11 +1,11 @@
 package main
 
 import (
+	"bq-pipeline/pkg/handle"
+	"bq-pipeline/pkg/infrastructure/arweave"
+	"bq-pipeline/pkg/post"
 	"context"
 	"encoding/json"
-	"kaleido-backend/pkg/handle"
-	"kaleido-backend/pkg/infrastructure/arweave"
-	"kaleido-backend/pkg/post"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"

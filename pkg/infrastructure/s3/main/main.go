@@ -1,9 +1,9 @@
 package main
 
 import (
+	"bq-pipeline/pkg/infrastructure/s3"
 	"context"
 	"fmt"
-	"kaleido-backend/pkg/infrastructure/s3"
 	"os"
 )
 

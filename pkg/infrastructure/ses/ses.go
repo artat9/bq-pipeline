@@ -1,10 +1,10 @@
 package ses
 
 import (
+	"bq-pipeline/pkg/common/log"
+	"bq-pipeline/pkg/email"
 	"context"
 	"fmt"
-	"kaleido-backend/pkg/common/log"
-	"kaleido-backend/pkg/email"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"

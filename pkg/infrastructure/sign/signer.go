@@ -1,10 +1,10 @@
 package signer
 
 import (
+	"bq-pipeline/pkg/email"
 	"context"
 	"crypto/ed25519"
 	"encoding/hex"
-	"kaleido-backend/pkg/email"
 )
 
 type (

@@ -1,9 +1,9 @@
 package ddb
 
 import (
+	"bq-pipeline/pkg/common/log"
 	"context"
 	"errors"
-	"kaleido-backend/pkg/common/log"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"

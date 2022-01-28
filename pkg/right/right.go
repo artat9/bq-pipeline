@@ -1,8 +1,8 @@
 package right
 
 import (
+	"bq-pipeline/pkg/common/log"
 	"context"
-	"kaleido-backend/pkg/common/log"
 )
 
 type (

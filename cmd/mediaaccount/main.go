@@ -1,12 +1,12 @@
 package main
 
 import (
+	"bq-pipeline/pkg/handle"
+	"bq-pipeline/pkg/infrastructure/ddb"
+	"bq-pipeline/pkg/infrastructure/sns"
+	"bq-pipeline/pkg/mediaaccount"
+	mediarep "bq-pipeline/pkg/mediaaccount/persistence"
 	"context"
-	"kaleido-backend/pkg/handle"
-	"kaleido-backend/pkg/infrastructure/ddb"
-	"kaleido-backend/pkg/infrastructure/sns"
-	"kaleido-backend/pkg/mediaaccount"
-	mediarep "kaleido-backend/pkg/mediaaccount/persistence"
 
 	"github.com/aws/aws-lambda-go/lambda"
 )

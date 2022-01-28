@@ -1,10 +1,10 @@
 package accountrep
 
 import (
+	"bq-pipeline/pkg/account"
+	"bq-pipeline/pkg/common/log"
+	"bq-pipeline/pkg/infrastructure/ddb"
 	"context"
-	"kaleido-backend/pkg/account"
-	"kaleido-backend/pkg/common/log"
-	"kaleido-backend/pkg/infrastructure/ddb"
 	"math/big"
 	"strings"
 

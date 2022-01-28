@@ -1,12 +1,12 @@
 package signer
 
 import (
+	"bq-pipeline/pkg/common/log"
+	"bq-pipeline/pkg/email"
 	"bytes"
 	"context"
 	"crypto/ed25519"
 	"encoding/hex"
-	"kaleido-backend/pkg/common/log"
-	"kaleido-backend/pkg/email"
 	"time"
 )
 

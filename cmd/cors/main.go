@@ -1,8 +1,8 @@
 package main
 
 import (
+	"bq-pipeline/pkg/handle"
 	"context"
-	"kaleido-backend/pkg/handle"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"

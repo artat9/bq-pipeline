@@ -1,8 +1,8 @@
 package main
 
 import (
+	"bq-pipeline/pkg/infrastructure/cloudfront"
 	"context"
-	"kaleido-backend/pkg/infrastructure/cloudfront"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"

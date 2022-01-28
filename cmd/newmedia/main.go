@@ -1,12 +1,12 @@
 package main
 
 import (
+	ipfsclient "bq-pipeline/pkg/infrastructure/ipfs"
+	"bq-pipeline/pkg/mediaaccount"
 	"bufio"
 	"context"
 	"encoding/json"
 	"fmt"
-	ipfsclient "kaleido-backend/pkg/infrastructure/ipfs"
-	"kaleido-backend/pkg/mediaaccount"
 	"os"
 )
 

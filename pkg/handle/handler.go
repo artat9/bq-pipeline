@@ -1,9 +1,9 @@
 package handle
 
 import (
+	"bq-pipeline/pkg/account"
+	"bq-pipeline/pkg/infrastructure/ethsignature"
 	"encoding/json"
-	"kaleido-backend/pkg/account"
-	"kaleido-backend/pkg/infrastructure/ethsignature"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"

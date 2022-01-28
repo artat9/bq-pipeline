@@ -1,10 +1,10 @@
 package mediarep
 
 import (
+	"bq-pipeline/pkg/common/log"
+	"bq-pipeline/pkg/infrastructure/ddb"
+	"bq-pipeline/pkg/mediaaccount"
 	"context"
-	"kaleido-backend/pkg/common/log"
-	"kaleido-backend/pkg/infrastructure/ddb"
-	"kaleido-backend/pkg/mediaaccount"
 	"strconv"
 
 	"github.com/ethereum/go-ethereum/common"

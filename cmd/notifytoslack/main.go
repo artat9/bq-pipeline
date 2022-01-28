@@ -1,11 +1,11 @@
 package main
 
 import (
+	"bq-pipeline/pkg/common/log"
+	"bq-pipeline/pkg/infrastructure/slack"
+	"bq-pipeline/pkg/infrastructure/sns"
+	"bq-pipeline/pkg/infrastructure/ssm"
 	"context"
-	"kaleido-backend/pkg/common/log"
-	"kaleido-backend/pkg/infrastructure/slack"
-	"kaleido-backend/pkg/infrastructure/sns"
-	"kaleido-backend/pkg/infrastructure/ssm"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"

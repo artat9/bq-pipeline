@@ -1,12 +1,12 @@
 package ipfsclient
 
 import (
+	"bq-pipeline/pkg/common/log"
+	"bq-pipeline/pkg/mediaaccount"
 	"bytes"
 	"context"
 	"encoding/json"
 	"io"
-	"kaleido-backend/pkg/common/log"
-	"kaleido-backend/pkg/mediaaccount"
 
 	shell "github.com/ipfs/go-ipfs-api"
 )

@@ -1,10 +1,10 @@
 package ipfsclient
 
 import (
+	"bq-pipeline/pkg/mediaaccount"
 	"context"
 	"errors"
 	"io"
-	"kaleido-backend/pkg/mediaaccount"
 	"testing"
 
 	"github.com/ethereum/go-ethereum/common"

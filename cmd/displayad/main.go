@@ -1,12 +1,12 @@
 package main
 
 import (
+	"bq-pipeline/pkg/ad"
+	"bq-pipeline/pkg/common/log"
+	"bq-pipeline/pkg/handle"
+	"bq-pipeline/pkg/infrastructure/eth/admanager"
+	"bq-pipeline/pkg/infrastructure/ssm"
 	"context"
-	"kaleido-backend/pkg/ad"
-	"kaleido-backend/pkg/common/log"
-	"kaleido-backend/pkg/handle"
-	"kaleido-backend/pkg/infrastructure/eth/admanager"
-	"kaleido-backend/pkg/infrastructure/ssm"
 
 	"github.com/aws/aws-lambda-go/lambda"
 )

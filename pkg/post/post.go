@@ -1,8 +1,8 @@
 package post
 
 import (
+	"bq-pipeline/pkg/klimg"
 	"context"
-	"kaleido-backend/pkg/klimg"
 	"net/http"
 )
 

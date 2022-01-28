@@ -1,9 +1,9 @@
 package admanager
 
 import (
+	"bq-pipeline/pkg/ad"
+	"bq-pipeline/pkg/infrastructure/ssm"
 	"context"
-	"kaleido-backend/pkg/ad"
-	"kaleido-backend/pkg/infrastructure/ssm"
 	"testing"
 )
 

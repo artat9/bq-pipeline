@@ -1,14 +1,14 @@
 package arweave
 
 import (
+	"bq-pipeline/pkg/ad"
+	"bq-pipeline/pkg/common/log"
+	"bq-pipeline/pkg/klimg"
+	"bq-pipeline/pkg/post"
 	"context"
 	"encoding/json"
 	"errors"
 	"io/ioutil"
-	"kaleido-backend/pkg/ad"
-	"kaleido-backend/pkg/common/log"
-	"kaleido-backend/pkg/klimg"
-	"kaleido-backend/pkg/post"
 	"net/http"
 	"strings"
 

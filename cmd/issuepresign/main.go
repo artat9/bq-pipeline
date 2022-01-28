@@ -1,10 +1,10 @@
 package main
 
 import (
+	"bq-pipeline/pkg/handle"
+	"bq-pipeline/pkg/image"
+	"bq-pipeline/pkg/infrastructure/s3"
 	"context"
-	"kaleido-backend/pkg/handle"
-	"kaleido-backend/pkg/image"
-	"kaleido-backend/pkg/infrastructure/s3"
 
 	"github.com/aws/aws-lambda-go/lambda"
 )
