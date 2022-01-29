@@ -3,9 +3,10 @@ package main
 import (
 	"bq-pipeline/pkg/email"
 	"bq-pipeline/pkg/infrastructure/ses"
-	signer "bq-pipeline/pkg/infrastructure/sign"
+	// signer "bq-pipeline/pkg/infrastructure/sign"
+	"bq-pipeline/pkg/infrastructure/bigquery"
 	"bq-pipeline/pkg/infrastructure/sns"
-	"bq-pipeline/pkg/infrastructure/ssm"
+	// "bq-pipeline/pkg/infrastructure/ssm"
 	"context"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -17,15 +18,21 @@ func handler(ctx context.Context, request events.SNSEvent) error {
 	if err != nil {
 		return err
 	}
-	signer, err := signer.NewWithResolver(context.Background(), ssm.New())
+
+	// service, err := bigquery.Service(context.Context(), user.User)
+	// signer, err := signer.NewWithResolver(context.Background(), ssm.New())
 	if err != nil {
 		return err
 	}
 	for _, app := range applications {
+		if err = bigquery.BQ.Put()
+	}
+	// for _, app := range applications {
+		// if err = service.
 		if err = email.NewSignService(signer, ses.New()).SendEmailVerification(ctx, app.MailAddress); err != nil {
 			return err
 		}
-	}
+	// }
 	return nil
 }
 

@@ -1,0 +1,14 @@
+[
+    {
+        "name": "id",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "user id"
+    },
+     {
+        "name": "name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "user name"
+    }
+]
