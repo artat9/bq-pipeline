@@ -15,7 +15,7 @@ abi:
 	abigen --abi kaleido-core/abi/contracts/interfaces/IAdManager.sol/IAdManager.json --pkg contracts --out pkg/contracts/iadmanager/iadmanager.go	--alias bid=bid1, _bid=bid2
 
 
-build: 
+build:
 	export GO111MODULE=on
 	for module_dir in $$(ls cmd | grep -v arweave); do\
 	  echo  "building start... $${module_dir}";\
@@ -25,13 +25,15 @@ build:
 			env GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o bin/main main.go || exit 1;\
 			cp -R assets . ;\
 			rm bin/main.zip ;\
-			zip bin/main.zip bin/main assets/arweave/arweave.json;\
+			zip bin/main.zip bin/main assets/arweave/arweave.json account.json;\
 			cd ../..;\
 			echo  "building finished. $${module_dir}";\
 	done
-deploy: 
+deploy:
 	cdk deploy -c target=v1dev --all --require-approval never
 
-deploy_env: 
+deploy_env:
 	cdk deploy -c target=$${TARGET} --all --require-approval never
 
+deploy_gcp:
+  cd lib/terraform; terraform apply -var-file="dev.tfvars" -state=./local/terraform.tfstate -auto-approve; cd -
