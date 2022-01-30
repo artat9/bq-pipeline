@@ -13,7 +13,6 @@ import (
 )
 
 func handler(ctx context.Context, request events.SNSEvent) error {
-  // インプットデータを生成
 	service := bigquery.Service{}
 	client, err := bigquery.New(ctx)
 
@@ -21,6 +20,7 @@ func handler(ctx context.Context, request events.SNSEvent) error {
 		log.Error("bigquery client create failed", err)
 		os.Exit(1)
 	}
+	defer client.Close()
 
 	query := "SELECT " +
 	         "id, name " +

@@ -13,10 +13,9 @@ import (
 type (
    Service struct {}
 	 BQ interface{
-		 New(ctx context.Context) (*bigquery.Client, error)
-		 Upload(ctx context.Context, client bigquery.Client,user user.User) error
-		 Download(ctx context.Context, client bigquery.Client)
-	 }
+	  Upload(ctx context.Context, client bigquery.Client,user user.User) error
+	  Download(ctx context.Context, client bigquery.Client)
+   }
 
 )
 
@@ -26,6 +25,14 @@ func New(ctx context.Context) (*bigquery.Client, error) {
 
 func (s Service) Upload(ctx context.Context, client *bigquery.Client, u user.User) error {
 	// TODO FIX Table 名は環境変数で別出ししなくて大丈夫か
+	// TODO Streaming Insert でOK？それ以外だと読み込みジョブ方式がある
+	// memo
+  // source := bigquery.NewReaderSource(f)
+	// source.AutoDetect = true
+	// loader := client.Dataset(datasetID).Table(tableID).LoaderFrom(source)
+	// WriteTruncate（洗い替え）で書き込みする
+	// loader.LoadConfig.WriteDisposition = bigquery.WriteTruncate
+	// return client.Dataset(os.Getenv("TARGET_DATASET_ID")).Table("sample_terraform_user_table").Inserter().Put(ctx, u)
 	return client.Dataset(os.Getenv("TARGET_DATASET_ID")).Table("sample_terraform_user_table").Inserter().Put(ctx, u)
 }
 
