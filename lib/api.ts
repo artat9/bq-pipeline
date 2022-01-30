@@ -57,7 +57,14 @@ export class ApiStack extends cdk.Stack {
         lambdaFunction: lambdaFunction(this, "displayad", target),
       }),
     });
-    lambdaFunction(this, "putbq", target);
+    let envVar: { [key: string]: string };
+    envVar = {};
+    //TODO FIX
+    envVar["TARGET_GCP_PROJECT_ID"] = "os-tmp";
+    envVar["TARGET_DATASET_ID"] = "sample_terraform_dataset";
+    envVar["GOOGLE_APPLICATION_CREDENTIALS"] = "account.json";
+    lambdaFunction(this, "putbq", target, envVar);
+    lambdaFunction(this, "takebq", target, envVar);
   }
 }
 
