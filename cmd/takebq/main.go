@@ -3,9 +3,9 @@ package main
 import (
 	"bq-pipeline/pkg/common/log"
 	"bq-pipeline/pkg/infrastructure/bigquery"
+	"fmt"
 	"os"
 
-	"bq-pipeline/pkg/user"
 	"context"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -14,7 +14,6 @@ import (
 
 func handler(ctx context.Context, request events.SNSEvent) error {
   // インプットデータを生成
-	inputUserData := user.User{ID: "1", Name: "hoge"}
 	service := bigquery.Service{}
 	client, err := bigquery.New(ctx)
 
@@ -22,9 +21,16 @@ func handler(ctx context.Context, request events.SNSEvent) error {
 		log.Error("bigquery client create failed", err)
 		os.Exit(1)
 	}
-  if err := service.Upload(ctx, client, inputUserData); err != nil {
+
+	query := "SELECT " +
+	         "id, name " +
+					 "FROM " + os.Getenv("TARGET_GCP_PROJECT_ID") + "." + os.Getenv("TARGET_DATASET_ID") + ".sample_terraform_user_table"
+	data, err := service.Download(ctx, *client, query)
+
+  if err != nil {
 		return err
 	}
+	fmt.Println(data)
 	return nil
 }
 
