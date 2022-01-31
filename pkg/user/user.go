@@ -1,6 +1,9 @@
 package user
 
-import "context"
+import (
+	"context"
+	"os/user"
+)
 
 type (
 	User struct {
@@ -8,13 +11,29 @@ type (
 		Name string `json:"name"`
 	}
 	Service struct {
-		uploader Uploader
+		uploader   Uploader
+		downloader Downloader
 	}
 	Uploader interface {
-		Upload(ctx context.Context, u User) error
+		Upload(ctx context.Context) error
+	}
+	Downloader interface {
+		Download(ctx context.Context, it []interface{}) ([]*user.User, error)
 	}
 )
 
-func (s Service) Upload(ctx context.Context, u User) error {
-	return s.uploader.Upload(ctx, u)
+//TODO FIX
+func NewService(u Uploader, d Downloader) *Service {
+	return &Service{
+		uploader:   u,
+		downloader: d,
+	}
+}
+
+func (s Service) Upload(ctx context.Context) error {
+	return s.uploader.Upload(ctx)
+}
+
+func (s Service) Downlaod(ctx context.Context, it []interface{}) ([]*user.User, error) {
+	return s.downloader.Download(ctx, it)
 }

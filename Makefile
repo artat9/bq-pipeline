@@ -25,7 +25,7 @@ build:
 			env GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o bin/main main.go || exit 1;\
 			cp -R assets . ;\
 			rm bin/main.zip ;\
-			zip bin/main.zip bin/main assets/arweave/arweave.json account.json;\
+			zip bin/main.zip bin/main assets/arweave/arweave.json;\
 			cd ../..;\
 			echo  "building finished. $${module_dir}";\
 	done

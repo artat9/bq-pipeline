@@ -3,6 +3,7 @@ package main
 import (
 	"bq-pipeline/pkg/common/log"
 	"bq-pipeline/pkg/infrastructure/bigquery"
+	"bq-pipeline/pkg/infrastructure/ssm"
 	"fmt"
 	"os"
 
@@ -13,8 +14,7 @@ import (
 )
 
 func handler(ctx context.Context, request events.SNSEvent) error {
-	service := bigquery.Service{}
-	client, err := bigquery.New(ctx)
+	client, err := bigquery.NewClient(ctx, ssm.New())
 
 	if err != nil {
 		log.Error("bigquery client create failed", err)
@@ -22,15 +22,15 @@ func handler(ctx context.Context, request events.SNSEvent) error {
 	}
 	defer client.Close()
 
-	query := "SELECT " +
-	         "id, name " +
-					 "FROM " + os.Getenv("TARGET_GCP_PROJECT_ID") + "." + os.Getenv("TARGET_DATASET_ID") + ".sample_terraform_user_table"
-	data, err := service.Download(ctx, *client, query)
+	sr := bigquery.NewSampleReader(ctx, client)
+	service := bigquery.NewService(nil, sr)
+	users, err := service.Download(ctx)
 
-  if err != nil {
+	if err != nil {
+		log.Error("fetch users data failed", err)
 		return err
 	}
-	fmt.Println(data)
+	fmt.Println(users)
 	return nil
 }
 
