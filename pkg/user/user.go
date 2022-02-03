@@ -2,7 +2,6 @@ package user
 
 import (
 	"context"
-	"os/user"
 )
 
 type (
@@ -15,10 +14,10 @@ type (
 		downloader Downloader
 	}
 	Uploader interface {
-		Upload(ctx context.Context) error
+		Upload(ctx context.Context, users []User) error
 	}
 	Downloader interface {
-		Download(ctx context.Context, it []interface{}) ([]*user.User, error)
+		Download(ctx context.Context, it interface{}) ([]*User, error)
 	}
 )
 
@@ -30,10 +29,10 @@ func NewService(u Uploader, d Downloader) *Service {
 	}
 }
 
-func (s Service) Upload(ctx context.Context) error {
-	return s.uploader.Upload(ctx)
+func (s *Service) Upload(ctx context.Context, users []User) error {
+	return s.uploader.Upload(ctx, users)
 }
 
-func (s Service) Downlaod(ctx context.Context, it []interface{}) ([]*user.User, error) {
+func (s *Service) Downlaod(ctx context.Context, it interface{}) ([]*User, error) {
 	return s.downloader.Download(ctx, it)
 }
