@@ -20,7 +20,7 @@ type (
 		GcpServiceAccountCredential(ctx context.Context) (string, error)
 	}
 	SampleInserter interface {
-		Put(context.Context,interface{}) error
+		Put(ctx context.Context,src interface{}) error
 	}
 
 	SampleReader interface {
@@ -69,7 +69,10 @@ func (s *Service) Download(ctx context.Context) ([]*user.User, error) {
 		log.Error("failed to read data", err)
 		return nil, err
 	}
-
+	if it == nil{
+		log.Info("read data is empty")
+		return nil, nil
+	}
 	var outputData []*user.User
 	for {
 		var user user.User
@@ -80,7 +83,7 @@ func (s *Service) Download(ctx context.Context) ([]*user.User, error) {
 		}
 
 		if err != nil {
-			log.Error("Failed to Iterate Query:%v", err)
+			log.Error("failed to iterate query:%v", err)
 			return outputData, err
 		}
 
