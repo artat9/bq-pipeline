@@ -1,0 +1,19 @@
+{
+  "name": "terraform",
+  "version": "1.0.0",
+  "description": "package for cdktf",
+  "main": "main.ts",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "synth:dev": "TARGET=dev cdktf synth",
+    "deploy:dev": "TARGET=dev cdktf deploy --auto-approve",
+    "deploy:prod": "TARGET=prod cdktf deploy --auto-approve",
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "devDependencies": {
+    "@cdktf/provider-google": "^0.6.9",
+    "cdktf": "^0.9.0"
+  }
+}

@@ -1,8 +1,8 @@
-import { Effect, PolicyStatement } from '@aws-cdk/aws-iam';
-import { Code, Function, Runtime, Tracing } from '@aws-cdk/aws-lambda';
-import { Construct, Duration } from '@aws-cdk/core';
-import { resolve } from 'path';
-import * as environment from './env';
+import { Effect, PolicyStatement } from "@aws-cdk/aws-iam";
+import { Code, Function, Runtime, Tracing } from "@aws-cdk/aws-lambda";
+import { Construct, Duration } from "@aws-cdk/core";
+import { resolve } from "path";
+import * as environment from "./env";
 
 export const lambdaFunction = (
   scope: Construct,
@@ -13,7 +13,7 @@ export const lambdaFunction = (
   const func = new Function(scope, id, {
     functionName: environment.withEnvPrefix(target, id),
     code: code(id),
-    handler: 'bin/main',
+    handler: "bin/main",
     timeout: Duration.minutes(1),
     runtime: Runtime.GO_1_X,
     tracing: Tracing.ACTIVE,
@@ -23,43 +23,43 @@ export const lambdaFunction = (
   func.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
-      actions: ['lambda:*'],
-      resources: ['*'],
+      actions: ["lambda:*"],
+      resources: ["*"],
     })
   );
   func.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
-      actions: ['ssm:Get*'],
-      resources: ['*'],
+      actions: ["ssm:Get*"],
+      resources: ["*"],
     })
   );
   func.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
-      actions: ['dynamodb:*'],
-      resources: ['*'],
+      actions: ["dynamodb:*"],
+      resources: ["*"],
     })
   );
   func.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
-      actions: ['sns:Publish'],
-      resources: ['*'],
+      actions: ["sns:Publish"],
+      resources: ["*"],
     })
   );
   func.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
-      actions: ['ses:SendEmail'],
-      resources: ['*'],
+      actions: ["ses:SendEmail"],
+      resources: ["*"],
     })
   );
   func.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
-      actions: ['s3:*'],
-      resources: ['*'],
+      actions: ["s3:*"],
+      resources: ["*"],
     })
   );
   return func;
@@ -67,11 +67,11 @@ export const lambdaFunction = (
 
 const code = (dirname: string) => {
   return Code.fromAsset(
-    resolve(`${__dirname}/../`, 'cmd', dirname, 'bin', 'main.zip')
+    resolve(`${__dirname}/../`, "cmd", dirname, "bin", "main.zip")
   );
 };
 
-const environmentParameters = (
+export const environmentParameters = (
   target: environment.Environments,
   additionalEnvParams?: {
     [key: string]: string;
