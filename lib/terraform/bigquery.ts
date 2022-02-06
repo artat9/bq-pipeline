@@ -69,8 +69,6 @@ export class BigqueryStack extends TerraformStack {
       }
     );
 
-    console.log(serviceAccount.accountId);
-
     new ProjectIamBinding(this, "jobUserBinding", {
       members: [`serviceAccount:${serviceAccount.email}`],
       role: "roles/bigquery.jobUser",
