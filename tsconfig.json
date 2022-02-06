@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2018",
     "module": "commonjs",
-    "lib": ["es2018"],
+    "lib": ["es2018", "DOM"],
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -20,5 +20,5 @@
     "esModuleInterop": true,
     "typeRoots": ["./node_modules/@types"]
   },
-  "exclude": ["cdk.out","./node_modules"]
+  "exclude": ["cdk.out","./node_modules", "lib/terraform/cdktf.out"]
 }

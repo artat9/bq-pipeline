@@ -36,4 +36,7 @@ deploy_env:
 	cdk deploy -c target=$${TARGET} --all --require-approval never
 
 deploy_gcp:
-  cd lib/terraform; terraform apply -var-file="dev.tfvars" -state=./local/terraform.tfstate -auto-approve; cd -
+	cd lib/terraform && TARGET=v1dev cdktf deploy --auto-approve;
+
+deploy_gcp_env:
+	cd lib/terraform && TARGET=$${TARGET} cdktf deploy --auto-approve;

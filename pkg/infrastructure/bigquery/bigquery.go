@@ -20,13 +20,15 @@ type (
 		GcpServiceAccountCredential(ctx context.Context) (string, error)
 	}
 	SampleInserter interface {
-		Put(ctx context.Context,src interface{}) error
+		Put(ctx context.Context, src interface{}) error
 	}
 
 	SampleReader interface {
 		Read(ctx context.Context) (*bigquery.RowIterator, error)
 	}
 )
+
+const sample_user_table_1 = "sample_terraform_user_table_1"
 
 func NewClient(ctx context.Context, sr GcpServiceAccountCredentialResolver) (*bigquery.Client, error) {
 	c, err := sr.GcpServiceAccountCredential(ctx)
@@ -43,14 +45,14 @@ func NewService(si SampleInserter, sr SampleReader) Service {
 }
 
 func (s Service) Upload(ctx context.Context, users []user.User) error {
-	if err := s.si.Put(ctx, users); err != nil{
+	if err := s.si.Put(ctx, users); err != nil {
 		return err
 	}
 	return nil
 }
 
 func NewSampleInserter(client *bigquery.Client) SampleInserter {
-	return client.Dataset(os.Getenv("TARGET_DATASET_ID")).Table("sample_terraform_user_table").Inserter()
+	return client.Dataset(os.Getenv("TARGET_DATASET_ID")).Table(sample_user_table_1).Inserter()
 }
 
 func NewSampleReader(ctx context.Context, client *bigquery.Client) SampleReader {
@@ -59,21 +61,21 @@ func NewSampleReader(ctx context.Context, client *bigquery.Client) SampleReader 
 		"FROM " +
 		os.Getenv("TARGET_GCP_PROJECT_ID") +
 		"." + os.Getenv("TARGET_DATASET_ID") +
-		".sample_terraform_user_table"
+		"." + sample_user_table_1
 	return client.Query(query)
 }
 
-func (s *Service) Download(ctx context.Context) ([]*user.User, error) {
+func (s *Service) Download(ctx context.Context) ([]user.User, error) {
 	it, err := s.sr.Read(ctx)
 	if err != nil {
 		log.Error("failed to read data", err)
 		return nil, err
 	}
-	if it == nil{
+	if it == nil {
 		log.Info("read data is empty")
 		return nil, nil
 	}
-	var outputData []*user.User
+	var outputData []user.User
 	for {
 		var user user.User
 
@@ -86,9 +88,7 @@ func (s *Service) Download(ctx context.Context) ([]*user.User, error) {
 			log.Error("failed to iterate query:%v", err)
 			return outputData, err
 		}
-
-		log.Info(user)
-		outputData = append(outputData, &user)
+		outputData = append(outputData, user)
 	}
 	return outputData, nil
 }

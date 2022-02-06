@@ -1,6 +1,7 @@
 import { Effect, PolicyStatement } from "@aws-cdk/aws-iam";
 import { Code, Function, Runtime, Tracing } from "@aws-cdk/aws-lambda";
 import { Construct, Duration } from "@aws-cdk/core";
+import * as fs from "fs";
 import { resolve } from "path";
 import * as environment from "./env";
 
@@ -75,11 +76,19 @@ export const environmentParameters = (
   target: environment.Environments,
   additionalEnvParams?: {
     [key: string]: string;
-  }
+  },
+  isGcp?: boolean
 ): { [key: string]: string } => {
-  var stack: { [key: string]: string } = {
-    EnvironmentId: target.toString(),
-  };
+  var stack: { [key: string]: string };
+  if (isGcp) {
+    stack = {
+      env: target.toString(),
+    };
+  } else {
+    stack = {
+      EnvironmentId: target.toString(),
+    };
+  }
   if (!additionalEnvParams) {
     return stack;
   }
@@ -87,4 +96,10 @@ export const environmentParameters = (
     stack[k] = additionalEnvParams[k];
   });
   return stack;
+};
+
+export const credentials = (credentialsPath: string) => {
+  return fs.existsSync(credentialsPath)
+    ? fs.readFileSync(credentialsPath).toString()
+    : "{}";
 };

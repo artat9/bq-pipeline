@@ -30,7 +30,7 @@ func handler(ctx context.Context, request events.SNSEvent) error {
 		log.Error("fetch users data failed", err)
 		return err
 	}
-	fmt.Println(users)
+	fmt.Printf("users: %+v\n", users)
 	return nil
 }
 
