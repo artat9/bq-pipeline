@@ -6,6 +6,8 @@ node_modules
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+lib/terraform/cdktf.out
+lib/terraform/.terraform/*
 
 
 # go binaries

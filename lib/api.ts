@@ -57,6 +57,13 @@ export class ApiStack extends cdk.Stack {
         lambdaFunction: lambdaFunction(this, 'displayad', target),
       }),
     });
+    const envVariables = environment.valueOf(target);
+    const addParams = {
+      TargetGcpProjectId: envVariables.projectId,
+      TargetDatasetId: envVariables.db.user.datasetId,
+    };
+    lambdaFunction(this, 'putbq', target, addParams);
+    lambdaFunction(this, 'takebq', target, addParams);
   }
 }
 

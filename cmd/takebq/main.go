@@ -4,8 +4,8 @@ import (
 	"bq-pipeline/pkg/common/log"
 	"bq-pipeline/pkg/infrastructure/bigquery"
 	"bq-pipeline/pkg/infrastructure/ssm"
+	"fmt"
 
-	"bq-pipeline/pkg/user"
 	"context"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -13,26 +13,23 @@ import (
 )
 
 func handler(ctx context.Context, request events.SNSEvent) error {
-	//TODO FIX This is sample data.
-	sampleUser := user.User{ID: "1", Name: "hoge"}
-	users := []user.User{}
-	users = append(users, sampleUser)
-
 	client, err := bigquery.NewClient(ctx, ssm.New())
+
 	if err != nil {
 		log.Error("bigquery client create failed", err)
 		return err
 	}
 	defer client.Close()
 
-	writer := bigquery.NewWriter(client)
-	bq := bigquery.NewService(writer, nil)
-	svc := user.NewService(bq, nil)
+	reader := bigquery.NewReader(ctx, client)
+	service := bigquery.NewService(nil, reader)
+	users, err := service.Download(ctx)
 
-	if err = svc.Upload(ctx, users); err != nil {
-		log.Error("upload failed", err)
+	if err != nil {
+		log.Error("fetch users data failed", err)
 		return err
 	}
+	fmt.Printf("users: %+v\n", users)
 	return nil
 }
 

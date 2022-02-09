@@ -15,7 +15,7 @@ abi:
 	abigen --abi kaleido-core/abi/contracts/interfaces/IAdManager.sol/IAdManager.json --pkg contracts --out pkg/contracts/iadmanager/iadmanager.go	--alias bid=bid1, _bid=bid2
 
 
-build: 
+build:
 	export GO111MODULE=on
 	for module_dir in $$(ls cmd | grep -v arweave); do\
 	  echo  "building start... $${module_dir}";\
@@ -29,9 +29,14 @@ build:
 			cd ../..;\
 			echo  "building finished. $${module_dir}";\
 	done
-deploy: 
+deploy:
 	cdk deploy -c target=v1dev --all --require-approval never
 
-deploy_env: 
+deploy_env:
 	cdk deploy -c target=$${TARGET} --all --require-approval never
 
+deploy_gcp:
+	cd lib/terraform && TARGET=v1dev cdktf deploy --auto-approve;
+
+deploy_gcp_env:
+	cd lib/terraform && TARGET=$${TARGET} cdktf deploy --auto-approve;

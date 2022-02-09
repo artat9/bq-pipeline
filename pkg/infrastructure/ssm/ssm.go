@@ -23,12 +23,13 @@ type (
 )
 
 const (
-	keyPrefix              = "kaleido-"
-	signingSecret          = keyPrefix + "signing-secret"
-	slackToken             = keyPrefix + "slack-bot-token"
-	emailSigningPublicKey  = keyPrefix + "email-signing-public-key"
-	emailSigningPrivateKey = keyPrefix + "email-signing-private-key"
-	infuraKey              = keyPrefix + "infura-key"
+	keyPrefix                   = "bq-pipeline-"
+	signingSecret               = keyPrefix + "signing-secret"
+	slackToken                  = keyPrefix + "slack-bot-token"
+	emailSigningPublicKey       = keyPrefix + "email-signing-public-key"
+	emailSigningPrivateKey      = keyPrefix + "email-signing-private-key"
+	infuraKey                   = keyPrefix + "infura-key"
+	gcpServiceAccountCredential = keyPrefix + "gcp-service-account-credential"
 )
 
 // New New client
@@ -68,6 +69,10 @@ func (c Client) EmailSigningPublicKey(ctx context.Context) (val ed25519.PublicKe
 // EmailSigningPrivateKey private-key for email verification
 func (c Client) EmailSigningPrivateKey(ctx context.Context) (val ed25519.PrivateKey, err error) {
 	return c.getKey(ctx, withEnvSuffix(emailSigningPrivateKey))
+}
+
+func (c Client) GcpServiceAccountCredential(ctx context.Context) (string, error) {
+	return c.get(ctx, gcpServiceAccountCredential)
 }
 
 func (c Client) getKey(ctx context.Context, key string) ([]byte, error) {

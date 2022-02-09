@@ -7,7 +7,7 @@ require (
 	github.com/Dev43/arweave-go v0.0.3
 	github.com/aws/aws-cdk-go/awscdk v1.132.0-devpreview
 	github.com/aws/aws-cdk-go/awscdk/v2 v2.0.0-rc.28
-	github.com/aws/aws-lambda-go v1.26.0
+	github.com/aws/aws-lambda-go v1.28.0
 	github.com/aws/aws-sdk-go v1.42.5
 	github.com/aws/aws-xray-sdk-go v1.6.0
 	github.com/aws/constructs-go/constructs/v10 v10.0.9
@@ -19,8 +19,6 @@ require (
 	github.com/ipfs/go-ipfs-api v0.2.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/slack-go/slack v0.9.5
-	github.com/stretchr/testify v1.7.0
-	github.com/tidwall/gjson v1.11.0
 )
 
 require (
@@ -32,6 +30,7 @@ require (
 	github.com/andybalholm/brotli v1.0.1 // indirect
 	github.com/btcsuite/btcd v0.20.1-beta // indirect
 	github.com/cenkalti/backoff v2.1.1+incompatible // indirect
+	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/crackcomm/go-gitignore v0.0.0-20170627025303-887ab5e44cc3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/deckarep/golang-set v0.0.0-20180603214616-504e848d77ea // indirect
@@ -71,13 +70,18 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rjeczalik/notify v0.9.1 // indirect
+	github.com/russross/blackfriday/v2 v2.0.1 // indirect
 	github.com/shirou/gopsutil v3.21.4-0.20210419000835-c7a38de76ee5+incompatible // indirect
+	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/spacemonkeygo/spacelog v0.0.0-20180420211403-2296661a0572 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
+	github.com/stretchr/testify v1.7.0 // indirect
+	github.com/tidwall/gjson v1.11.0 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.5 // indirect
 	github.com/tklauser/numcpus v0.2.2 // indirect
+	github.com/urfave/cli/v2 v2.3.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.24.0 // indirect
 	github.com/whyrusleeping/tar-utils v0.0.0-20180509141711-8c6c8ba81d5c // indirect
