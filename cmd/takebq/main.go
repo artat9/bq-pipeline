@@ -5,7 +5,6 @@ import (
 	"bq-pipeline/pkg/infrastructure/bigquery"
 	"bq-pipeline/pkg/infrastructure/ssm"
 	"fmt"
-	"os"
 
 	"context"
 
@@ -18,12 +17,12 @@ func handler(ctx context.Context, request events.SNSEvent) error {
 
 	if err != nil {
 		log.Error("bigquery client create failed", err)
-		os.Exit(1)
+		return err
 	}
 	defer client.Close()
 
-	sr := bigquery.NewSampleReader(ctx, client)
-	service := bigquery.NewService(nil, sr)
+	reader := bigquery.NewReader(ctx, client)
+	service := bigquery.NewService(nil, reader)
 	users, err := service.Download(ctx)
 
 	if err != nil {

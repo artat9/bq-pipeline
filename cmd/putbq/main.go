@@ -4,7 +4,6 @@ import (
 	"bq-pipeline/pkg/common/log"
 	"bq-pipeline/pkg/infrastructure/bigquery"
 	"bq-pipeline/pkg/infrastructure/ssm"
-	"os"
 
 	"bq-pipeline/pkg/user"
 	"context"
@@ -22,17 +21,17 @@ func handler(ctx context.Context, request events.SNSEvent) error {
 	client, err := bigquery.NewClient(ctx, ssm.New())
 	if err != nil {
 		log.Error("bigquery client create failed", err)
-		os.Exit(1)
+		return err
 	}
 	defer client.Close()
 
-	si := bigquery.NewSampleInserter(client)
-	bq := bigquery.NewService(si, nil)
+	writer := bigquery.NewWriter(client)
+	bq := bigquery.NewService(writer, nil)
 	svc := user.NewService(bq, nil)
 
 	if err = svc.Upload(ctx, users); err != nil {
 		log.Error("upload failed", err)
-		os.Exit(1)
+		return err
 	}
 	return nil
 }

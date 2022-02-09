@@ -1,10 +1,10 @@
-const projectName = "bq-pipeline";
+const projectName = 'bq-pipeline';
 
 export enum Environments {
-  PROD = "prod",
-  DEV = "dev",
-  TEST = "test",
-  V1DEV = "v1dev",
+  PROD = 'prod',
+  DEV = 'dev',
+  TEST = 'test',
+  V1DEV = 'v1dev',
 }
 
 //TODO FIX
@@ -31,72 +31,72 @@ const EnvironmentVariablesSetting: {
   [key in Environments]: EnvironmentVariables;
 } = {
   [Environments.PROD]: {
-    projectId: "",
+    projectId: '',
     db: {
       user: {
-        datasetId: "",
+        datasetId: '',
         tables: {
           sample1: {
-            tableId: "",
-            schemaJsonPath: "",
+            tableId: '',
+            schemaJsonPath: '',
           },
           sample2: {
-            tableId: "",
-            schemaJsonPath: "",
+            tableId: '',
+            schemaJsonPath: '',
           },
         },
       },
     },
   },
   [Environments.DEV]: {
-    projectId: "",
+    projectId: '',
     db: {
       user: {
-        datasetId: "",
+        datasetId: '',
         tables: {
           sample1: {
-            tableId: "",
-            schemaJsonPath: "",
+            tableId: '',
+            schemaJsonPath: '',
           },
           sample2: {
-            tableId: "",
-            schemaJsonPath: "",
+            tableId: '',
+            schemaJsonPath: '',
           },
         },
       },
     },
   },
   [Environments.V1DEV]: {
-    projectId: "xxxxxxxxxxxxxxxxx",
+    projectId: 'xxxxxxxxxxxxxxxxx',
     db: {
       user: {
-        datasetId: "sample_terraform_dataset_1",
+        datasetId: 'sample_terraform_dataset_1',
         tables: {
           sample1: {
-            tableId: "sample_terraform_user_table_1",
-            schemaJsonPath: "schema/sample_user_tables_schema.json",
+            tableId: 'sample_terraform_user_table_1',
+            schemaJsonPath: 'schema/sample_user_tables_schema.json',
           },
           sample2: {
-            tableId: "sample_terraform_user_table_1_2",
-            schemaJsonPath: "schema/sample_user_table_schema.json",
+            tableId: 'sample_terraform_user_table_1_2',
+            schemaJsonPath: 'schema/sample_user_table_schema.json',
           },
         },
       },
     },
   },
   [Environments.TEST]: {
-    projectId: "",
+    projectId: '',
     db: {
       user: {
-        datasetId: "",
+        datasetId: '',
         tables: {
           sample1: {
-            tableId: "",
-            schemaJsonPath: "",
+            tableId: '',
+            schemaJsonPath: '',
           },
           sample2: {
-            tableId: "",
-            schemaJsonPath: "",
+            tableId: '',
+            schemaJsonPath: '',
           },
         },
       },

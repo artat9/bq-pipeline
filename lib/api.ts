@@ -7,12 +7,12 @@ import {
   LambdaDataSource,
   MappingTemplate,
   Schema,
-} from "@aws-cdk/aws-appsync";
-import * as cdk from "@aws-cdk/core";
-import { join } from "path";
-import * as environment from "./env";
-import { lambdaFunction } from "./function";
-import IAM = require("@aws-cdk/aws-iam");
+} from '@aws-cdk/aws-appsync';
+import * as cdk from '@aws-cdk/core';
+import { join } from 'path';
+import * as environment from './env';
+import { lambdaFunction } from './function';
+import IAM = require('@aws-cdk/aws-iam');
 interface ApiProps extends cdk.StackProps {}
 
 export class ApiStack extends cdk.Stack {
@@ -24,46 +24,46 @@ export class ApiStack extends cdk.Stack {
     props: ApiProps
   ) {
     super(scope, id, props);
-    const api = new GraphqlApi(this, "GraphqlApi", apiProps(target));
+    const api = new GraphqlApi(this, 'GraphqlApi', apiProps(target));
     api.createResolver({
-      typeName: "Mutation",
-      fieldName: "uploadImage",
-      dataSource: new LambdaDataSource(this, "uploadimage", {
+      typeName: 'Mutation',
+      fieldName: 'uploadImage',
+      dataSource: new LambdaDataSource(this, 'uploadimage', {
         api: api,
-        lambdaFunction: lambdaFunction(this, "issuepresign", target),
+        lambdaFunction: lambdaFunction(this, 'issuepresign', target),
       }),
     });
     api.createResolver({
-      typeName: "Mutation",
-      fieldName: "applyForMediaAccount",
-      dataSource: new LambdaDataSource(this, "createmediaaccount", {
+      typeName: 'Mutation',
+      fieldName: 'applyForMediaAccount',
+      dataSource: new LambdaDataSource(this, 'createmediaaccount', {
         api: api,
-        lambdaFunction: lambdaFunction(this, "mediaaccount", target),
+        lambdaFunction: lambdaFunction(this, 'mediaaccount', target),
       }),
     });
     api.createResolver({
-      typeName: "Mutation",
-      fieldName: "confirmMailAddress",
-      dataSource: new LambdaDataSource(this, "confirmMailAddress", {
+      typeName: 'Mutation',
+      fieldName: 'confirmMailAddress',
+      dataSource: new LambdaDataSource(this, 'confirmMailAddress', {
         api: api,
-        lambdaFunction: lambdaFunction(this, "verifyapplication", target),
+        lambdaFunction: lambdaFunction(this, 'verifyapplication', target),
       }),
     });
     api.createResolver({
-      typeName: "Query",
-      fieldName: "display",
-      dataSource: new LambdaDataSource(this, "display", {
+      typeName: 'Query',
+      fieldName: 'display',
+      dataSource: new LambdaDataSource(this, 'display', {
         api: api,
-        lambdaFunction: lambdaFunction(this, "displayad", target),
+        lambdaFunction: lambdaFunction(this, 'displayad', target),
       }),
     });
     const envVariables = environment.valueOf(target);
-    let addParams: { [key: string]: string };
-    addParams = {};
-    addParams["TARGET_GCP_PROJECT_ID"] = envVariables.projectId;
-    addParams["TARGET_DATASET_ID"] = envVariables.db.user.datasetId;
-    lambdaFunction(this, "putbq", target, addParams);
-    lambdaFunction(this, "takebq", target, addParams);
+    const addParams = {
+      TargetGcpProjectId: envVariables.projectId,
+      TargetDatasetId: envVariables.db.user.datasetId,
+    };
+    lambdaFunction(this, 'putbq', target, addParams);
+    lambdaFunction(this, 'takebq', target, addParams);
   }
 }
 
@@ -72,25 +72,25 @@ const withDDBResolvers = (
   ddbDataSource: DynamoDbDataSource
 ) => {
   api.createResolver({
-    typeName: "Query",
-    fieldName: "getAccount",
+    typeName: 'Query',
+    fieldName: 'getAccount',
     dataSource: ddbDataSource,
     requestMappingTemplate: MappingTemplate.fromFile(
       join(
         __dirname,
-        "schema",
-        "resolvers",
-        "public",
-        "getAccount" + ".request.vtl"
+        'schema',
+        'resolvers',
+        'public',
+        'getAccount' + '.request.vtl'
       )
     ),
     responseMappingTemplate: MappingTemplate.fromFile(
       join(
         __dirname,
-        "schema",
-        "resolvers",
-        "public",
-        "getAccount" + ".response.vtl"
+        'schema',
+        'resolvers',
+        'public',
+        'getAccount' + '.response.vtl'
       )
     ),
   });
@@ -119,10 +119,10 @@ const apiDefaultRole = (
   target: environment.Environments,
   props: ApiProps
 ) => {
-  const serviceRole = new IAM.Role(api, "appsyncServiceRole", {
-    assumedBy: new IAM.ServicePrincipal("appsync.amazonaws.com"),
-    path: "/service-role/",
-    roleName: environment.withEnvPrefix(target, "appsyncDefaultRole"),
+  const serviceRole = new IAM.Role(api, 'appsyncServiceRole', {
+    assumedBy: new IAM.ServicePrincipal('appsync.amazonaws.com'),
+    path: '/service-role/',
+    roleName: environment.withEnvPrefix(target, 'appsyncDefaultRole'),
   });
   return serviceRole;
 };
@@ -148,24 +148,24 @@ const resolver = (typeName: string, fieldName: string) => {
 };
 
 const queryResolver = (fieldName: string) => {
-  return resolver("Query", fieldName);
+  return resolver('Query', fieldName);
 };
 
 const apiProps = (target: environment.Environments): GraphqlApiProps => {
   return {
     xrayEnabled: true,
-    name: environment.withEnvPrefix(target, "GraphqlApi"),
+    name: environment.withEnvPrefix(target, 'GraphqlApi'),
     logConfig: {
       fieldLogLevel: FieldLogLevel.ALL,
       excludeVerboseContent: false,
     },
-    schema: Schema.fromAsset(join(__dirname, "schema/schema.graphql")),
+    schema: Schema.fromAsset(join(__dirname, 'schema/schema.graphql')),
     authorizationConfig: {
       defaultAuthorization: {
         authorizationType: AuthorizationType.API_KEY,
         apiKeyConfig: {
           expires: cdk.Expiration.after(cdk.Duration.days(365)),
-          description: "default",
+          description: 'default',
         },
       },
     },

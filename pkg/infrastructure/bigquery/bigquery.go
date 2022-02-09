@@ -13,17 +13,17 @@ import (
 
 type (
 	Service struct {
-		si SampleInserter
-		sr SampleReader
+		writer Writer
+		reader Reader
 	}
 	GcpServiceAccountCredentialResolver interface {
 		GcpServiceAccountCredential(ctx context.Context) (string, error)
 	}
-	SampleInserter interface {
+	Writer interface {
 		Put(ctx context.Context, src interface{}) error
 	}
 
-	SampleReader interface {
+	Reader interface {
 		Read(ctx context.Context) (*bigquery.RowIterator, error)
 	}
 )
@@ -37,36 +37,36 @@ func NewClient(ctx context.Context, sr GcpServiceAccountCredentialResolver) (*bi
 		return nil, err
 	}
 	data := []byte(c)
-	return bigquery.NewClient(ctx, os.Getenv("TARGET_GCP_PROJECT_ID"), option.WithCredentialsJSON(data))
+	return bigquery.NewClient(ctx, os.Getenv("TargetGcpProjectId"), option.WithCredentialsJSON(data))
 }
 
-func NewService(si SampleInserter, sr SampleReader) Service {
-	return Service{si: si, sr: sr}
+func NewService(writer Writer, reader Reader) Service {
+	return Service{writer: writer, reader: reader}
 }
 
 func (s Service) Upload(ctx context.Context, users []user.User) error {
-	if err := s.si.Put(ctx, users); err != nil {
+	if err := s.writer.Put(ctx, users); err != nil {
 		return err
 	}
 	return nil
 }
 
-func NewSampleInserter(client *bigquery.Client) SampleInserter {
-	return client.Dataset(os.Getenv("TARGET_DATASET_ID")).Table(sample_user_table_1).Inserter()
+func NewWriter(client *bigquery.Client) Writer {
+	return client.Dataset(os.Getenv("TargetDatasetId")).Table(sample_user_table_1).Inserter()
 }
 
-func NewSampleReader(ctx context.Context, client *bigquery.Client) SampleReader {
+func NewReader(ctx context.Context, client *bigquery.Client) Reader {
 	query := "SELECT " +
 		"id, name " +
 		"FROM " +
-		os.Getenv("TARGET_GCP_PROJECT_ID") +
-		"." + os.Getenv("TARGET_DATASET_ID") +
+		os.Getenv("TargetGcpProjectId") +
+		"." + os.Getenv("TargetDatasetId") +
 		"." + sample_user_table_1
 	return client.Query(query)
 }
 
 func (s *Service) Download(ctx context.Context) ([]user.User, error) {
-	it, err := s.sr.Read(ctx)
+	it, err := s.reader.Read(ctx)
 	if err != nil {
 		log.Error("failed to read data", err)
 		return nil, err

@@ -20,34 +20,30 @@ func TestNewClient(t *testing.T) {
 }
 
 type (
-	testInserter struct {
+	testWriter struct {
 		PutFunc func(ctx context.Context, src interface{}) error
 	}
 	testReader struct {
 		ReadFunc func(ctx context.Context) (*bigquery.RowIterator, error)
 	}
-	errorInserter struct {
-		testInserter testInserter
-		testReader   testReader
-	}
-	normalService struct {
-		testInserter testInserter
-		testReader   testReader
+	testService struct {
+		testWriter testWriter
+		testReader testReader
 	}
 )
 
-func (t testInserter) Put(ctx context.Context, src interface{}) error {
+func (t testWriter) Put(ctx context.Context, src interface{}) error {
 	return t.PutFunc(ctx, src)
 }
 func (t testReader) Read(ctx context.Context) (*bigquery.RowIterator, error) {
 	return t.ReadFunc(ctx)
 }
 
-func (n normalService) Put(ctx context.Context, users user.User) error {
+func (t testService) Put(ctx context.Context, users user.User) error {
 	return nil
 }
 
-func (n normalService) Reader(ctx context.Context) (*bigquery.RowIterator, error) {
+func (t testService) Reader(ctx context.Context) (*bigquery.RowIterator, error) {
 	return nil, nil
 }
 
@@ -57,7 +53,7 @@ func TestUpload(t *testing.T) {
 	testUsers = append(testUsers, testuser)
 
 	type fields struct {
-		si SampleInserter
+		writer Writer
 	}
 	type args struct {
 		users []user.User
@@ -71,7 +67,7 @@ func TestUpload(t *testing.T) {
 		{
 			name: "upload succeed",
 			fields: fields{
-				si: testInserter{
+				writer: testWriter{
 					PutFunc: func(ctx context.Context, src interface{}) error {
 						return nil
 					},
@@ -85,7 +81,7 @@ func TestUpload(t *testing.T) {
 		{
 			name: "upload failed",
 			fields: fields{
-				si: testInserter{
+				writer: testWriter{
 					PutFunc: func(ctx context.Context, src interface{}) error {
 						return errors.New("err")
 					},
@@ -100,8 +96,8 @@ func TestUpload(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := Service{
-				si: tt.fields.si,
-				sr: nil,
+				writer: tt.fields.writer,
+				reader: nil,
 			}
 			if err := s.Upload(context.Background(), tt.args.users); (err != nil) != tt.wantErr {
 				t.Errorf("Service.Put() error  = %v, wantErr %v", err, tt.wantErr)
@@ -113,7 +109,7 @@ func TestUpload(t *testing.T) {
 
 func TestRead(t *testing.T) {
 	type fields struct {
-		sr SampleReader
+		reader Reader
 	}
 	type args struct {
 	}
@@ -125,7 +121,7 @@ func TestRead(t *testing.T) {
 		{
 			name: "read succeed",
 			fields: fields{
-				sr: testReader{
+				reader: testReader{
 					ReadFunc: func(ctx context.Context) (*bigquery.RowIterator, error) {
 						return nil, nil
 					},
@@ -136,7 +132,7 @@ func TestRead(t *testing.T) {
 		{
 			name: "read failed",
 			fields: fields{
-				sr: testReader{
+				reader: testReader{
 					ReadFunc: func(ctx context.Context) (*bigquery.RowIterator, error) {
 						return nil, errors.New("err")
 					},
@@ -148,8 +144,8 @@ func TestRead(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := Service{
-				si: nil,
-				sr: tt.fields.sr,
+				writer: nil,
+				reader: tt.fields.reader,
 			}
 			if _, err := s.Download(context.Background()); (err != nil) != tt.wantErr {
 				t.Errorf("Service.Put() error  = %v, wantErr %v", err, tt.wantErr)
